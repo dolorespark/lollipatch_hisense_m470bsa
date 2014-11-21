@@ -1,0 +1,30 @@
+From cde2de8939496cec71ab37d55f6abcb88fbdf27a Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Mon, 25 Aug 2014 13:02:39 -0400
+Subject: [PATCH] suppress generic 'su' if using a prebuilt version
+
+---
+ su/Android.mk |    5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/su/Android.mk b/su/Android.mk
+index 0593cc9..aebe5e5 100644
+--- a/su/Android.mk
++++ b/su/Android.mk
+@@ -1,4 +1,7 @@
+ LOCAL_PATH:= $(call my-dir)
++
++ifneq ($(TARGET_HAS_PREBUILT_SU),true)
++
+ include $(CLEAR_VARS)
+ 
+ LOCAL_SRC_FILES:= su.c
+@@ -13,3 +16,5 @@ LOCAL_MODULE_PATH := $(TARGET_OUT_OPTIONAL_EXECUTABLES)
+ LOCAL_MODULE_TAGS := debug
+ 
+ include $(BUILD_EXECUTABLE)
++
++endif
+-- 
+1.7.9.5
+

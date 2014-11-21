@@ -1,0 +1,80 @@
+From 038bef0c75b35ede452673ddf1a2f4edd7fa8a1f Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Sat, 15 Nov 2014 00:06:11 -0500
+Subject: [PATCH] lollipop: build fix
+
+---
+ android/librpc/pmap_rmt.c |    4 ++--
+ networking/interface.c    |    2 ++
+ networking/nslookup.c     |    7 ++++---
+ 3 files changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/android/librpc/pmap_rmt.c b/android/librpc/pmap_rmt.c
+index e4dbd44..e0aa123 100644
+--- a/android/librpc/pmap_rmt.c
++++ b/android/librpc/pmap_rmt.c
+@@ -58,7 +58,7 @@ static char sccsid[] = "@(#)pmap_rmt.c 1.21 87/08/27 Copyr 1984 Sun Micro";
+ #include <sys/ioctl.h>
+ #include <arpa/inet.h>
+ #define MAX_BROADCAST_SIZE 1400
+-
++/*
+ #if defined(ANDROID) && !defined(BIONIC_L)
+ static struct in_addr inet_makeaddr(in_addr_t net, in_addr_t host)
+ {
+@@ -87,7 +87,7 @@ static in_addr_t inet_netof(struct in_addr in)
+ }
+ 
+ #endif
+-
++*/
+ 
+ extern u_long _create_xid (void) attribute_hidden;
+ 
+diff --git a/networking/interface.c b/networking/interface.c
+index 8e95d94..5d0d4b5 100644
+--- a/networking/interface.c
++++ b/networking/interface.c
+@@ -54,6 +54,7 @@
+ #define _PATH_PROCNET_DEV               "/proc/net/dev"
+ #define _PATH_PROCNET_IFINET6           "/proc/net/if_inet6"
+ 
++#if 0
+ #if defined(HAVE_AFINET6) && !defined(BIONIC_L)
+ # ifndef _LINUX_IN6_H
+ /*
+@@ -66,6 +67,7 @@ struct in6_ifreq {
+ };
+ # endif
+ #endif /* HAVE_AFINET6 */
++#endif
+ 
+ /* Defines for glibc2.0 users. */
+ #ifndef SIOCSIFTXQLEN
+diff --git a/networking/nslookup.c b/networking/nslookup.c
+index 202356b..9f56493 100644
+--- a/networking/nslookup.c
++++ b/networking/nslookup.c
+@@ -34,15 +34,16 @@
+ #  include <netinet/in6.h>
+ # endif
+ # define ANDROID_CHANGES
+-# ifdef BIONIC_L
++
++/* # ifdef BIONIC_L */
+ #  include <arpa/nameser.h>
+ #  include <dns/include/resolv_private.h>
+ #  include <dns/resolv/res_private.h>
+-# else
++/* # else
+ #  include <arpa_nameser.h>
+ #  include <private/resolv_private.h>
+ #  include <netbsd/resolv/res_private.h>
+-# endif
++# endif */
+ 
+ static struct __res_state res_st;
+ struct __res_state * __res_state(void)
+-- 
+1.7.9.5
+

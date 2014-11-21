@@ -1,0 +1,72 @@
+From 66adf329f270b3e8d39fd711ce8abc33af0a86f4 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Tue, 26 Aug 2014 10:45:42 -0400
+Subject: [PATCH] add RECOVERY_VARIANT support (a la CM11)
+
+---
+ core/Makefile   |    8 ++++++--
+ core/pathmap.mk |    7 ++++++-
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/core/Makefile b/core/Makefile
+index 2c7e58f..e790c54 100644
+--- a/core/Makefile
++++ b/core/Makefile
+@@ -828,7 +828,12 @@ $(RECOVERY_INSTALL_OTA_KEYS): $(OTA_PUBLIC_KEYS) $(DUMPKEY_JAR) $(extra_keys)
+ 	@mkdir -p $(dir $@)
+ 	java -jar $(DUMPKEY_JAR) $(PRIVATE_OTA_PUBLIC_KEYS) $(extra_keys) > $@
+ 
++INTERNAL_RECOVERY_FILES := $(filter $(TARGET_RECOVERY_OUT)/%, \
++	$(foreach module, $(ALL_MODULES), $(ALL_MODULES.$(module).INSTALLED)) \
++	$(ALL_DEFAULT_INSTALLED_MODULES))
++
+ $(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTFS) $(MKBOOTIMG) $(MINIGZIP) \
++		$(INTERNAL_RECOVERY_FILES) \
+ 		$(INSTALLED_RAMDISK_TARGET) \
+ 		$(INSTALLED_BOOTIMAGE_TARGET) \
+ 		$(recovery_binary) \
+@@ -838,7 +843,6 @@ $(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTFS) $(MKBOOTIMG) $(MINIGZIP) \
+ 		$(recovery_fstab) \
+ 		$(RECOVERY_INSTALL_OTA_KEYS)
+ 	@echo ----- Making recovery image ------
+-	$(hide) rm -rf $(TARGET_RECOVERY_OUT)
+ 	$(hide) mkdir -p $(TARGET_RECOVERY_OUT)
+ 	$(hide) mkdir -p $(TARGET_RECOVERY_ROOT_OUT)/etc $(TARGET_RECOVERY_ROOT_OUT)/tmp
+ 	@echo Copying baseline ramdisk...
+@@ -853,7 +857,7 @@ $(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTFS) $(MKBOOTIMG) $(MINIGZIP) \
+ 	$(hide) mkdir -p $(TARGET_RECOVERY_ROOT_OUT)/res
+ 	$(hide) rm -rf $(TARGET_RECOVERY_ROOT_OUT)/res/*
+ 	$(hide) cp -rf $(recovery_resources_common)/* $(TARGET_RECOVERY_ROOT_OUT)/res
+-	$(hide) cp -f $(recovery_font) $(TARGET_RECOVERY_ROOT_OUT)/res/images/font.png
++	$(hide) -cp -f $(recovery_font) $(TARGET_RECOVERY_ROOT_OUT)/res/images/font.png
+ 	$(hide) $(foreach item,$(recovery_resources_private), \
+ 	  cp -rf $(item) $(TARGET_RECOVERY_ROOT_OUT)/)
+ 	$(hide) $(foreach item,$(recovery_fstab), \
+diff --git a/core/pathmap.mk b/core/pathmap.mk
+index 0820885..fe92799 100644
+--- a/core/pathmap.mk
++++ b/core/pathmap.mk
+@@ -42,7 +42,6 @@ pathmap_INCL := \
+     libstdc++:bionic/libstdc++/include \
+     mkbootimg:system/core/mkbootimg \
+     opengl-tests-includes:frameworks/native/opengl/tests/include \
+-    recovery:bootable/recovery \
+     system-core:system/core/include \
+     audio-effects:system/media/audio_effects/include \
+     audio-utils:system/media/audio_utils/include \
+@@ -52,6 +51,12 @@ pathmap_INCL := \
+     mediandk:frameworks/av/media/ndk/ \
+     speex:external/speex/include
+ 
++ifneq ($(RECOVERY_VARIANT),)
++    pathmap_INCL += recovery:bootable/recovery-$(RECOVERY_VARIANT)
++else
++    pathmap_INCL += recovery:bootable/recovery
++endif
++
+ #
+ # Returns the path to the requested module's include directory,
+ # relative to the root of the source tree.  Does not handle external
+-- 
+1.7.9.5
+

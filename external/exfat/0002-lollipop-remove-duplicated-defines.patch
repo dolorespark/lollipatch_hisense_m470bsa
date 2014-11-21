@@ -1,0 +1,31 @@
+From 8fbc382e6ee0a2951eb3dee172fdef0443c6e788 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Fri, 14 Nov 2014 23:59:10 -0500
+Subject: [PATCH] lollipop: remove duplicated #defines
+
+---
+ libexfat/exfat.h |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libexfat/exfat.h b/libexfat/exfat.h
+index 269ba78..450decc 100644
+--- a/libexfat/exfat.h
++++ b/libexfat/exfat.h
+@@ -23,12 +23,12 @@
+ 
+ #ifndef EXFAT_H_INCLUDED
+ #define EXFAT_H_INCLUDED
+-
++/*
+ #if defined(__ANDROID__)
+ #define _OFF_T_DEFINED_
+ typedef long long off_t;
+ #endif
+-
++*/
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <time.h>
+-- 
+1.7.9.5
+

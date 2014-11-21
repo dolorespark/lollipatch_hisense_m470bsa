@@ -1,0 +1,25 @@
+From 56e61d94f2c71ca8e4e53a60f925bdc2c2ada98d Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Mon, 25 Aug 2014 16:07:31 -0400
+Subject: [PATCH] AOSP's libext2_uuid has a '_static' suffix
+
+---
+ Android.mk |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Android.mk b/Android.mk
+index 87c1a4a..49a2a01 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -127,7 +127,7 @@ LOCAL_CFLAGS := $(common_cflags) -DMINIVOLD
+ LOCAL_STATIC_LIBRARIES := libcm_minivold
+ LOCAL_STATIC_LIBRARIES += libc libstdc++
+ LOCAL_STATIC_LIBRARIES += $(common_libraries) $(common_static_libraries)
+-LOCAL_STATIC_LIBRARIES += libcrypto_static libext2_uuid libcm_vold
++LOCAL_STATIC_LIBRARIES += libcrypto_static libext2_uuid_static libcm_vold
+ LOCAL_FORCE_STATIC_EXECUTABLE := true
+ LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
+ LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
+-- 
+1.7.9.5
+

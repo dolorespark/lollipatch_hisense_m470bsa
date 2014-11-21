@@ -1,0 +1,128 @@
+From 7a403531b7391a4b1225926075e46c020b218b07 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Tue, 18 Nov 2014 19:28:20 -0500
+Subject: [PATCH] add hooks for Performance.apk settings
+
+---
+ res/drawable-hdpi/ic_settings_performance.png  |  Bin 0 -> 824 bytes
+ res/drawable-mdpi/ic_settings_performance.png  |  Bin 0 -> 578 bytes
+ res/drawable-xhdpi/ic_settings_performance.png |  Bin 0 -> 1000 bytes
+ res/values/strings.xml                         |    3 +++
+ res/xml/dashboard_categories.xml               |    8 ++++++++
+ src/com/android/settings/SettingsActivity.java |    7 +++++++
+ 6 files changed, 18 insertions(+)
+ create mode 100644 res/drawable-hdpi/ic_settings_performance.png
+ create mode 100644 res/drawable-mdpi/ic_settings_performance.png
+ create mode 100644 res/drawable-xhdpi/ic_settings_performance.png
+
+diff --git a/res/drawable-hdpi/ic_settings_performance.png b/res/drawable-hdpi/ic_settings_performance.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a2049369e8eb477459df806dd9d98c40d42eb280
+GIT binary patch
+literal 824
+zcmeAS@N?(olHy`uVBq!ia0vp^Dj>|k3?#4J%UH$0z-STR6XMD+wS5$k5dxy;lcxfM
+zGQA|oFPLF={iE$X|Lz<7<x&h`FZSdJm1n*7vRPX7;3AQpH^&(Be|`TPE&1sMU%TF)
+zGv69AIkVGvSAQ`!`8tv1XKq2fJNG#o+tX(~yb{{jCTXQB1Z;bt5%YV>anU8F{8!%!
+z%lR-_1>V)%I{p8T6+3~^=Hcn$7-Dhy=#=o_Lk<EB%2{hPx>U6~SX^5dY;<)I2^4%I
+zTAly<|Nq9xdv$JFoZP!f-~9Jo^Wy4i*T7klx($Mpyw*BpO}2cyYJyct(DH%>t8eFT
+zTW+4iU)#s>w@ge@;)!1gN1MCbR>L9(+4&ce3TOBjWS*Mm@#=t5>r>y|=X|7?lFHuI
+zm;XtcH^*n%#Vv_TB4#bVB|c+QhE~_kBU@74qasx|rEzYWr@kq$pnSV#z{CU7PJGS1
+zw?b&s9?zeCe2ynC7jn;h*ksfc+rOnf=RT__%QSbZ5Ao|x&7JiwzT(@54v&WxJ6N9z
+zyIV~)ovinArd*9qf#2)aCjK9b0=HL6K2ceJ=Wgud+%G!C&0DWWatm!2=+7+wo^^Po
+zjg8p+2R~cQUwze0;twr)^}g)a#E;b`iM#6NZ)*Sk)Z@O<%i}jgLe#GE^xR+eFRDI^
+X@z5hp7O@;)G%|R)`njxgN@xNAP&ipR
+
+literal 0
+HcmV?d00001
+
+diff --git a/res/drawable-mdpi/ic_settings_performance.png b/res/drawable-mdpi/ic_settings_performance.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..d266b39288dc31121b8e0991d6fcf94a29ff09be
+GIT binary patch
+literal 578
+zcmeAS@N?(olHy`uVBq!ia0vp^5+KaM3?#3wJbMaA-45^xab=j=K3vfrw>L6CZ+esj
+z`2{nS$F1(WxRq(|1~<_;zrWXV`)=ODnD{G-|K-!hyEE@q1b<u3$+hB>(S!RsMY9S^
+zW)!Pmy=m_Lp_1)Rbk(*^J{I$iZF$zSKd9#WAMaA2nddxR978nDFP-$9ugO86g@3nF
+z)7~WJ>i2ui@BQz*v)9_>(ceqH9%;|K%ciqB)#;yXD&lOAZggkZ!%-tY(O!V(WFo7h
+z%hg32E1H^BR7{R}9h{t2sg`Z2wLEab^KA=WyXtw1Owqm)!s~QKYU)>k*H<%|G^I4o
+zik;fFH;g@I`bmQm_p<NX?O>d2bz<S%{$m!u?q(UK{>*tNv(7_AXW#Wy=IPqcxzD9u
+z%Ra0B(duLyzkg17wQuhRwNDQ#jO_Aij{Q;kAs5bK&bUK-fn5C`Y5zqNtxK0j9NPf&
+O8H1;*pUXO@geCx^&g^yo
+
+literal 0
+HcmV?d00001
+
+diff --git a/res/drawable-xhdpi/ic_settings_performance.png b/res/drawable-xhdpi/ic_settings_performance.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..46077be77a80560ed107ffd2b448315b56af509a
+GIT binary patch
+literal 1000
+zcmeAS@N?(olHy`uVBq!ia0vp^1|ZDA3?vioaBgK_V9X2f32|kZ+CGZt76Pp)>#qPK
+zpt2;$FPMRG*G_41C(F#}3ANkjg}t!o{r<60XvI@Uk$1PszkNuP@3_bD>vx&{pRaO<
+zmxkJLKRU;pTyG*~+VIlPZ84Ymq9sS4a6a27$~v*CkL8W->z}+onEtjt=aVtMzsl#I
+zfAt}wlsPBgue^T#GyCqQnR-)h=gc}&yv$cE;?m|f9eaV%zroYRF~sBe-DxkQ83RR*
+zX>RE{5wt8LUO+VH(jr$^!Hdf-&HLth`p@^7%MG93lRSUsW%l#awe!C3v41zS_}PM>
+zzo!GPZ>+iUn1NTjMU3?YLxuxmFN4X#hBSt#00(V`D#_^Cj`>gga(8nw6t}ll=UA;i
+ztM{$EEc6qf+v$?cAzv(F_ij6N^LqU6N6c$f*y{TgZ`s=%(mL`&;%bcfY6&@^51Tq9
+z*!Q3BXH-*TP4Jpx#L~3zLP>?2%6Tq_7QITnQ}r9$C;5IZP`Cb>$er~tQb%Z$y+`kt
+zNfSDBg^#Y~`1DHZZpV)*)58-!xrN^K@o3XLxqRD-woi}BdS7~fw3OFeR%!S(JYhMT
+zLiN%mN9J*+KkYjAuB&U?f$VAC&2!rS?fCBT{~zN;MQxLJ6DCY{e_%e#U~yoBY>|%a
+zzKjs78ubtV<|G}np5AUPx|!oa&zfH`H|r-VHeOgdX}`j)%{*I!PdqR`KXt|BkFUEb
+z9-nbf+Vb~W<fnV0TFc!wJ&_HQy>57V@63oKem%YKKfe4?+MF8CSmB)ezMSEd#slUC
+x2Cg4054c%X5?aLz?H4~?^?&yl`~MMt7_QYU47U)Do(4=n44$rjF6*2UngBg)v8w<8
+
+literal 0
+HcmV?d00001
+
+diff --git a/res/values/strings.xml b/res/values/strings.xml
+index 0a139d5..4978e6d 100644
+--- a/res/values/strings.xml
++++ b/res/values/strings.xml
+@@ -5979,4 +5979,7 @@
+    <!-- Message for encryption dialog telling the user that Talkback and other accessibility services will be disabled. -->
+    <string name="encrypt_talkback_dialog_message_password">When you enter your password to start this device, accessibility services like <xliff:g id="service" example="TalkBack">%1$s</xliff:g> won\'t yet be available.</string>
+ 
++    <!-- Header title for Performance settings -->
++    <string name="performance_settings">Performance</string>
++
+ </resources>
+diff --git a/res/xml/dashboard_categories.xml b/res/xml/dashboard_categories.xml
+index 01a4f83..2dfaaac 100644
+--- a/res/xml/dashboard_categories.xml
++++ b/res/xml/dashboard_categories.xml
+@@ -116,6 +116,14 @@
+                 android:icon="@drawable/ic_settings_battery"
+                 />
+ 
++        <!-- Performance -->
++        <dashboard-tile
++            android:id="@+id/performance_settings"
++            android:title="@string/performance_settings"
++            android:icon="@drawable/ic_settings_performance">
++          <intent android:action="com.android.performance.SETTINGS" />
++        </dashboard-tile>
++
+         <!-- Application Settings -->
+         <dashboard-tile
+                 android:id="@+id/application_settings"
+diff --git a/src/com/android/settings/SettingsActivity.java b/src/com/android/settings/SettingsActivity.java
+index 37fcc87..4234fb5 100644
+--- a/src/com/android/settings/SettingsActivity.java
++++ b/src/com/android/settings/SettingsActivity.java
+@@ -1196,6 +1196,13 @@ public class SettingsActivity extends Activity
+                             UserManager.DISALLOW_DEBUGGING_FEATURES)) {
+                         removeTile = true;
+                     }
++                } else if (id == R.id.performance_settings) {
++                    try {
++                        getPackageManager().getApplicationEnabledSetting("com.android.performance");
++                    }
++                    catch (IllegalArgumentException e) {
++                        removeTile = true;
++                    }
+                 }
+ 
+                 if (UserHandle.MU_ENABLED && UserHandle.myUserId() != 0
+-- 
+1.7.9.5
+

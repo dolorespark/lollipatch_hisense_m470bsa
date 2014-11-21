@@ -1,0 +1,75 @@
+From 017e31dd64a17e6706c03d438b761e20133df979 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Wed, 12 Nov 2014 22:54:32 -0500
+Subject: [PATCH] ADBD-v5: change path to shell when in Recovery
+
+---
+ adb/adb.c      |    2 ++
+ adb/services.c |   13 +++++++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/adb/adb.c b/adb/adb.c
+index 10a1e0d..0f92359 100644
+--- a/adb/adb.c
++++ b/adb/adb.c
+@@ -57,6 +57,7 @@ static int auth_enabled = 0;
+ #if !ADB_HOST
+ static const char *adb_device_banner = "device";
+ static const char *root_seclabel = NULL;
++int recovery_mode = 0;
+ #endif
+ 
+ void fatal(const char *fmt, ...)
+@@ -1712,6 +1713,7 @@ int main(int argc, char **argv)
+             break;
+         case 'b':
+             adb_device_banner = optarg;
++            recovery_mode = !strcmp(adb_device_banner, "recovery");
+             break;
+         default:
+             break;
+diff --git a/adb/services.c b/adb/services.c
+index e61371a..06e98f3 100644
+--- a/adb/services.c
++++ b/adb/services.c
+@@ -303,6 +303,8 @@ static int create_subproc_raw(const char *cmd, const char *arg0, const char *arg
+ #define SHELL_COMMAND "/bin/sh"
+ #else
+ #define SHELL_COMMAND "/system/bin/sh"
++#define RECOVERY_SHELL_COMMAND "/sbin/sh"
++extern int recovery_mode;
+ #endif
+ 
+ #if !ADB_HOST
+@@ -343,6 +345,7 @@ static int create_subproc_thread(const char *name, const subproc_mode mode)
+     adb_thread_t t;
+     int ret_fd;
+     pid_t pid = -1;
++    char *shell;
+ 
+     const char *arg0, *arg1;
+     if (name == 0 || *name == 0) {
+@@ -351,12 +354,18 @@ static int create_subproc_thread(const char *name, const subproc_mode mode)
+         arg0 = "-c"; arg1 = name;
+     }
+ 
++    if (recovery_mode) {
++        shell = RECOVERY_SHELL_COMMAND;
++    } else {
++        shell = SHELL_COMMAND;
++    }
++
+     switch (mode) {
+     case SUBPROC_PTY:
+-        ret_fd = create_subproc_pty(SHELL_COMMAND, arg0, arg1, &pid);
++        ret_fd = create_subproc_pty(shell, arg0, arg1, &pid);
+         break;
+     case SUBPROC_RAW:
+-        ret_fd = create_subproc_raw(SHELL_COMMAND, arg0, arg1, &pid);
++        ret_fd = create_subproc_raw(shell, arg0, arg1, &pid);
+         break;
+     default:
+         fprintf(stderr, "invalid subproc_mode %d\n", mode);
+-- 
+1.7.9.5
+

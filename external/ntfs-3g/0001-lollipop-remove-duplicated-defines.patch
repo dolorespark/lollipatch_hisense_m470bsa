@@ -1,0 +1,43 @@
+From 99a7cd00a43cc40500350e2803f9138e9a2bbaaa Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Fri, 14 Nov 2014 23:56:03 -0500
+Subject: [PATCH] lollipop: remove duplicated #defines
+
+---
+ config.h            |    2 ++
+ libntfs-3g/volume.c |    2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/config.h b/config.h
+index 651eb6b..efd14cd 100644
+--- a/config.h
++++ b/config.h
+@@ -359,10 +359,12 @@
+ #endif
+ 
+ /* Define to `long int' if <sys/types.h> does not define. */
++/*
+ #ifndef _OFF_T_DEFINED_
+ #define _OFF_T_DEFINED_
+ typedef long long off_t;
+ #endif
++*/
+ 
+ /* Define to `unsigned int' if <sys/types.h> does not define. */
+ /* #undef size_t */
+diff --git a/libntfs-3g/volume.c b/libntfs-3g/volume.c
+index 9b77715..0fa5309 100644
+--- a/libntfs-3g/volume.c
++++ b/libntfs-3g/volume.c
+@@ -75,7 +75,7 @@
+ #include "realpath.h"
+ #include "misc.h"
+ 
+-#define MOUNTED "/etc/mtab"
++/* #define MOUNTED "/etc/mtab" */
+ #define setmntent(f,m) fopen(f,m)
+ #define endmntent(f) fclose(f)
+ 
+-- 
+1.7.9.5
+

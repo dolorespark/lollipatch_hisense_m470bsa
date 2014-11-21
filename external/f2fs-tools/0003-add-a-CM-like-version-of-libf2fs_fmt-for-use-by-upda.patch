@@ -1,0 +1,44 @@
+From d8267e079f74af6e9d68e8d13ab10e6740762117 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Sun, 31 Aug 2014 14:17:29 -0400
+Subject: [PATCH] add a CM-like version of 'libf2fs_fmt' for use by 'updater'
+
+---
+ Android.mk |   21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/Android.mk b/Android.mk
+index dbe6baf..18a7b0d 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -24,6 +24,27 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include $(LOCAL_PATH)/mkfs
+ include $(BUILD_STATIC_LIBRARY)
+ 
+ #----------------------------------------------------------
++# this version of the library is used by AOSP/recovery/updater
++# to perform a format without invoking an external process
++ifeq ($(RECOVERY_VARIANT),)
++include $(CLEAR_VARS)
++LOCAL_MODULE := libcm_f2fs_fmt
++LOCAL_SRC_FILES := \
++	lib/libf2fs.c \
++	lib/libf2fs_io.c \
++	mkfs/f2fs_format.c \
++	mkfs/f2fs_format_utils.c \
++	mkfs/f2fs_format_main.c
++
++LOCAL_C_INCLUDES := $(common_C_INCLUDES)
++LOCAL_CFLAGS := $(version_CFLAGS) -Dmain=make_f2fs_main
++LOCAL_EXPORT_CFLAGS := $(version_CFLAGS)
++LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include $(LOCAL_PATH)/mkfs
++LOCAL_STATIC_LIBRARIES := libext2_uuid_static
++include $(BUILD_STATIC_LIBRARY)
++endif
++
++#----------------------------------------------------------
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := libf2fs_fmt_host
+ LOCAL_SRC_FILES := \
+-- 
+1.7.9.5
+

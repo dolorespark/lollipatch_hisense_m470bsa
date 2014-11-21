@@ -1,0 +1,24 @@
+From fae207102eacd8744ace8eea52b4488215433bc3 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Sat, 15 Nov 2014 00:12:25 -0500
+Subject: [PATCH] lollipop: change OTA package from blocks to files
+
+---
+ core/Makefile |    1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/core/Makefile b/core/Makefile
+index e790c54..5f8c570 100644
+--- a/core/Makefile
++++ b/core/Makefile
+@@ -1470,7 +1470,6 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
+ 	@echo "Package OTA: $@"
+ 	$(hide) MKBOOTIMG=$(MKBOOTIMG) \
+ 	   ./build/tools/releasetools/ota_from_target_files -v \
+-	   --block \
+ 	   -p $(HOST_OUT) \
+ 	   -k $(KEY_CERT_PAIR) \
+ 	   $(OTA_EXTRA_OPTIONS) \
+-- 
+1.7.9.5
+

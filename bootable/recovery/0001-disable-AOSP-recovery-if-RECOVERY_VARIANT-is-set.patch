@@ -1,0 +1,30 @@
+From bbea9415fec29083a730c035a52aedd9974f6ef1 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Sun, 24 Aug 2014 20:59:29 -0400
+Subject: [PATCH] disable AOSP recovery if RECOVERY_VARIANT is set
+
+---
+ Android.mk |    3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Android.mk b/Android.mk
+index 1a91f00..700ab7c 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -14,6 +14,7 @@
+ 
+ LOCAL_PATH := $(call my-dir)
+ 
++ifeq ($(RECOVERY_VARIANT),)
+ 
+ include $(CLEAR_VARS)
+ 
+@@ -135,3 +136,5 @@ include $(LOCAL_PATH)/minui/Android.mk \
+     $(LOCAL_PATH)/uncrypt/Android.mk \
+     $(LOCAL_PATH)/updater/Android.mk \
+     $(LOCAL_PATH)/applypatch/Android.mk
++
++endif
+-- 
+1.7.9.5
+
