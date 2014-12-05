@@ -1,0 +1,53 @@
+From 9f91692b13526a387332aa074f1d8f047e1c422b Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Thu, 4 Dec 2014 22:29:15 -0500
+Subject: [PATCH] lollipop: restore compatibility with legacy libbt-vendor.so
+
+---
+ hci/include/bt_vendor_lib.h |    6 +++---
+ hci/src/vendor.c            |    2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/hci/include/bt_vendor_lib.h b/hci/include/bt_vendor_lib.h
+index 65d448b..94e805a 100644
+--- a/hci/include/bt_vendor_lib.h
++++ b/hci/include/bt_vendor_lib.h
+@@ -305,9 +305,6 @@ typedef struct {
+     /* notifies caller result of lpm enable/disable */
+     cfg_result_cb  lpm_cb;
+ 
+-    /* notifies the result of codec setting */
+-    cfg_result_cb audio_state_cb;
+-
+     /* buffer allocation request */
+     malloc_cb   alloc;
+ 
+@@ -317,6 +314,9 @@ typedef struct {
+     /* hci command packet transmit request */
+     cmd_xmit_cb xmit_cb;
+ 
++    /* notifies the result of codec setting */
++    cfg_result_cb audio_state_cb;
++
+     /* notifies caller completion of epilog process */
+     cfg_result_cb epilog_cb;
+ } bt_vendor_callbacks_t;
+diff --git a/hci/src/vendor.c b/hci/src/vendor.c
+index 4bad100..b6fc75c 100644
+--- a/hci/src/vendor.c
++++ b/hci/src/vendor.c
+@@ -52,10 +52,10 @@ static const bt_vendor_callbacks_t vendor_callbacks = {
+   firmware_config_cb,
+   sco_config_cb,
+   low_power_mode_cb,
+-  sco_audiostate_cb,
+   buffer_alloc,
+   buffer_free,
+   transmit_cb,
++  sco_audiostate_cb,
+   epilog_cb
+ };
+ 
+-- 
+1.7.9.5
+
