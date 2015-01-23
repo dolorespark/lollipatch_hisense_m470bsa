@@ -1,0 +1,305 @@
+From 1ba1cab107602b445d8f8ea772de81861449a18e Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Tue, 20 Jan 2015 23:53:15 -0500
+Subject: [PATCH] add Reboot options to Power Menu
+
+---
+ core/java/android/provider/Settings.java           |    6 +++
+ core/java/android/view/WindowManagerPolicy.java    |    2 +
+ .../res/res/drawable-hdpi/ic_lock_reboot_alpha.png |  Bin 0 -> 1055 bytes
+ .../res/drawable-hdpi/ic_lock_recovery_alpha.png   |  Bin 0 -> 1046 bytes
+ core/res/res/drawable/ic_lock_reboot.xml           |   19 +++++++
+ core/res/res/drawable/ic_lock_recovery.xml         |   19 +++++++
+ core/res/res/values/strings.xml                    |    6 +++
+ core/res/res/values/symbols.xml                    |    4 ++
+ .../internal/policy/impl/GlobalActions.java        |   53 ++++++++++++++++++++
+ .../com/android/server/power/ShutdownThread.java   |    6 ++-
+ .../android/server/wm/WindowManagerService.java    |   12 +++++
+ 11 files changed, 126 insertions(+), 1 deletion(-)
+ create mode 100644 core/res/res/drawable-hdpi/ic_lock_reboot_alpha.png
+ create mode 100644 core/res/res/drawable-hdpi/ic_lock_recovery_alpha.png
+ create mode 100644 core/res/res/drawable/ic_lock_reboot.xml
+ create mode 100644 core/res/res/drawable/ic_lock_recovery.xml
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index a295810..6a0f250 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -5257,6 +5257,12 @@ public final class Settings {
+         public static final String BUGREPORT_IN_POWER_MENU = "bugreport_in_power_menu";
+ 
+         /**
++         * Whether 'Reboot' and 'Reboot Recovery' options should appear in the power menu.
++         * @hide
++         */
++        public static final String REBOOT_IN_POWER_MENU = "reboot_in_power_menu";
++
++        /**
+          * Whether SoC speeds (cpu & gpu) should be set to user-determined values
+          * @hide
+          */
+diff --git a/core/java/android/view/WindowManagerPolicy.java b/core/java/android/view/WindowManagerPolicy.java
+index 673f075..6c4d77c 100644
+--- a/core/java/android/view/WindowManagerPolicy.java
++++ b/core/java/android/view/WindowManagerPolicy.java
+@@ -415,6 +415,8 @@ public interface WindowManagerPolicy {
+ 
+         public void shutdown(boolean confirm);
+         public void rebootSafeMode(boolean confirm);
++        public void rebootSystem(boolean confirm);
++        public void rebootRecovery(boolean confirm);
+ 
+         /**
+          * Return the window manager lock needed to correctly call "Lw" methods.
+diff --git a/core/res/res/drawable-hdpi/ic_lock_reboot_alpha.png b/core/res/res/drawable-hdpi/ic_lock_reboot_alpha.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..4a8d2f4dbe7e73fad6d1825e7e68a7dd8fced1db
+GIT binary patch
+literal 1055
+zcmV+)1mOFLP)<h;3K|Lk000e1NJLTq001xm001xu1ONa4{R=S+00001b5ch_0Itp)
+z=>Px#0%A)?L;(MXkIcUS000SaNLh0L01FcU01FcV0GgZ_00007bV*G`2j2k(5;i(#
+z1x@b&00W~*L_t(o!|j(_XjDfSfWOTqF}ul<t~GVFUXj?XMlpz$ig=ATl!}T?`k>(D
+z&9^+%+e3>et)*hc8wge71(hO=!B(`ZMMXr>M8#@c1>-f%W@BQKwYwzQ=|hH-J(II%
+zHd<dwW**L*IsgBE^Uvk~=QsrKx1`Yv_}>H4bpio$`H(z3IgF%$Oj-%j8VNQLrjd4v
+zbOwZ`h7nW558|<inQE;#CYB0sP^+&Km?^F*rW0#}*eJ3Sq@7|yPXHsuMH}N?zN|3J
+z?-$!s2h0`?CPNVs7B!+q)QEb~tUz{)OyLw|A|?*2c9Jb}Dc>c$g$VJS7X$$qK|cmD
+zfPpyW_tkt#9gBhfsv(DEELz1Lquor9(_G+YpuJ0=Xdv@gf}f8S%?FIt1158ZOxdob
+zf^C5(R--8Lu#DCC4L<;0F+d0Kaf3YBe!?DhC62rs<Z})&#MI>?Zhw-$r=MJ(dN%RX
+zAMG}K9IkU$>HNSxRE(xXwxaCgh}{u&P~_xi<|*B|_JFUAkz8e~-ASj@d~vrAUb|S7
+z!-7uFiSZ+`PJnfpoyJ=7sU!#JLk3P<K(;zXX21+wvUQ(7?PJ*4_?(^m0^|dE<l<rw
+zFqAAiz%*mP<>tL$iD;n(<~;04xGpdN=ewfqf0+;RrM(WS-w)s!&j5Hsq{jd+LwQcv
+z9<WkA<8Lw4h3t^tf5XmXfJfc+QfB$2sKeNaspaI9r)ZoZ`mjg0iX0rNnD4_xd6J|2
+zW#_>K1n`Imb=1<vz3K4aQnX12n1)Asa7U)4B!JgU22;|Ab9>6VQ<WM(sWCw(?e9fl
+zWmV(cW_@{;#{442NxcRF_J9UuRd2E3SDpEMwn{C*Q6Ad^LJDBZsVcjD<c7YK8T0>=
+z1G>9uqY~YhFLZm7WCRC3=KA@aVX`B_K3?hoO^TKI{5I<|KVD_CI_b}%j7ck~V6c>I
+z;~Zrcc~6;usT>75sKb{4KhGg9-D``|fs-^`eB$8?)+D6+7}qG}Z#|%p3OcByoG%$|
+zTA?U6so@Q7GVwFUq}9w7HuKanb1Q%m1gK&I)r?{tg=z}NDp=KWj%_qse|COre$QY$
+z8>t5Bxr`eZS;i&IDo};E&q4O`Ptv=G;z1U}x{?i0z*iLF#cPg{Knso3bC#3cbAbMC
+znov$q?5B_k3@4o|(t$Q&M5v~UD<{Im8htI`xO|p;L^eL$Kr5l+#(6DyS3vJ?Y%f4t
+Z{sklYJa%gzWM2RP002ovPDHLkV1gjx<4gbm
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable-hdpi/ic_lock_recovery_alpha.png b/core/res/res/drawable-hdpi/ic_lock_recovery_alpha.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..80d27f5b162d11ae89a3e8262cd2c1d8a7546255
+GIT binary patch
+literal 1046
+zcmV+x1nK*UP)<h;3K|Lk000e1NJLTq001xm001xu1ONa4{R=S+00001b5ch_0Itp)
+z=>Px#0%A)?L;(MXkIcUS000SaNLh0L01FcU01FcV0GgZ_00007bV*G`2j2k(6Dkg&
+z1dcEO00WvyL_t(o!|j(%XdP7)$N%@vBrnA#Vr^?hAx2UViY-_|iyQ4mP@xpH;-V`d
+z3yZYSJ5Z1ceo#_niW_m^Mrc90P;{Z<2i63|h*-f7)QT?Z2MAGO+nDs_&D@`h`FJlc
+z2_`cIH#raP3_Rxi@A;qqIrm&?&DN~0nYs>K{)~+jk-eYn_&>Y~uC1)ni2Th9(S|Yg
+z+{adme0$F>izSecd<J4_xi?Zoyj>4yyEdz-U-hNN^=&6)<^4Nho!G=F5;|?3Nsch&
+z<Vq5&yC39xAf-hMUqX0biUB7~<s`=@@^Pp$x=k&G3S@LiXO+qbrRvphn$1*IRYg{*
+z9@lOq>XDQv)a%isv5ox6>cq4O!Z^{#k3d?Ivd@VgOz|sn5LVK@RjLsUOR|!X(Uc}6
+zB}J)KDzvh&0$HWHLq@3rNnU}*qv_bzlBdhHgLR_8VWx6wpamRtB3z37a8*@nqEw3S
+z)tGjOvJV(ZmzVoCTyf1>`N+rH^sM&DsMYZ$k_Kzg;zWRTVgt`J1I#mD(nGGKNld1$
+zs;u`g$^`&EW)CBLUP?5Bn&TEHf)&ej0WrjTG^SmWF6e2URvHoS*Js)yWF#4->eGFC
+zNyec6F0_2-h5+NlFt5@AW_XV4oUjD+Ixz;c@OU5r&N9Re^fN#|12mRtc3rFw@C+9L
+z&zo#3K(REOI1DuLcoIAwPm>w`W|}`~@*Rz=*)7ky<p4hc@D=yxpr(xLcD@E+hS@w1
+z?SATk33|H#x`?@x2>_-z!n!h|Y`vbCe*k!ct?c3*=1N6f;T$Iz!7iYvi<m)Pp$S~!
+zWp2(`FV`MM`2~P;+>;5@i9sIZAfxPMxNzM8Q10D2aSc!K7XahzE?F<)x{FBwe&-;K
+zY(p8LuG3RMum~ViF8etTz|S1$pd?#w<unN}%L{BSA}X^M5E2q#+ZE8=-*4nS0A@MP
+zwIwB)^Yt8K8t}Z$j&`P2c<SZ=uK{zwu_DME!tgLZ0Pqca+nHL$k&ba<6PNSG`<N5G
+zCF?tRKUb4uT_NFBP7D|)HgYisc(+XW7G7j7SJO=kS+8=Gd;lbPAabIQL;L~2hm5S6
+z^+h=doOmdYzylxg1pw!H1k*`O^)bpgaRz9T<V8QtldP{n%n|?__$2T0Elx31lb9tT
+z`gw{^d5gQRo^#VZD{H}6UVBO|#`pFK7Nyy`_^wj>3RQqCbrD*#HTys9UjX}bUPiC*
+Qv;Y7A07*qoM6N<$f~JwuumAu6
+
+literal 0
+HcmV?d00001
+
+diff --git a/core/res/res/drawable/ic_lock_reboot.xml b/core/res/res/drawable/ic_lock_reboot.xml
+new file mode 100644
+index 0000000..cf49ecf
+--- /dev/null
++++ b/core/res/res/drawable/ic_lock_reboot.xml
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2014 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++    android:src="@drawable/ic_lock_reboot_alpha"
++    android:tint="?attr/colorControlNormal" />
+diff --git a/core/res/res/drawable/ic_lock_recovery.xml b/core/res/res/drawable/ic_lock_recovery.xml
+new file mode 100644
+index 0000000..e2d608f
+--- /dev/null
++++ b/core/res/res/drawable/ic_lock_recovery.xml
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2014 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++    android:src="@drawable/ic_lock_recovery_alpha"
++    android:tint="?attr/colorControlNormal" />
+diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
+index ab97e17..0201d17 100644
+--- a/core/res/res/values/strings.xml
++++ b/core/res/res/values/strings.xml
+@@ -4889,4 +4889,10 @@
+ 
+     <!-- Zen mode condition: no exit criteria. [CHAR LIMIT=NONE] -->
+     <string name="zen_mode_forever">Indefinitely</string>
++
++    <!-- label for item that reboots system in phone options dialog -->
++    <string name="global_action_reboot_system">Reboot</string>
++
++    <!-- label for item that reboots to recovery in phone options dialog -->
++    <string name="global_action_reboot_recovery">Reboot recovery</string>
+ </resources>
+diff --git a/core/res/res/values/symbols.xml b/core/res/res/values/symbols.xml
+index 3078722..bbf62a0 100644
+--- a/core/res/res/values/symbols.xml
++++ b/core/res/res/values/symbols.xml
+@@ -2074,4 +2074,8 @@
+   <java-symbol type="string" name="whichHomeApplicationNamed" />
+   <java-symbol type="bool" name="config_sms_force_7bit_encoding" />
+   <java-symbol type="array" name="config_sms_convert_destination_number_support" />
++  <java-symbol type="string" name="global_action_reboot_system" />
++  <java-symbol type="string" name="global_action_reboot_recovery" />
++  <java-symbol type="drawable" name="ic_lock_reboot" />
++  <java-symbol type="drawable" name="ic_lock_recovery" />
+ </resources>
+diff --git a/policy/src/com/android/internal/policy/impl/GlobalActions.java b/policy/src/com/android/internal/policy/impl/GlobalActions.java
+index b0b2886..425a05c 100644
+--- a/policy/src/com/android/internal/policy/impl/GlobalActions.java
++++ b/policy/src/com/android/internal/policy/impl/GlobalActions.java
+@@ -272,6 +272,13 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
+             }
+             if (GLOBAL_ACTION_KEY_POWER.equals(actionKey)) {
+                 mItems.add(new PowerAction());
++                if (Boolean.parseBoolean(Settings.Global.getString(
++                        mContext.getContentResolver(), Settings.Global.REBOOT_IN_POWER_MENU))) {
++                    mItems.add(new RebootSystemAction());
++                    if (isCurrentUserOwner()) {
++                        mItems.add(new RebootRecoveryAction());
++                    }
++                }
+             } else if (GLOBAL_ACTION_KEY_AIRPLANE.equals(actionKey)) {
+                 mItems.add(mAirplaneModeOn);
+             } else if (GLOBAL_ACTION_KEY_BUGREPORT.equals(actionKey)) {
+@@ -358,6 +365,52 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
+         }
+     }
+ 
++    private final class RebootSystemAction extends SinglePressAction {
++        private RebootSystemAction() {
++            super(com.android.internal.R.drawable.ic_lock_reboot,
++                R.string.global_action_reboot_system);
++        }
++
++        @Override
++        public boolean showDuringKeyguard() {
++            return true;
++        }
++
++        @Override
++        public boolean showBeforeProvisioning() {
++            return true;
++        }
++
++        @Override
++        public void onPress() {
++            // reboot normally, making sure radio and power are handled accordingly.
++            mWindowManagerFuncs.rebootSystem(false /* confirm */);
++        }
++    }
++
++    private final class RebootRecoveryAction extends SinglePressAction {
++        private RebootRecoveryAction() {
++            super(com.android.internal.R.drawable.ic_lock_recovery,
++                R.string.global_action_reboot_recovery);
++        }
++
++        @Override
++        public boolean showDuringKeyguard() {
++            return false;
++        }
++
++        @Override
++        public boolean showBeforeProvisioning() {
++            return true;
++        }
++
++        @Override
++        public void onPress() {
++            // reboot to recovery, making sure radio and power are handled accordingly.
++            mWindowManagerFuncs.rebootRecovery(false /* confirm */);
++        }
++    }
++
+     private Action getBugReportAction() {
+         return new SinglePressAction(com.android.internal.R.drawable.ic_lock_bugreport,
+                 R.string.bugreport_title) {
+diff --git a/services/core/java/com/android/server/power/ShutdownThread.java b/services/core/java/com/android/server/power/ShutdownThread.java
+index da11387..87870ec 100644
+--- a/services/core/java/com/android/server/power/ShutdownThread.java
++++ b/services/core/java/com/android/server/power/ShutdownThread.java
+@@ -220,7 +220,11 @@ public final class ShutdownThread extends Thread {
+         // throw up an indeterminate system dialog to indicate radio is
+         // shutting down.
+         ProgressDialog pd = new ProgressDialog(context);
+-        pd.setTitle(context.getText(com.android.internal.R.string.power_off));
++        int id = !mReboot ? com.android.internal.R.string.power_off :
++                 (mRebootReason != null && mRebootReason.equals(PowerManager.REBOOT_RECOVERY) ?
++                    com.android.internal.R.string.global_action_reboot_recovery :
++                    com.android.internal.R.string.global_action_reboot_system);
++        pd.setTitle(context.getText(id));
+         pd.setMessage(context.getText(com.android.internal.R.string.shutdown_progress));
+         pd.setIndeterminate(true);
+         pd.setCancelable(false);
+diff --git a/services/core/java/com/android/server/wm/WindowManagerService.java b/services/core/java/com/android/server/wm/WindowManagerService.java
+index 837672a..1d5b6b1 100644
+--- a/services/core/java/com/android/server/wm/WindowManagerService.java
++++ b/services/core/java/com/android/server/wm/WindowManagerService.java
+@@ -5532,6 +5532,18 @@ public class WindowManagerService extends IWindowManager.Stub
+         ShutdownThread.rebootSafeMode(mContext, confirm);
+     }
+ 
++    // Called by window manager policy.  Not exposed externally.
++    @Override
++    public void rebootSystem(boolean confirm) {
++        ShutdownThread.reboot(mContext, null, confirm);
++    }
++
++    // Called by window manager policy.  Not exposed externally.
++    @Override
++    public void rebootRecovery(boolean confirm) {
++        ShutdownThread.reboot(mContext, PowerManager.REBOOT_RECOVERY, confirm);
++    }
++
+     public void setCurrentProfileIds(final int[] currentProfileIds) {
+         synchronized (mWindowMap) {
+             mCurrentProfileIds = currentProfileIds;
+-- 
+1.7.9.5
+

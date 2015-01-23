@@ -1,0 +1,42 @@
+From 80024ab70cc7157edcfbacf81fff908dbd5a45fb Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Tue, 20 Jan 2015 23:45:33 -0500
+Subject: [PATCH] add Settings.Global keys used by
+ Performance->SpeedControl
+
+---
+ core/java/android/provider/Settings.java |   18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
+index 73c7cc3..a295810 100644
+--- a/core/java/android/provider/Settings.java
++++ b/core/java/android/provider/Settings.java
+@@ -5257,6 +5257,24 @@ public final class Settings {
+         public static final String BUGREPORT_IN_POWER_MENU = "bugreport_in_power_menu";
+ 
+         /**
++         * Whether SoC speeds (cpu & gpu) should be set to user-determined values
++         * @hide
++         */
++        public static final String SET_SOC_SPEED = "set_soc_speed";
++
++        /**
++         * Maximum CPU speed if SET_SOC_SPEED is enabled
++         * @hide
++         */
++        public static final String MAX_CPU_SPEED = "max_cpu_speed";
++
++        /**
++         * Maximum GPU speed if SET_SOC_SPEED is enabled
++         * @hide
++         */
++        public static final String MAX_GPU_SPEED = "max_gpu_speed";
++
++        /**
+          * Whether ADB is enabled.
+          */
+         public static final String ADB_ENABLED = "adb_enabled";
+-- 
+1.7.9.5
+
