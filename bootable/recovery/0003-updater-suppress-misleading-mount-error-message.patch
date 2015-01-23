@@ -1,0 +1,31 @@
+From 277e84035c7a7c8d9505772912558c11984ed4f9 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Wed, 21 Jan 2015 00:45:14 -0500
+Subject: [PATCH] updater: suppress misleading mount-error message
+
+---
+ updater/install.c |    6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/updater/install.c b/updater/install.c
+index ff7de47..4881ade 100644
+--- a/updater/install.c
++++ b/updater/install.c
+@@ -167,8 +167,14 @@ Value* MountFn(const char* name, State* state, int argc, Expr* argv[]) {
+         if (mount(location, mount_point, fs_type,
+                   MS_NOATIME | MS_NODEV | MS_NODIRATIME,
+                   has_mount_options ? mount_options : "") < 0) {
++/*
++DoPa (20141223) - when attempting to mount a partition that could be either
++    ext4 or f2fs, an error is to be expected if the first attempt fails;
++    instead of generating a misleading error message here, let the installer
++    alert the user if both mount attempts fail.
+             uiPrintf(state, "%s: failed to mount %s at %s: %s\n",
+                     name, location, mount_point, strerror(errno));
++*/
+             result = strdup("");
+         } else {
+             result = mount_point;
+-- 
+1.7.9.5
+

@@ -1,0 +1,25 @@
+From cd8aeffad6fbf6369c0536f49f0dddbcac21fe42 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Sat, 15 Nov 2014 01:15:44 -0500
+Subject: [PATCH] lollipop: change in Ext4::format() signature
+
+---
+ Volume.cpp |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Volume.cpp b/Volume.cpp
+index 6d16dce..b40d0ff 100644
+--- a/Volume.cpp
++++ b/Volume.cpp
+@@ -318,7 +318,7 @@ int Volume::formatVol(bool wipe, const char* fstype) {
+     } else if (strcmp(fstype2, "exfat") == 0) {
+         ret = Exfat::format(devicePath);
+     } else if (strcmp(fstype2, "ext4") == 0) {
+-        ret = Ext4::format(devicePath, NULL);
++        ret = Ext4::format(devicePath, 0, NULL);
+     } else if (strcmp(fstype2, "ntfs") == 0) {
+         ret = Ntfs::format(devicePath, wipe);
+     } else {
+-- 
+1.7.9.5
+

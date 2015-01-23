@@ -1,0 +1,35 @@
+From 312b657f0719c9952f957caa600551dde92de65d Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Thu, 18 Dec 2014 12:36:50 -0500
+Subject: [PATCH] add 'ifdef __cplusplus' to f2fs_fs.h
+
+---
+ include/f2fs_fs.h |    7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/include/f2fs_fs.h b/include/f2fs_fs.h
+index 53b8cb9..fe3554b 100644
+--- a/include/f2fs_fs.h
++++ b/include/f2fs_fs.h
+@@ -17,6 +17,10 @@
+ #include <config.h>
+ #endif
+ 
++#ifdef __cplusplus
++extern "C" {
++#endif
++
+ typedef u_int64_t	u64;
+ typedef u_int32_t	u32;
+ typedef u_int16_t	u16;
+@@ -673,4 +677,7 @@ f2fs_hash_t f2fs_dentry_hash(const char *, int);
+ 
+ extern struct f2fs_configuration config;
+ 
++#ifdef __cplusplus
++}
++#endif
+ #endif	/*__F2FS_FS_H */
+-- 
+1.7.9.5
+

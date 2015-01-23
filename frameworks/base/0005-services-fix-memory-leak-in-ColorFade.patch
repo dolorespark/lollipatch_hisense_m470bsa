@@ -1,0 +1,49 @@
+From b846024bc1cbb5ceeb31e9eb9e044ffb10ba6d2c Mon Sep 17 00:00:00 2001
+From: Evisceration <eviscerationls@gmail.com>
+Date: Mon, 22 Dec 2014 23:46:58 +0100
+Subject: [PATCH] services: fix memory leak in ColorFade
+
+original patch from
+   https://code.google.com/p/android/issues/detail?id=79729#c177
+
+i can not get the email to add proper authorship, but all credits belong
+to this person
+
+Change-Id: Ica9a4ae02cd3c8435f46dd9c3bfdb52317f9a7ef
+---
+ .../java/com/android/server/display/ColorFade.java |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/display/ColorFade.java b/services/core/java/com/android/server/display/ColorFade.java
+index f549f3d..8ab060e 100644
+--- a/services/core/java/com/android/server/display/ColorFade.java
++++ b/services/core/java/com/android/server/display/ColorFade.java
+@@ -450,6 +450,7 @@ final class ColorFade {
+         if (!attachEglContext()) {
+             return false;
+         }
++        SurfaceTexture st = null;
+         try {
+             if (!mTexNamesGenerated) {
+                 GLES20.glGenTextures(1, mTexNames, 0);
+@@ -459,7 +460,7 @@ final class ColorFade {
+                 mTexNamesGenerated = true;
+             }
+ 
+-            final SurfaceTexture st = new SurfaceTexture(mTexNames[0]);
++            st = new SurfaceTexture(mTexNames[0]);
+             final Surface s = new Surface(st);
+             try {
+                 SurfaceControl.screenshot(SurfaceControl.getBuiltInDisplay(
+@@ -483,6 +484,8 @@ final class ColorFade {
+             GLES20.glViewport(0, 0, mDisplayWidth, mDisplayHeight);
+             ortho(0, mDisplayWidth, 0, mDisplayHeight, -1, 1);
+         } finally {
++            if (st != null)
++                st.release();
+             detachEglContext();
+         }
+         return true;
+-- 
+1.7.9.5
+

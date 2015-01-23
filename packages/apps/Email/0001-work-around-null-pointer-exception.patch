@@ -1,0 +1,30 @@
+From f35e59acfce01d9e8955eb249d1fce3df9ad2a7f Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Tue, 20 Jan 2015 15:19:23 -0500
+Subject: [PATCH] work around null pointer exception
+
+---
+ .../android/email/provider/AccountReconciler.java  |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/email/provider/AccountReconciler.java b/src/com/android/email/provider/AccountReconciler.java
+index 26f303f..320f236 100644
+--- a/src/com/android/email/provider/AccountReconciler.java
++++ b/src/com/android/email/provider/AccountReconciler.java
+@@ -245,11 +245,11 @@ public class AccountReconciler {
+                 final String protocol = EmailServiceUtils.getProtocolFromAccountType(
+                         context, accountType);
+                 final EmailServiceInfo info = EmailServiceUtils.getServiceInfo(context, protocol);
+-                if (!info.syncCalendar) {
++                if (info == null || !info.syncCalendar) {
+                     ContentResolver.setIsSyncable(accountManagerAccount,
+                             CalendarContract.AUTHORITY, 0);
+                 }
+-                if (!info.syncContacts) {
++                if (info == null || !info.syncContacts) {
+                     ContentResolver.setIsSyncable(accountManagerAccount,
+                             ContactsContract.AUTHORITY, 0);
+                 }
+-- 
+1.7.9.5
+
