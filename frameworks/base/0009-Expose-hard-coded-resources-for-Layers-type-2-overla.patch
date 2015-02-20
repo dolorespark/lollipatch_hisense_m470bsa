@@ -1,0 +1,780 @@
+From 6d7fad79dbd082176b717fd874359b4e3f29a9b4 Mon Sep 17 00:00:00 2001
+From: bgill55 <bricam55@gmail.com>
+Date: Sat, 24 Jan 2015 17:24:56 -0700
+Subject: [PATCH] Expose hard coded resources for Layers type 2 overlay access
+
+ Have to expose the hard codded hex coding to changeable resources for theming
+ purposes.  For the layers type 2 overlays.
+
+ DoPa (2015/01/25) - merged 2 additional fix-up patches into this one
+  - Layers : We don't need to change the volume panel background.
+  - Missed color code for exposed resources [repick]
+---
+ .../res/layout/notification_material_action.xml    |    4 +-
+ .../notification_material_action_tombstone.xml     |    4 +-
+ .../notification_template_material_big_picture.xml |    2 +-
+ .../res/layout/resolver_different_item_header.xml  |    4 +-
+ core/res/res/layout/resolver_list.xml              |    8 ++--
+ core/res/res/layout/resolver_list_with_default.xml |    8 ++--
+ core/res/res/values/colors.xml                     |   19 ++++++++++
+ core/res/res/values/styles.xml                     |   19 ++++++----
+ core/res/res/values/styles_material.xml            |    9 +++--
+ core/res/res/values/themes_material.xml            |    3 +-
+ .../SystemUI/res/color/qs_user_detail_name.xml     |    2 +-
+ .../res/color/segmented_button_text_selector.xml   |    2 +-
+ packages/SystemUI/res/drawable/heads_up_scrim.xml  |    6 +--
+ .../SystemUI/res/layout/keyguard_bottom_area.xml   |   10 ++---
+ .../SystemUI/res/layout/keyguard_status_bar.xml    |    7 ++--
+ .../res/layout/notification_public_default.xml     |    6 +++
+ .../SystemUI/res/layout/recents_search_bar.xml     |    2 +-
+ .../res/layout/status_bar_expanded_header.xml      |    4 +-
+ .../res/layout/status_bar_no_notifications.xml     |    3 +-
+ .../status_bar_notification_keyguard_overflow.xml  |    4 +-
+ .../layout/status_bar_notification_speed_bump.xml  |    3 +-
+ .../res/layout/status_bar_toggle_slider.xml        |    3 +-
+ packages/SystemUI/res/values/colors.xml            |   36 ++++++++++++++++++
+ packages/SystemUI/res/values/styles.xml            |   40 ++++++++++++++------
+ 24 files changed, 154 insertions(+), 54 deletions(-)
+
+diff --git a/core/res/res/layout/notification_material_action.xml b/core/res/res/layout/notification_material_action.xml
+index da8b2e7..ca7715a 100644
+--- a/core/res/res/layout/notification_material_action.xml
++++ b/core/res/res/layout/notification_material_action.xml
+@@ -14,7 +14,7 @@
+   ~ See the License for the specific language governing permissions and
+   ~ limitations under the License
+   -->
+-
++  <!-- text color exposed for theming -->
+ <Button xmlns:android="http://schemas.android.com/apk/res/android"
+     style="@android:style/Widget.Material.Light.Button.Borderless.Small"
+     android:id="@+id/action0"
+@@ -25,7 +25,7 @@
+     android:gravity="start|center_vertical"
+     android:drawablePadding="8dp"
+     android:paddingStart="8dp"
+-    android:textColor="@color/secondary_text_material_light"
++    android:textColor="@color/exposed_notify_action_text"
+     android:textSize="13sp"
+     android:singleLine="true"
+     android:ellipsize="end"
+diff --git a/core/res/res/layout/notification_material_action_tombstone.xml b/core/res/res/layout/notification_material_action_tombstone.xml
+index 976448b..e4100dd 100644
+--- a/core/res/res/layout/notification_material_action_tombstone.xml
++++ b/core/res/res/layout/notification_material_action_tombstone.xml
+@@ -15,6 +15,8 @@
+   ~ limitations under the License
+   -->
+ 
++  <!-- Textcolor exposed for theming -->
++
+ <Button xmlns:android="http://schemas.android.com/apk/res/android"
+     style="@android:style/Widget.Material.Light.Button.Borderless.Small"
+     android:id="@+id/action0"
+@@ -24,7 +26,7 @@
+     android:gravity="start|center_vertical"
+     android:drawablePadding="8dp"
+     android:paddingStart="8dp"
+-    android:textColor="#555555"
++    android:textColor="@color/exposed_Widget.Material.Light.Button_TS"
+     android:textSize="@dimen/notification_text_size"
+     android:singleLine="true"
+     android:ellipsize="end"
+diff --git a/core/res/res/layout/notification_template_material_big_picture.xml b/core/res/res/layout/notification_template_material_big_picture.xml
+index 302e651..570a1d6 100644
+--- a/core/res/res/layout/notification_template_material_big_picture.xml
++++ b/core/res/res/layout/notification_template_material_big_picture.xml
+@@ -48,7 +48,7 @@
+         android:layout_marginTop="208dp"
+         android:paddingStart="@dimen/notification_large_icon_width"
+         android:layout_gravity="bottom"
+-        android:background="#CCEEEEEE"
++        android:background="@color/exposed_notification_big_pic_bg"
+         >
+         <include
+             layout="@layout/notification_material_action_list"
+diff --git a/core/res/res/layout/resolver_different_item_header.xml b/core/res/res/layout/resolver_different_item_header.xml
+index 5889136..eeecafb 100644
+--- a/core/res/res/layout/resolver_different_item_header.xml
++++ b/core/res/res/layout/resolver_different_item_header.xml
+@@ -16,6 +16,8 @@
+  * limitations under the License.
+  */
+ -->
++
++<!-- BG exposed for theming -->
+ <TextView
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+@@ -29,6 +31,6 @@
+     android:paddingEnd="16dp"
+     android:paddingTop="8dp"
+     android:paddingBottom="8dp"
+-    android:background="@color/white"
++    android:background="@color/exposed_resolver_list_bg"
+     android:elevation="8dp"
+     />
+diff --git a/core/res/res/layout/resolver_list.xml b/core/res/res/layout/resolver_list.xml
+index 727f9c6..8f9c4ca 100644
+--- a/core/res/res/layout/resolver_list.xml
++++ b/core/res/res/layout/resolver_list.xml
+@@ -16,6 +16,8 @@
+ * limitations under the License.
+ */
+ -->
++
++<!-- Text and BG exposed for theming -->
+ <com.android.internal.widget.ResolverDrawerLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+@@ -37,7 +39,7 @@
+               android:paddingEnd="16dp"
+               android:paddingTop="8dp"
+               android:paddingBottom="8dp"
+-              android:background="@color/white"
++              android:background="@color/exposed_resolver_list_bg"
+               android:elevation="8dp"
+               />
+ 
+@@ -47,7 +49,7 @@
+         android:id="@+id/resolver_list"
+         android:clipToPadding="false"
+         android:scrollbarStyle="outsideOverlay"
+-        android:background="@color/white"
++        android:background="@color/exposed_resolver_list_bg"
+         android:elevation="8dp"
+         android:nestedScrollingEnabled="true"
+         android:divider="@null"
+@@ -74,7 +76,7 @@
+         android:orientation="horizontal"
+         android:layoutDirection="locale"
+         android:measureWithLargestChild="true"
+-        android:background="@color/white"
++        android:background="@color/exposed_resolver_list_bg"
+         android:paddingTop="8dp"
+         android:paddingBottom="8dp"
+         android:paddingStart="12dp"
+diff --git a/core/res/res/layout/resolver_list_with_default.xml b/core/res/res/layout/resolver_list_with_default.xml
+index 884f41e..e664d3a3 100644
+--- a/core/res/res/layout/resolver_list_with_default.xml
++++ b/core/res/res/layout/resolver_list_with_default.xml
+@@ -16,6 +16,8 @@
+ * limitations under the License.
+ */
+ -->
++
++<!-- Text exposed for theming -->
+ <com.android.internal.widget.ResolverDrawerLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+@@ -30,7 +32,7 @@
+         android:layout_height="wrap_content"
+         android:layout_alwaysShow="true"
+         android:orientation="vertical"
+-        android:background="@color/white"
++        android:background="@color/exposed_resolver_list_bg"
+         android:elevation="8dp" >
+ 
+         <LinearLayout
+@@ -74,7 +76,7 @@
+             android:paddingBottom="8dp"
+             android:paddingStart="12dp"
+             android:paddingEnd="12dp"
+-            android:background="@color/white"
++            android:background="@color/exposed_resolver_list_bg"
+             android:elevation="8dp">
+             <Button android:id="@+id/button_once"
+                     android:layout_width="wrap_content"
+@@ -108,7 +110,7 @@
+         android:id="@+id/resolver_list"
+         android:clipToPadding="false"
+         android:scrollbarStyle="outsideOverlay"
+-        android:background="@color/white"
++        android:background="@color/exposed_resolver_list_bg"
+         android:elevation="8dp"
+         android:nestedScrollingEnabled="true"
+         android:divider="@null"
+diff --git a/core/res/res/values/colors.xml b/core/res/res/values/colors.xml
+index 235bf84..982f375 100644
+--- a/core/res/res/values/colors.xml
++++ b/core/res/res/values/colors.xml
+@@ -158,5 +158,24 @@
+     <color name="user_icon_8">#ffff5722</color><!-- deep orange 500 -->
+     <color name="user_icon_default_gray">#ff9e9e9e</color><!-- gray 500 -->
+     <color name="user_icon_default_white">#ffffffff</color><!-- white -->
++
++    <!-- Exposed resources for theming -->
++    <color name="exposed_bg_dark">#ffffffff</color>
++    <color name="exposed_bg_light">#ff212121</color>
++    <color name="exposed_primary_text_light">#de000000</color>
++    <color name="exposed_secondary_text_light">#8a000000</color>
++    <color name="exposed_primary_text_dark">#ffffffff</color>
++    <color name="exposed_secondary_text_dark">#b3ffffff</color>
++    <color name="exposed_notification_big_pic_bg">#cceeeeee</color>
++    <color name="exposed_resolver_list_bg">#ffffffff</color>
++    <color name="exposed_notify_action_text">#ff212121</color>
++    <color name="exposed_navigation_bar">#000000</color>
++    <color name="exposed_TextAppearance.StatusBar.EventContent">#999999</color>
++    <color name="exposed_TextAppearance.StatusBar.EventContent.Emphasis">#CCCCCC</color>
++    <color name="exposed_TextAppearance.EasyCorrectSuggestion">#88C8C8C8</color>
++    <color name="exposed_Widget.Material.Light.Button_TS">#555555</color>
++
++
++
+ </resources>
+ 
+diff --git a/core/res/res/values/styles.xml b/core/res/res/values/styles.xml
+index ba15e9c..fb6c64c 100644
+--- a/core/res/res/values/styles.xml
++++ b/core/res/res/values/styles.xml
+@@ -253,11 +253,12 @@ please see styles_device_defaults.xml.
+     </style>
+     <!-- Notification content styles -->
+     <style name="TextAppearance.StatusBar.EventContent">
+-        <item name="textColor">#999999</item>
++      <!-- exposed for theming -->
++        <item name="textColor">@color/exposed_TextAppearance.StatusBar.EventContent</item>
+         <item name="textSize">@dimen/notification_text_size</item>
+     </style>
+     <style name="TextAppearance.StatusBar.EventContent.Title">
+-        <item name="textColor">#ffffff</item>
++        <item name="textColor">@color/exposed_primary_text_dark</item>
+         <item name="fontFamily">sans-serif-light</item>
+         <item name="textSize">@dimen/notification_title_text_size</item>
+         <item name="textStyle">bold</item>
+@@ -267,14 +268,16 @@ please see styles_device_defaults.xml.
+     </style>
+     <style name="TextAppearance.StatusBar.EventContent.Info">
+         <item name="textSize">@dimen/notification_subtext_size</item>
+-        <item name="textColor">#999999</item>
++	 <!-- exposed for theming -->
++        <item name="textColor">@color/exposed_TextAppearance.StatusBar.EventContent</item>
+     </style>
+     <style name="TextAppearance.StatusBar.EventContent.Time">
+         <item name="textSize">@dimen/notification_subtext_size</item>
+-        <item name="textColor">#999999</item>
++	<!-- exposed for theming -->
++        <item name="textColor">@color/exposed_TextAppearance.StatusBar.EventContent</item>
+     </style>
+     <style name="TextAppearance.StatusBar.EventContent.Emphasis">
+-        <item name="textColor">#CCCCCC</item>
++        <item name="textColor">@color/exposed_TextAppearance.StatusBar.EventContent.Emphasis</item>
+     </style>
+ 
+     <style name="TextAppearance.Small.CalendarViewWeekDayView">
+@@ -286,7 +289,8 @@ please see styles_device_defaults.xml.
+     </style>
+ 
+     <style name="TextAppearance.EasyCorrectSuggestion" parent="TextAppearance.Suggestion">
+-        <item name="textUnderlineColor">#88C8C8C8</item>
++      <!-- exposed for theming -->
++        <item name="textUnderlineColor">@color/exposed_TextAppearance.EasyCorrectSuggestion</item>
+     </style>
+ 
+     <style name="TextAppearance.MisspelledSuggestion" parent="TextAppearance.Suggestion">
+@@ -346,7 +350,8 @@ please see styles_device_defaults.xml.
+     <style name="Widget.Button.Transparent">
+         <item name="background">@drawable/btn_default_transparent</item>
+         <item name="textAppearance">?attr/textAppearanceSmall</item>
+-        <item name="textColor">@color/white</item>
++	<!-- exposed for themeing -->
++        <item name="textColor">@color/exposed_primary_text_dark</item>
+     </style>
+ 
+     <style name="Widget.CompoundButton">
+diff --git a/core/res/res/values/styles_material.xml b/core/res/res/values/styles_material.xml
+index f9fca00..e049b22 100644
+--- a/core/res/res/values/styles_material.xml
++++ b/core/res/res/values/styles_material.xml
+@@ -419,12 +419,14 @@ please see styles_device_defaults.xml.
+     </style>
+ 
+     <style name="TextAppearance.Material.Notification">
+-        <item name="textColor">@color/secondary_text_material_light</item>
++      <!-- exposed for themeing -->
++        <item name="textColor">@color/exposed_secondary_text_light</item>
+         <item name="textSize">@dimen/notification_text_size</item>
+     </style>
+ 
+     <style name="TextAppearance.Material.Notification.Title">
+-        <item name="textColor">@color/primary_text_default_material_light</item>
++      <!-- exposed for themeing -->
++        <item name="textColor">@color/exposed_primary_text_light</item>
+         <item name="textSize">@dimen/notification_title_text_size</item>
+     </style>
+ 
+@@ -441,7 +443,8 @@ please see styles_device_defaults.xml.
+     </style>
+ 
+     <style name="TextAppearance.Material.Notification.Emphasis">
+-        <item name="textColor">#66000000</item>
++      <!-- exposed for themeing -->
++        <item name="textColor">@color/exposed_secondary_text_light</item>
+     </style>
+ 
+     <style name="Widget.Material.Notification.ProgressBar" parent="Widget.Material.Light.ProgressBar.Horizontal" />
+diff --git a/core/res/res/values/themes_material.xml b/core/res/res/values/themes_material.xml
+index b51974e..e99734e 100644
+--- a/core/res/res/values/themes_material.xml
++++ b/core/res/res/values/themes_material.xml
+@@ -168,7 +168,8 @@ please see themes_device_defaults.xml.
+         <item name="windowDrawsSystemBarBackgrounds">true</item>
+         <item name="windowActionBarFullscreenDecorLayout">@layout/screen_toolbar</item>
+         <item name="statusBarColor">?attr/colorPrimaryDark</item>
+-        <item name="navigationBarColor">@color/black</item>
++	<!-- exposed to be themed -->
++        <item name="navigationBarColor">@color/exposed_navigation_bar</item>
+         <item name="windowEnterTransition">@transition/fade</item>
+         <item name="windowSharedElementEnterTransition">@transition/move</item>
+         <item name="windowSharedElementExitTransition">@transition/move</item>
+diff --git a/packages/SystemUI/res/color/qs_user_detail_name.xml b/packages/SystemUI/res/color/qs_user_detail_name.xml
+index 57f7e65..d0789fa 100644
+--- a/packages/SystemUI/res/color/qs_user_detail_name.xml
++++ b/packages/SystemUI/res/color/qs_user_detail_name.xml
+@@ -18,5 +18,5 @@
+ 
+ <selector xmlns:android="http://schemas.android.com/apk/res/android">
+     <item android:state_activated="true" android:color="@color/current_user_border_color" />
+-    <item android:color="#66ffffff" /> <!-- 40% white -->
++    <item android:color="@color/exposed_qs_user_detail_name" /> <!-- 40% white -->
+ </selector>
+\ No newline at end of file
+diff --git a/packages/SystemUI/res/color/segmented_button_text_selector.xml b/packages/SystemUI/res/color/segmented_button_text_selector.xml
+index 13c6169..2a50c19 100644
+--- a/packages/SystemUI/res/color/segmented_button_text_selector.xml
++++ b/packages/SystemUI/res/color/segmented_button_text_selector.xml
+@@ -17,7 +17,7 @@
+ 
+ <selector xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+-    <item android:state_selected="true" android:color="@android:color/white"/>
++    <item android:state_selected="true" android:color="@color/exposed_segmented_button_text_selector"/>
+     <item android:color="@color/segmented_button_text_inactive"/>
+ 
+ </selector>
+\ No newline at end of file
+diff --git a/packages/SystemUI/res/drawable/heads_up_scrim.xml b/packages/SystemUI/res/drawable/heads_up_scrim.xml
+index 59000fc..e5229af 100644
+--- a/packages/SystemUI/res/drawable/heads_up_scrim.xml
++++ b/packages/SystemUI/res/drawable/heads_up_scrim.xml
+@@ -15,11 +15,11 @@
+   ~ See the License for the specific language governing permissions and
+   ~ limitations under the License
+   -->
+-
++<!-- exposed for theming -->
+ <shape xmlns:android="http://schemas.android.com/apk/res/android">
+     <gradient
+             android:type="linear"
+             android:angle="-90"
+-            android:startColor="#55000000"
+-            android:endColor="#00000000" />
++            android:startColor="@color/exposed_headsup_scrim_start"
++            android:endColor="@color/exposed_headsup_scrim_end" />
+ </shape>
+\ No newline at end of file
+diff --git a/packages/SystemUI/res/layout/keyguard_bottom_area.xml b/packages/SystemUI/res/layout/keyguard_bottom_area.xml
+index ca07c87..d600826 100644
+--- a/packages/SystemUI/res/layout/keyguard_bottom_area.xml
++++ b/packages/SystemUI/res/layout/keyguard_bottom_area.xml
+@@ -14,7 +14,7 @@
+   ~ See the License for the specific language governing permissions and
+   ~ limitations under the License
+   -->
+-
++<!-- exposed textcolor and other varibles for theming -->
+ <com.android.systemui.statusbar.phone.KeyguardBottomAreaView
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:systemui="http://schemas.android.com/apk/res/com.android.systemui"
+@@ -30,7 +30,7 @@
+         android:layout_marginBottom="@dimen/keyguard_indication_margin_bottom"
+         android:layout_gravity="bottom|center_horizontal"
+         android:textStyle="italic"
+-        android:textColor="#ffffff"
++        android:textColor="@color/exposed_kg_indication_text"
+         android:textAppearance="?android:attr/textAppearanceSmall" />
+ 
+     <FrameLayout
+@@ -44,7 +44,7 @@
+         android:layout_height="@dimen/keyguard_affordance_height"
+         android:layout_width="@dimen/keyguard_affordance_width"
+         android:layout_gravity="bottom|end"
+-        android:tint="#ffffffff"
++        android:tint="@color/exposed_kg_camera_button"
+         android:src="@drawable/ic_camera_alt_24dp"
+         android:scaleType="center"
+         android:contentDescription="@string/accessibility_camera_button" />
+@@ -54,7 +54,7 @@
+         android:layout_height="@dimen/keyguard_affordance_height"
+         android:layout_width="@dimen/keyguard_affordance_width"
+         android:layout_gravity="bottom|start"
+-        android:tint="#ffffffff"
++        android:tint="@color/exposed_kg_phone_button"
+         android:src="@drawable/ic_phone_24dp"
+         android:scaleType="center"
+         android:contentDescription="@string/accessibility_phone_button" />
+@@ -66,7 +66,7 @@
+         android:layout_gravity="bottom|center_horizontal"
+         android:src="@drawable/ic_lock_24dp"
+         android:scaleType="center"
+-        android:tint="#ffffffff"
++        android:tint="@color/exposed_kg_lock_icon"
+         android:contentDescription="@string/accessibility_unlock_button" />
+ 
+ </com.android.systemui.statusbar.phone.KeyguardBottomAreaView>
+diff --git a/packages/SystemUI/res/layout/keyguard_status_bar.xml b/packages/SystemUI/res/layout/keyguard_status_bar.xml
+index b5f917a..27636b5 100644
+--- a/packages/SystemUI/res/layout/keyguard_status_bar.xml
++++ b/packages/SystemUI/res/layout/keyguard_status_bar.xml
+@@ -52,18 +52,19 @@
+             >
+             <include layout="@layout/system_icons" />
+         </FrameLayout>
++	<!-- exposed for theming -->
+         <TextView android:id="@+id/battery_level"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_vertical"
+             android:layout_marginStart="@dimen/header_battery_margin_keyguard"
+             android:paddingEnd="@dimen/battery_level_padding_end"
+-            android:textColor="#ffffff"
++            android:textColor="@color/exposed_kg_batt_level"
+             android:visibility="gone"
+             android:textSize="@dimen/battery_level_text_size"
+             android:importantForAccessibility="noHideDescendants"/>
+     </LinearLayout>
+-
++         <!-- exposed for theming -->
+     <com.android.keyguard.CarrierText
+         android:id="@+id/keyguard_carrier_text"
+         android:layout_width="match_parent"
+@@ -73,7 +74,7 @@
+         android:gravity="center_vertical"
+         android:ellipsize="marquee"
+         android:textAppearance="?android:attr/textAppearanceSmall"
+-        android:textColor="#ffffff"
++        android:textColor="@color/exposed_kg_carrier_text"
+         android:singleLine="true" />
+ 
+ </com.android.systemui.statusbar.phone.KeyguardStatusBarView>
+diff --git a/packages/SystemUI/res/layout/notification_public_default.xml b/packages/SystemUI/res/layout/notification_public_default.xml
+index acfc4bb..34d87ee 100644
+--- a/packages/SystemUI/res/layout/notification_public_default.xml
++++ b/packages/SystemUI/res/layout/notification_public_default.xml
+@@ -31,8 +31,10 @@
+         android:layout_marginEnd="12dp"
+         android:scaleType="centerInside"
+         />
++    <!-- exposed for theming -->
+     <DateTimeView android:id="@+id/time"
+         android:textAppearance="@android:style/TextAppearance.Material.Notification.Time"
++	android:textColor="@color/exposed_secondary_text_dark"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginEnd="8dp"
+@@ -43,8 +45,10 @@
+         android:paddingStart="8dp"
+         android:visibility="gone"
+         />
++    <!-- exposed for theming -->
+     <TextView android:id="@+id/title"
+         android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"
++	android:textColor="@color/exposed_primary_text_dark"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_toEndOf="@id/icon"
+@@ -63,8 +67,10 @@
+         android:scaleType="fitCenter"
+         android:visibility="gone"
+         />
++    <!-- exposed for theming -->
+     <TextView android:id="@+id/text"
+         android:textAppearance="@android:style/TextAppearance.Material.Notification"
++	android:textColor="@color/exposed_secondary_text_dark"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignStart="@id/title"
+diff --git a/packages/SystemUI/res/layout/recents_search_bar.xml b/packages/SystemUI/res/layout/recents_search_bar.xml
+index 915283e..c0a9f83 100644
+--- a/packages/SystemUI/res/layout/recents_search_bar.xml
++++ b/packages/SystemUI/res/layout/recents_search_bar.xml
+@@ -23,7 +23,7 @@
+         android:layout_height="wrap_content"
+         android:layout_gravity="center"
+         android:text="@string/recents_search_bar_label"
+-        android:textColor="#99ffffff"
++        android:textColor="@color/exposed_recents_search_bar_label"
+         android:textSize="18sp"
+         android:textAllCaps="true" />
+ </FrameLayout>
+diff --git a/packages/SystemUI/res/layout/status_bar_expanded_header.xml b/packages/SystemUI/res/layout/status_bar_expanded_header.xml
+index 7ea9145..7e270ea 100644
+--- a/packages/SystemUI/res/layout/status_bar_expanded_header.xml
++++ b/packages/SystemUI/res/layout/status_bar_expanded_header.xml
+@@ -74,7 +74,7 @@
+             android:layout_gravity="center_vertical"
+             android:layout_marginStart="@dimen/header_battery_margin_expanded"
+             android:paddingEnd="@dimen/battery_level_padding_end"
+-            android:textColor="#ffffff"
++            android:textColor="@color/exposed_batt_text"
+             android:textSize="@dimen/battery_level_text_size"
+             android:importantForAccessibility="noHideDescendants"/>
+     </LinearLayout>
+@@ -136,7 +136,7 @@
+         android:layout_marginBottom="4dp"
+         android:drawablePadding="6dp"
+         android:drawableStart="@drawable/ic_access_alarms_small"
+-        android:textColor="#64ffffff"
++        android:textColor="@color/exposed_button"
+         android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Date"
+         android:paddingEnd="6dp"
+         android:paddingStart="6dp"
+diff --git a/packages/SystemUI/res/layout/status_bar_no_notifications.xml b/packages/SystemUI/res/layout/status_bar_no_notifications.xml
+index dd501d4..0f6b96b 100644
+--- a/packages/SystemUI/res/layout/status_bar_no_notifications.xml
++++ b/packages/SystemUI/res/layout/status_bar_no_notifications.xml
+@@ -21,13 +21,14 @@
+         android:layout_height="wrap_content"
+         android:visibility="gone"
+         >
++  <!-- exposed text for theming -->
+     <TextView
+             android:id="@+id/no_notifications"
+             android:layout_width="match_parent"
+             android:layout_height="64dp"
+             android:paddingTop="12dp"
+             android:gravity="top|center_horizontal"
+-            android:textColor="#ffffff"
++            android:textColor="@color/exposed_no_notify"
+             android:textSize="20sp"
+             android:text="@string/empty_shade_text"/>
+ </com.android.systemui.statusbar.EmptyShadeView>
+diff --git a/packages/SystemUI/res/layout/status_bar_notification_keyguard_overflow.xml b/packages/SystemUI/res/layout/status_bar_notification_keyguard_overflow.xml
+index ef85847..2ca8471 100644
+--- a/packages/SystemUI/res/layout/status_bar_notification_keyguard_overflow.xml
++++ b/packages/SystemUI/res/layout/status_bar_notification_keyguard_overflow.xml
+@@ -30,7 +30,7 @@
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         />
+-
++<!-- exposed text for theming -->
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+@@ -43,7 +43,7 @@
+             android:layout_gravity="center_vertical"
+             android:background="@drawable/keyguard_overflow_number_background"
+             android:gravity="center"
+-            android:textColor="#ff686868"
++            android:textColor="@color/exposed_more_text"
+             android:textStyle="bold"
+             android:textSize="14dp"
+             />
+diff --git a/packages/SystemUI/res/layout/status_bar_notification_speed_bump.xml b/packages/SystemUI/res/layout/status_bar_notification_speed_bump.xml
+index e220a16..9a272b4 100644
+--- a/packages/SystemUI/res/layout/status_bar_notification_speed_bump.xml
++++ b/packages/SystemUI/res/layout/status_bar_notification_speed_bump.xml
+@@ -21,10 +21,11 @@
+     android:layout_height="@dimen/speed_bump_height"
+     android:visibility="gone"
+     >
++  <!-- exposed speedbump line for theming -->
+     <com.android.systemui.statusbar.AlphaOptimizedView
+         android:id="@+id/speedbump_line"
+         android:layout_width="match_parent"
+         android:layout_height="1dp"
+-        android:background="#6fdddddd"
++        android:background="@color/exposed_speedbump_line"
+         android:layout_gravity="center_vertical"/>
+ </com.android.systemui.statusbar.SpeedBumpView>
+diff --git a/packages/SystemUI/res/layout/status_bar_toggle_slider.xml b/packages/SystemUI/res/layout/status_bar_toggle_slider.xml
+index a5bf68e..a5b3f5e 100644
+--- a/packages/SystemUI/res/layout/status_bar_toggle_slider.xml
++++ b/packages/SystemUI/res/layout/status_bar_toggle_slider.xml
+@@ -47,6 +47,7 @@
+         android:splitTrack="false"
+         android:contentDescription="@string/accessibility_brightness"
+         />
++    <!-- exposed textcolor for theming -->
+     <TextView
+         android:id="@+id/label"
+         android:layout_width="0dp"
+@@ -56,7 +57,7 @@
+         android:layout_centerVertical="true"
+         android:gravity="center"
+         android:paddingTop="26dp"
+-        android:textColor="#666666"
++        android:textColor="@color/exposed_toggle"
+         android:textSize="12sp"
+         android:visibility="gone"
+         />
+diff --git a/packages/SystemUI/res/values/colors.xml b/packages/SystemUI/res/values/colors.xml
+index 82dccd2..2473791 100644
+--- a/packages/SystemUI/res/values/colors.xml
++++ b/packages/SystemUI/res/values/colors.xml
+@@ -123,4 +123,40 @@
+ 
+     <!-- Shadow color for the furthest pixels around the fake shadow for recents. -->
+     <color name="fake_shadow_end_color">#03000000</color>
++
++    <!-- Exposed resources for theming -->
++    <color name="exposed_bg_dark">#ffffffff</color>
++    <color name="exposed_bg_light">#ff212121</color>
++    <color name="exposed_primary_text_light">#de000000</color>
++    <color name="exposed_secondary_text_light">#8a000000</color>
++    <color name="exposed_TextAppearance.Material.Notification.Parenthetical">#ff7e7d7d</color>
++    <color name="exposed_system_panel_text_light">#ff7e7d7d</color>
++    <color name="exposed_TextAppearance.StatusBar.TextButton">#ffffffff</color>
++    <color name="exposed_primary_text_dark">#ffffffff</color>
++    <color name="exposed_secondary_text_dark">#b3ffffff</color>
++    <color name="exposed_button">#b3ffffff</color>
++    <color name="exposed_TextAppearance_Network">#ff7e7d7d</color>
++    <color name="exposed_batt_text">#ffffffff</color>
++    <color name="exposed_kg_indication_text">#ffffffff</color>
++    <color name="exposed_kg_camera_button">#ffffffff</color>
++    <color name="exposed_kg_phone_button">#ffffffff</color>
++    <color name="exposed_kg_lock_icon">#ffffffff</color>
++    <color name="exposed_kg_batt_level">#ffffffff</color>
++    <color name="exposed_kg_carrier_text">#ffffffff</color>
++    <color name="exposed_recents_search_bar_label">#99ffffff</color>
++    <color name="exposed_no_notify">#ffffffff</color>
++    <color name="exposed_more_text">#ff686868</color>
++    <color name="exposed_speedbump_line">#6fdddddd</color>
++    <color name="exposed_toggle">#ff666666</color>
++    <color name="exposed_segmented_button_text_selector">#ffffffff</color>
++    <color name="exposed_qs_user_detail_name">#66ffffff</color>
++    <color name="exposed_headsup_scrim_start">#55000000</color>
++    <color name="exposed_headsup_scrim_end">#00000000</color>
++
++
++
++
++
++
++
+ </resources>
+diff --git a/packages/SystemUI/res/values/styles.xml b/packages/SystemUI/res/values/styles.xml
+index 909dc42..1bb320f 100644
+--- a/packages/SystemUI/res/values/styles.xml
++++ b/packages/SystemUI/res/values/styles.xml
+@@ -42,7 +42,8 @@
+ 
+     <!-- Performance optimized alternate Recents theme (no wallpaper) -->
+     <style name="RecentsTheme.NoWallpaper">
+-        <item name="android:windowBackground">@android:color/black</item>
++      <!-- exposed for theming -->
++        <item name="android:windowBackground">@color/exposed_bg_light</item>
+     </style>
+ 
+     <!-- Animations for a non-full-screen window or activity. -->
+@@ -61,20 +62,25 @@
+ 
+     <style name="TextAppearance.StatusBar.HeadsUp"
+         parent="@*android:style/TextAppearance.StatusBar">
++        <item name="android:textStyle">normal</item>
++	<!-- exposed for theming -->
++        <item name="android:textColor">@color/exposed_primary_text_light</item>
+     </style>
+ 
+     <style name="TextAppearance.StatusBar.SystemPanel"
+         parent="@*android:style/TextAppearance.StatusBar">
+         <item name="android:textAppearance">?android:attr/textAppearance</item>
+         <item name="android:textStyle">normal</item>
+-        <item name="android:textColor">#FF808080</item>
++	<!-- exposed for theming -->
++        <item name="android:textColor">@color/exposed_system_panel_text_light</item>
+     </style>
+ 
+     <style name="TextAppearance.StatusBar.TextButton"
+         parent="@*android:style/TextAppearance.StatusBar">
+         <item name="android:textAppearance">?android:attr/textAppearance</item>
+         <item name="android:textStyle">normal</item>
+-        <item name="android:textColor">#FFFFFFFF</item>
++	<!-- exposed for theming -->
++        <item name="android:textColor">@color/exposed_TextAppearance.StatusBar.TextButton</item>
+     </style>
+ 
+     <style name="TextAppearance.StatusBar.Clock" parent="@*android:style/TextAppearance.StatusBar.Icon">
+@@ -83,24 +89,30 @@
+         <item name="android:textColor">@color/status_bar_clock_color</item>
+     </style>
+ 
+-    <style name="TextAppearance.StatusBar.Expanded" parent="@*android:style/TextAppearance.StatusBar" />
+-
++    <style name="TextAppearance.StatusBar.Expanded" parent="@*android:style/TextAppearance.StatusBar">
++        <item name="android:textStyle">normal</item>
++	<!-- exposed for theming -->
++        <item name="android:textColor">@color/exposed_primary_text_light</item>
++    </style>
+     <style name="TextAppearance.StatusBar.Expanded.Clock">
+         <item name="android:textSize">@dimen/qs_time_expanded_size</item>
+         <item name="android:fontFamily">sans-serif-medium</item>
+-        <item name="android:textColor">#ffffff</item>
++	<!-- exposed for theming -->
++        <item name="android:textColor">@color/exposed_primary_text_dark</item>
+     </style>
+ 
+     <style name="TextAppearance.StatusBar.Expanded.Date">
+         <item name="android:textSize">@dimen/qs_date_collapsed_size</item>
+         <item name="android:textStyle">normal</item>
+-        <item name="android:textColor">#b2ffffff</item>
++	<!-- exposed for theming -->
++        <item name="android:textColor">@color/exposed_secondary_text_dark</item>
+     </style>
+ 
+     <style name="TextAppearance.StatusBar.Expanded.AboveDateTime">
+         <item name="android:textSize">@dimen/qs_emergency_calls_only_text_size</item>
+         <item name="android:textStyle">normal</item>
+-        <item name="android:textColor">#66ffffff</item>
++	<!-- exposed for theming -->
++        <item name="android:textColor">@color/exposed_secondary_text_dark</item>
+     </style>
+ 
+     <style name="TextAppearance.StatusBar.Expanded.EmergencyCallsOnly"
+@@ -110,10 +122,13 @@
+             parent="TextAppearance.StatusBar.Expanded.AboveDateTime" />
+ 
+     <style name="TextAppearance.StatusBar.Expanded.Network" parent="@style/TextAppearance.StatusBar.Expanded.Date">
+-        <item name="android:textColor">#999999</item>
++      <!-- exposed for theming -->
++        <item name="android:textColor">@color/exposed_TextAppearance_Network</item>
+ 	</style>
+ 
+     <style name="TextAppearance.StatusBar.Expanded.Network.EmergencyOnly">
++      <!-- exposed for theming -->
++      <item name="android:textColor">@color/exposed_primary_text_dark</item>
+     </style>
+ 
+     <style name="TextAppearance.StatusBar.Expanded.UserSwitcher">
+@@ -221,7 +236,7 @@
+     <style name="TextAppearance.StatusBar.PhoneTicker"
+         parent="@*android:style/TextAppearance.StatusBar.Ticker">
+         <!-- Note: must be dp to fit in status bar -->
+-        <item name="android:textSize">14dp</item>
++      <item name="android:textSize">14dp</item>
+     </style>
+ 
+     <style name="systemui_theme" parent="@android:style/Theme.DeviceDefault">
+@@ -232,6 +247,8 @@
+     <style name="Theme.SystemUI.Dialog" parent="@android:style/Theme.DeviceDefault.Light.Dialog">
+         <item name="android:colorPrimary">@color/system_primary_color</item>
+         <item name="android:colorControlActivated">@color/system_accent_color</item>
++	<!-- exposed for theming -->
++	<item name="android:textColor">@color/exposed_primary_text_dark</item>
+     </style>
+ 
+     <style name="QSBorderlessButton">
+@@ -249,7 +266,8 @@
+     <style name="TextAppearance.Material.Notification.Parenthetical"
+            parent="@*android:style/TextAppearance.Material.Notification">
+         <item name="android:textStyle">italic</item>
+-        <item name="android:textColor">#60000000</item>
++	<!-- exposed for theming -->
++        <item name="android:textColor">@color/exposed_TextAppearance.Material.Notification.Parenthetical</item>
+     </style>
+ 
+     <style name="SearchPanelCircle">
+-- 
+1.7.9.5
+

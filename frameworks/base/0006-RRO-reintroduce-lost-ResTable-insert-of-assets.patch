@@ -1,0 +1,75 @@
+From 7fadba728c9fc9235d3a36a14ed8bf672de859da Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
+Date: Fri, 7 Nov 2014 10:52:17 +0100
+Subject: [PATCH] RRO: reintroduce lost ResTable insert of assets
+
+With the recent introduction of AssetManager::appendPathToResTable,
+overlay packages were not properly added to the AssetManager, and once
+added, were not properly inserted into the ResTable.
+
+Bug: 17765434
+Change-Id: Ie21f227c654c98730f74a687d0e16ee2b80e747e
+---
+ core/java/android/content/res/AssetManager.java |   16 +++++++++++++++-
+ core/jni/android_util_AssetManager.cpp          |    2 +-
+ libs/androidfw/AssetManager.cpp                 |    4 ++++
+ 3 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/core/java/android/content/res/AssetManager.java b/core/java/android/content/res/AssetManager.java
+index e578822..72f24d3 100644
+--- a/core/java/android/content/res/AssetManager.java
++++ b/core/java/android/content/res/AssetManager.java
+@@ -627,7 +627,21 @@ public final class AssetManager implements AutoCloseable {
+      *
+      * {@hide}
+      */
+-    public native final int addOverlayPath(String idmapPath);
++
++    public final int addOverlayPath(String idmapPath) {
++        synchronized (this) {
++            int res = addOverlayPathNative(idmapPath);
++            makeStringBlocks(mStringBlocks);
++            return res;
++        }
++    }
++
++    /**
++     * See addOverlayPath.
++     *
++     * {@hide}
++     */
++    public native final int addOverlayPathNative(String idmapPath);
+ 
+     /**
+      * Add multiple sets of assets to the asset manager at once.  See
+diff --git a/core/jni/android_util_AssetManager.cpp b/core/jni/android_util_AssetManager.cpp
+index 4859ee6..0dd35ea 100644
+--- a/core/jni/android_util_AssetManager.cpp
++++ b/core/jni/android_util_AssetManager.cpp
+@@ -2001,7 +2001,7 @@ static JNINativeMethod gAssetManagerMethods[] = {
+         (void*) android_content_AssetManager_getAssetRemainingLength },
+     { "addAssetPathNative", "(Ljava/lang/String;)I",
+         (void*) android_content_AssetManager_addAssetPath },
+-    { "addOverlayPath",   "(Ljava/lang/String;)I",
++    { "addOverlayPathNative",   "(Ljava/lang/String;)I",
+         (void*) android_content_AssetManager_addOverlayPath },
+     { "isUpToDate",     "()Z",
+         (void*) android_content_AssetManager_isUpToDate },
+diff --git a/libs/androidfw/AssetManager.cpp b/libs/androidfw/AssetManager.cpp
+index de6a33c..a1f7858 100644
+--- a/libs/androidfw/AssetManager.cpp
++++ b/libs/androidfw/AssetManager.cpp
+@@ -296,6 +296,10 @@ bool AssetManager::addOverlayPath(const String8& packagePath, int32_t* cookie)
+     mAssetPaths.add(oap);
+     *cookie = static_cast<int32_t>(mAssetPaths.size());
+ 
++    if (mResources != NULL) {
++        appendPathToResTable(oap);
++    }
++
+     return true;
+  }
+ 
+-- 
+1.7.9.5
+

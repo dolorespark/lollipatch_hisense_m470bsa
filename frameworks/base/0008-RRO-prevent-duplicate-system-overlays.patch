@@ -1,0 +1,59 @@
+From 640b40f74c6790f37f2569ce3b63b561971047b9 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
+Date: Fri, 7 Nov 2014 10:57:15 +0100
+Subject: [PATCH] RRO: prevent duplicate system overlays
+
+System overlays, ie overlays with targetPackage="android", were loaded
+twice, which caused all sorts of issues. Ensure they are only loaded
+once, which will be during Zygote initialization.
+
+Bug: 17765434
+Change-Id: Ia5064045c77f713c58fb78adc3942f6af1abdc93
+---
+ include/androidfw/AssetManager.h |    2 ++
+ libs/androidfw/AssetManager.cpp  |    6 ++++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/include/androidfw/AssetManager.h b/include/androidfw/AssetManager.h
+index 99b3195..0cfd2b1 100644
+--- a/include/androidfw/AssetManager.h
++++ b/include/androidfw/AssetManager.h
+@@ -236,9 +236,11 @@ public:
+ private:
+     struct asset_path
+     {
++        asset_path() : path(""), type(kFileTypeRegular), idmap(""), isSystemOverlay(false) {}
+         String8 path;
+         FileType type;
+         String8 idmap;
++        bool isSystemOverlay;
+     };
+ 
+     Asset* openInPathLocked(const char* fileName, AccessMode mode,
+diff --git a/libs/androidfw/AssetManager.cpp b/libs/androidfw/AssetManager.cpp
+index a1f7858..542cd93 100644
+--- a/libs/androidfw/AssetManager.cpp
++++ b/libs/androidfw/AssetManager.cpp
+@@ -605,6 +605,11 @@ FileType AssetManager::getFileType(const char* fileName)
+ }
+ 
+ bool AssetManager::appendPathToResTable(const asset_path& ap) const {
++    // skip those ap's that correspond to system overlays
++    if (ap.isSystemOverlay) {
++        return true;
++    }
++
+     Asset* ass = NULL;
+     ResTable* sharedRes = NULL;
+     bool shared = true;
+@@ -790,6 +795,7 @@ void AssetManager::addSystemOverlays(const char* pathOverlaysList,
+         oap.path = String8(buf, space - buf);
+         oap.type = kFileTypeRegular;
+         oap.idmap = String8(space + 1, newline - space - 1);
++        oap.isSystemOverlay = true;
+ 
+         Asset* oass = const_cast<AssetManager*>(this)->
+             openNonAssetInPathLocked("resources.arsc",
+-- 
+1.7.9.5
+
