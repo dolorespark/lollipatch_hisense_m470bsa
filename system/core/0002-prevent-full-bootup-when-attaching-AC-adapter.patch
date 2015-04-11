@@ -1,4 +1,4 @@
-From 45116f745e07c8b99a954693edff86f1a5f8ddb3 Mon Sep 17 00:00:00 2001
+From f702c567c8a98efbc4e97e840139e2b1b4dba7bb Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Wed, 12 Mar 2014 23:13:07 -0500
 Subject: [PATCH] prevent full bootup when attaching AC adapter

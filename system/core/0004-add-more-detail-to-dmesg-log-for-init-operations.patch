@@ -1,4 +1,4 @@
-From 732e07abc2644679e5953844587fe2fc243d5f8b Mon Sep 17 00:00:00 2001
+From a1dd5d8f0d22f38e356e6dabf5048755dcf1c8b4 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Wed, 12 Mar 2014 23:00:00 -0500
 Subject: [PATCH] add more detail to dmesg log for init operations
@@ -8,7 +8,7 @@ Subject: [PATCH] add more detail to dmesg log for init operations
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index fd7f7db..3c6c286 100644
+index c913c9d..149bbd3 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
 @@ -32,7 +32,7 @@ on early-init

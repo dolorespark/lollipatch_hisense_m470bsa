@@ -1,4 +1,4 @@
-From 9f91692b13526a387332aa074f1d8f047e1c422b Mon Sep 17 00:00:00 2001
+From 2e78dd0f6df0cd43a642d699065418a8e1fb679d Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Thu, 4 Dec 2014 22:29:15 -0500
 Subject: [PATCH] lollipop: restore compatibility with legacy libbt-vendor.so

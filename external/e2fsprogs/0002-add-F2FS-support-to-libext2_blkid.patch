@@ -1,17 +1,17 @@
-From cfe60c9c96ca8f36a7e2f0d906a3ec396939a9fb Mon Sep 17 00:00:00 2001
+From 50b6740f0c7419da44b694d82298bac6e68f5fd6 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Thu, 21 Aug 2014 20:25:09 -0400
-Subject: [PATCH] add F2FS support to libext2_blkid; build static library
+Subject: [PATCH] add F2FS support to libext2_blkid
 
 ---
- lib/blkid/Android.mk   |   11 +++++
+ lib/blkid/Android.mk   |    1 +
  lib/blkid/probe.c      |    5 ++
  lib/blkid/probe_f2fs.c |  118 ++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 134 insertions(+)
+ 3 files changed, 124 insertions(+)
  create mode 100644 lib/blkid/probe_f2fs.c
 
 diff --git a/lib/blkid/Android.mk b/lib/blkid/Android.mk
-index 951dd3f..95eba78 100644
+index cad6c43..6131f3e 100644
 --- a/lib/blkid/Android.mk
 +++ b/lib/blkid/Android.mk
 @@ -9,6 +9,7 @@ libext2_blkid_src_files := \
@@ -22,23 +22,6 @@ index 951dd3f..95eba78 100644
  	read.c \
  	resolve.c \
  	save.c \
-@@ -66,6 +67,16 @@ include $(BUILD_SHARED_LIBRARY)
- include $(CLEAR_VARS)
- 
- LOCAL_SRC_FILES := $(libext2_blkid_src_files)
-+LOCAL_C_INCLUDES := $(libext2_blkid_c_includes)
-+LOCAL_CFLAGS := $(libext2_blkid_cflags) $(libext2_blkid_cflags_linux)
-+LOCAL_MODULE := libext2_blkid
-+LOCAL_MODULE_TAGS := optional
-+
-+include $(BUILD_STATIC_LIBRARY)
-+
-+include $(CLEAR_VARS)
-+
-+LOCAL_SRC_FILES := $(libext2_blkid_src_files)
- LOCAL_SHARED_LIBRARIES := $(addsuffix _host, $(libext2_blkid_shared_libraries))
- LOCAL_C_INCLUDES := $(libext2_blkid_c_includes)
- ifeq ($(HOST_OS),linux)
 diff --git a/lib/blkid/probe.c b/lib/blkid/probe.c
 index ff22d77..fdbcc69 100644
 --- a/lib/blkid/probe.c

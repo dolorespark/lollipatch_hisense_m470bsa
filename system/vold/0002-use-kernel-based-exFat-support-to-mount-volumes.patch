@@ -1,4 +1,4 @@
-From faedd452f106651e681c308582f909cef3734002 Mon Sep 17 00:00:00 2001
+From f4477653b0b4ebded0a895e749752223b1bd3923 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Wed, 1 Oct 2014 11:35:05 -0400
 Subject: [PATCH] use kernel-based exFat support to mount volumes

@@ -1,4 +1,4 @@
-From 640b40f74c6790f37f2569ce3b63b561971047b9 Mon Sep 17 00:00:00 2001
+From 12e78c7ba3e9ddb10701afe9c1df3a0182b454c8 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Fri, 7 Nov 2014 10:57:15 +0100
 Subject: [PATCH] RRO: prevent duplicate system overlays

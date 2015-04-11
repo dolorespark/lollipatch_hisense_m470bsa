@@ -1,4 +1,4 @@
-From 33a2e733e8113a467832cbde16855ce383dd8e5d Mon Sep 17 00:00:00 2001
+From 2590e68e0d45150cf0964c7a0119ad0a5b567314 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Mon, 21 Apr 2014 22:09:51 -0500
 Subject: [PATCH] minor bug fix affecting GPS (taken from CM11)

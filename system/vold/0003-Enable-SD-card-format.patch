@@ -1,4 +1,4 @@
-From d685b02f623e1c06da7f42b17b1b41a4913c336c Mon Sep 17 00:00:00 2001
+From 22a4380de981200bffe1941cdca33e901b7ac575 Mon Sep 17 00:00:00 2001
 From: Bogdan George Stefan <bogdan.g.stefan@intel.com>
 Date: Mon, 30 Jun 2014 15:40:03 +0300
 Subject: [PATCH] Enable SD card format

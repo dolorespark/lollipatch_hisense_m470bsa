@@ -1,4 +1,4 @@
-From 66c89a7b2eb1876986f98702627dac8826083d71 Mon Sep 17 00:00:00 2001
+From cd56b03d1679ce93bcccd8651464912dc42ea7ed Mon Sep 17 00:00:00 2001
 From: Evan McClain <aeroevan@gmail.com>
 Date: Mon, 17 Mar 2014 13:37:34 -0400
 Subject: [PATCH] Add Flash-Friendly File System (f2fs) support.
@@ -14,7 +14,7 @@ Change-Id: If46bf7329a7453122a4379f9bc41cf9553426e74
  create mode 100644 F2FS.h
 
 diff --git a/Android.mk b/Android.mk
-index 5dbd7cc..32902a6 100644
+index cdea55a..c9e0a0f 100644
 --- a/Android.mk
 +++ b/Android.mk
 @@ -13,6 +13,7 @@ common_src_files := \

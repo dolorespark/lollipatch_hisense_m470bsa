@@ -1,4 +1,4 @@
-From bbea9415fec29083a730c035a52aedd9974f6ef1 Mon Sep 17 00:00:00 2001
+From 11d1f312b01401cd452c0286465b99f055a53421 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Sun, 24 Aug 2014 20:59:29 -0400
 Subject: [PATCH] disable AOSP recovery if RECOVERY_VARIANT is set

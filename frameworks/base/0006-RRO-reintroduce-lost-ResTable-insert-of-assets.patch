@@ -1,4 +1,4 @@
-From 7fadba728c9fc9235d3a36a14ed8bf672de859da Mon Sep 17 00:00:00 2001
+From 1868fa0598855df4a5d6dac93f401f445615125a Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Fri, 7 Nov 2014 10:52:17 +0100
 Subject: [PATCH] RRO: reintroduce lost ResTable insert of assets
@@ -16,7 +16,7 @@ Change-Id: Ie21f227c654c98730f74a687d0e16ee2b80e747e
  3 files changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/core/java/android/content/res/AssetManager.java b/core/java/android/content/res/AssetManager.java
-index e578822..72f24d3 100644
+index ecae52c..a176593 100644
 --- a/core/java/android/content/res/AssetManager.java
 +++ b/core/java/android/content/res/AssetManager.java
 @@ -627,7 +627,21 @@ public final class AssetManager implements AutoCloseable {
@@ -43,10 +43,10 @@ index e578822..72f24d3 100644
      /**
       * Add multiple sets of assets to the asset manager at once.  See
 diff --git a/core/jni/android_util_AssetManager.cpp b/core/jni/android_util_AssetManager.cpp
-index 4859ee6..0dd35ea 100644
+index fba7255..c787481 100644
 --- a/core/jni/android_util_AssetManager.cpp
 +++ b/core/jni/android_util_AssetManager.cpp
-@@ -2001,7 +2001,7 @@ static JNINativeMethod gAssetManagerMethods[] = {
+@@ -2016,7 +2016,7 @@ static JNINativeMethod gAssetManagerMethods[] = {
          (void*) android_content_AssetManager_getAssetRemainingLength },
      { "addAssetPathNative", "(Ljava/lang/String;)I",
          (void*) android_content_AssetManager_addAssetPath },

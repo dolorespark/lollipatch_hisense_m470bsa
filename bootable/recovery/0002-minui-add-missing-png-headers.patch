@@ -1,4 +1,4 @@
-From 4546b1b8c09fd88c16b70b6cf06fdd70b0e7b1ae Mon Sep 17 00:00:00 2001
+From 4c1da218b7392681a1094c1f5d5c14174213ca15 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Sat, 15 Nov 2014 00:19:52 -0500
 Subject: [PATCH] minui: add missing png headers

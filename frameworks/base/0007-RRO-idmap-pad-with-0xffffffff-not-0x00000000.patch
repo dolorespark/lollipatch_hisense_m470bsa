@@ -1,4 +1,4 @@
-From 71a8641b6ac29e51d49d1bdcd51b30284d3649f5 Mon Sep 17 00:00:00 2001
+From 5d539876d75e6d1852ee656202bcd32960d4176f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Fri, 7 Nov 2014 10:56:12 +0100
 Subject: [PATCH] RRO idmap: pad with 0xffffffff, not 0x00000000
@@ -13,10 +13,10 @@ Change-Id: If2c7e09feba2224eeafe88fd9230e6392d81b9a7
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/libs/androidfw/ResourceTypes.cpp b/libs/androidfw/ResourceTypes.cpp
-index b5d2885..354e2a5 100644
+index bdb53c3..45929c7 100644
 --- a/libs/androidfw/ResourceTypes.cpp
 +++ b/libs/androidfw/ResourceTypes.cpp
-@@ -6080,14 +6080,14 @@ status_t ResTable::createIdmap(const ResTable& overlay,
+@@ -6115,14 +6115,14 @@ status_t ResTable::createIdmap(const ResTable& overlay,
              }
  
              if (typeMap.entryOffset + typeMap.entryMap.size() < entryIndex) {

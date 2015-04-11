@@ -1,4 +1,4 @@
-From b39606c53fe0f8a706fcf37bbca4b3ded57eff06 Mon Sep 17 00:00:00 2001
+From f93358205daca00034490ea616b88f6cba83d911 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Tue, 1 Apr 2014 23:03:57 -0500
 Subject: [PATCH] rearrange audio_policy structure to maintain compatibility

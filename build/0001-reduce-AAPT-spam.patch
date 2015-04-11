@@ -1,4 +1,4 @@
-From fcf2cd605fbb0a37fa273af9cbc95594ce828b43 Mon Sep 17 00:00:00 2001
+From 4c17c8218568d96ce4c070ab0dd83b487c052204 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Sun, 24 Aug 2014 19:19:39 -0400
 Subject: [PATCH] reduce AAPT spam
@@ -8,7 +8,7 @@ Subject: [PATCH] reduce AAPT spam
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/core/package_internal.mk b/core/package_internal.mk
-index bb458d4..641ff01 100644
+index a6ad354..e0f89f9 100644
 --- a/core/package_internal.mk
 +++ b/core/package_internal.mk
 @@ -63,10 +63,10 @@ ifeq ($(LOCAL_MODULE_TAGS),)

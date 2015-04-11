@@ -1,4 +1,4 @@
-From cde2de8939496cec71ab37d55f6abcb88fbdf27a Mon Sep 17 00:00:00 2001
+From 23508536be708a164df97c5c12e5368c4bf9cd34 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Mon, 25 Aug 2014 13:02:39 -0400
 Subject: [PATCH] suppress generic 'su' if using a prebuilt version

@@ -1,4 +1,4 @@
-From 53e3470eea57d3bd80fcfeab75096dae1694fb1c Mon Sep 17 00:00:00 2001
+From 0b55d6775226f66523f6eb4ef575a42b2fc34818 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Sat, 5 Jul 2014 00:13:55 -0400
 Subject: [PATCH] add NTFS and exFAT support (excerpted from CM11)
@@ -24,7 +24,7 @@ Subject: [PATCH] add NTFS and exFAT support (excerpted from CM11)
  create mode 100644 Ntfs.h
 
 diff --git a/Android.mk b/Android.mk
-index 1a1d28a..5dbd7cc 100644
+index d90b1c2..cdea55a 100644
 --- a/Android.mk
 +++ b/Android.mk
 @@ -11,6 +11,8 @@ common_src_files := \
@@ -55,7 +55,7 @@ index 1a1d28a..5dbd7cc 100644
  	libext4_utils \
  	libf2fs_sparseblock \
 diff --git a/CommandListener.cpp b/CommandListener.cpp
-index 8003095..0df4d84 100644
+index f135a01..4e41438 100644
 --- a/CommandListener.cpp
 +++ b/CommandListener.cpp
 @@ -163,16 +163,20 @@ int CommandListener::VolumeCmd::runCommand(SocketClient *cli,
@@ -707,7 +707,7 @@ index ca56d1c..bb47c4d 100644
 +    if (strcmp(fstype2, "exfat") == 0) {
 +        ret = Exfat::format(devicePath);
 +    } else if (strcmp(fstype2, "ext4") == 0) {
-+        ret = Ext4::format(devicePath, 0, NULL);
++        ret = Ext4::format(devicePath, NULL);
 +    } else if (strcmp(fstype2, "ntfs") == 0) {
 +        ret = Ntfs::format(devicePath, wipe);
 +    } else {

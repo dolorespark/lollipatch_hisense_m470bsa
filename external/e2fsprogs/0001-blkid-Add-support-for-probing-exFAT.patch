@@ -1,4 +1,4 @@
-From 35f56a31728d4e4a67b1a4001bed11144309ce58 Mon Sep 17 00:00:00 2001
+From b4fd9a32d6d1839137a28fb56783e6a4f4f86bd6 Mon Sep 17 00:00:00 2001
 From: Steve Kondik <shade@chemlab.org>
 Date: Sat, 6 Jul 2013 03:07:31 -0700
 Subject: [PATCH] blkid: Add support for probing exFAT
@@ -13,7 +13,7 @@ Subject: [PATCH] blkid: Add support for probing exFAT
  create mode 100644 lib/blkid/probe_exfat.c
 
 diff --git a/lib/blkid/Android.mk b/lib/blkid/Android.mk
-index 92ef776..951dd3f 100644
+index 24c736f..cad6c43 100644
 --- a/lib/blkid/Android.mk
 +++ b/lib/blkid/Android.mk
 @@ -8,6 +8,7 @@ libext2_blkid_src_files := \

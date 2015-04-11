@@ -1,4 +1,4 @@
-From d8267e079f74af6e9d68e8d13ab10e6740762117 Mon Sep 17 00:00:00 2001
+From f7ba9f186fda7692d19ff194518b62690f9b8aa8 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Sun, 31 Aug 2014 14:17:29 -0400
 Subject: [PATCH] add a CM-like version of 'libf2fs_fmt' for use by 'updater'
@@ -8,7 +8,7 @@ Subject: [PATCH] add a CM-like version of 'libf2fs_fmt' for use by 'updater'
  1 file changed, 21 insertions(+)
 
 diff --git a/Android.mk b/Android.mk
-index dbe6baf..18a7b0d 100644
+index 4f4a8b1..d1e67f2 100644
 --- a/Android.mk
 +++ b/Android.mk
 @@ -24,6 +24,27 @@ LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include $(LOCAL_PATH)/mkfs

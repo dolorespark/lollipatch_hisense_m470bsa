@@ -1,4 +1,4 @@
-From 26280b92dfe6d66c72d8a811cc4930e21a6ffcf0 Mon Sep 17 00:00:00 2001
+From ddb82b7effe7c364a2870fe802e4b458117c31d2 Mon Sep 17 00:00:00 2001
 From: Ravindra Lokhande <rlokhande@nvidia.com>
 Date: Thu, 9 Aug 2012 22:42:05 +0530
 Subject: [PATCH] tinyalsa: return card number from its name substring
@@ -27,10 +27,10 @@ Tested-by: Riham Haidar <rhaidar@nvidia.com>
  2 files changed, 35 insertions(+)
 
 diff --git a/include/tinyalsa/asoundlib.h b/include/tinyalsa/asoundlib.h
-index 75e5cda..010d7bb 100644
+index 809e02d..2b96dca 100644
 --- a/include/tinyalsa/asoundlib.h
 +++ b/include/tinyalsa/asoundlib.h
-@@ -295,6 +295,9 @@ int mixer_ctl_set_enum_by_string(struct mixer_ctl *ctl, const char *string);
+@@ -298,6 +298,9 @@ int mixer_ctl_set_enum_by_string(struct mixer_ctl *ctl, const char *string);
  int mixer_ctl_get_range_min(struct mixer_ctl *ctl);
  int mixer_ctl_get_range_max(struct mixer_ctl *ctl);
  

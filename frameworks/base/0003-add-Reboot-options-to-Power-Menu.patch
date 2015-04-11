@@ -1,4 +1,4 @@
-From 1ba1cab107602b445d8f8ea772de81861449a18e Mon Sep 17 00:00:00 2001
+From 2a87af814ec7f1cf57acb9012c7868c2e62273fe Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Tue, 20 Jan 2015 23:53:15 -0500
 Subject: [PATCH] add Reboot options to Power Menu
@@ -10,8 +10,8 @@ Subject: [PATCH] add Reboot options to Power Menu
  .../res/drawable-hdpi/ic_lock_recovery_alpha.png   |  Bin 0 -> 1046 bytes
  core/res/res/drawable/ic_lock_reboot.xml           |   19 +++++++
  core/res/res/drawable/ic_lock_recovery.xml         |   19 +++++++
- core/res/res/values/strings.xml                    |    6 +++
- core/res/res/values/symbols.xml                    |    4 ++
+ core/res/res/values/strings.xml                    |    5 ++
+ core/res/res/values/symbols.xml                    |    5 ++
  .../internal/policy/impl/GlobalActions.java        |   53 ++++++++++++++++++++
  .../com/android/server/power/ShutdownThread.java   |    6 ++-
  .../android/server/wm/WindowManagerService.java    |   12 +++++
@@ -22,10 +22,10 @@ Subject: [PATCH] add Reboot options to Power Menu
  create mode 100644 core/res/res/drawable/ic_lock_recovery.xml
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index a295810..6a0f250 100644
+index 53be3e7..3da43fd 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -5257,6 +5257,12 @@ public final class Settings {
+@@ -5275,6 +5275,12 @@ public final class Settings {
          public static final String BUGREPORT_IN_POWER_MENU = "bugreport_in_power_menu";
  
          /**
@@ -39,7 +39,7 @@ index a295810..6a0f250 100644
           * @hide
           */
 diff --git a/core/java/android/view/WindowManagerPolicy.java b/core/java/android/view/WindowManagerPolicy.java
-index 673f075..6c4d77c 100644
+index 94f3e7a..ec2e67e 100644
 --- a/core/java/android/view/WindowManagerPolicy.java
 +++ b/core/java/android/view/WindowManagerPolicy.java
 @@ -415,6 +415,8 @@ public interface WindowManagerPolicy {
@@ -162,14 +162,13 @@ index 0000000..e2d608f
 +    android:src="@drawable/ic_lock_recovery_alpha"
 +    android:tint="?attr/colorControlNormal" />
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index ab97e17..0201d17 100644
+index 20b4b62..103aa9f 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
-@@ -4889,4 +4889,10 @@
+@@ -5169,4 +5169,9 @@
+     <string name="stk_cc_ss_to_ussd">SS request is modified to USSD request.</string>
+     <string name="stk_cc_ss_to_ss">SS request is modified to new SS request.</string>
  
-     <!-- Zen mode condition: no exit criteria. [CHAR LIMIT=NONE] -->
-     <string name="zen_mode_forever">Indefinitely</string>
-+
 +    <!-- label for item that reboots system in phone options dialog -->
 +    <string name="global_action_reboot_system">Reboot</string>
 +
@@ -177,13 +176,14 @@ index ab97e17..0201d17 100644
 +    <string name="global_action_reboot_recovery">Reboot recovery</string>
  </resources>
 diff --git a/core/res/res/values/symbols.xml b/core/res/res/values/symbols.xml
-index 3078722..bbf62a0 100644
+index 1055547..2a720c3 100755
 --- a/core/res/res/values/symbols.xml
 +++ b/core/res/res/values/symbols.xml
-@@ -2074,4 +2074,8 @@
-   <java-symbol type="string" name="whichHomeApplicationNamed" />
-   <java-symbol type="bool" name="config_sms_force_7bit_encoding" />
-   <java-symbol type="array" name="config_sms_convert_destination_number_support" />
+@@ -2157,4 +2157,9 @@
+   <java-symbol type="bool" name="config_use_sim_language_file" />
+   <java-symbol type="bool" name="config_LTE_eri_for_network_name" />
+   <java-symbol type="bool" name="config_defaultInTouchMode" />
++
 +  <java-symbol type="string" name="global_action_reboot_system" />
 +  <java-symbol type="string" name="global_action_reboot_recovery" />
 +  <java-symbol type="drawable" name="ic_lock_reboot" />
@@ -278,10 +278,10 @@ index da11387..87870ec 100644
          pd.setIndeterminate(true);
          pd.setCancelable(false);
 diff --git a/services/core/java/com/android/server/wm/WindowManagerService.java b/services/core/java/com/android/server/wm/WindowManagerService.java
-index 837672a..1d5b6b1 100644
+index 089d897..45b64ea 100644
 --- a/services/core/java/com/android/server/wm/WindowManagerService.java
 +++ b/services/core/java/com/android/server/wm/WindowManagerService.java
-@@ -5532,6 +5532,18 @@ public class WindowManagerService extends IWindowManager.Stub
+@@ -5611,6 +5611,18 @@ public class WindowManagerService extends IWindowManager.Stub
          ShutdownThread.rebootSafeMode(mContext, confirm);
      }
  

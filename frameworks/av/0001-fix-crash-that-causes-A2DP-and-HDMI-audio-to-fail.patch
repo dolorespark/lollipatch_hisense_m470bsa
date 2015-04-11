@@ -1,4 +1,4 @@
-From fbdc078dc73f4ce4debfdc25e7ef2fa25f9410ea Mon Sep 17 00:00:00 2001
+From ac96309f2bdc4ddcb62d0cb308db54ada44aeead Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Fri, 28 Feb 2014 22:34:23 -0500
 Subject: [PATCH] fix crash that causes A2DP and HDMI audio to fail
@@ -9,10 +9,10 @@ Subject: [PATCH] fix crash that causes A2DP and HDMI audio to fail
  2 files changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/media/libmediaplayerservice/MediaPlayerService.cpp b/media/libmediaplayerservice/MediaPlayerService.cpp
-index 8eb1269..cf6de0b 100644
+index d461af3..e4657e1 100644
 --- a/media/libmediaplayerservice/MediaPlayerService.cpp
 +++ b/media/libmediaplayerservice/MediaPlayerService.cpp
-@@ -2332,6 +2332,10 @@ void MediaPlayerService::addBatteryData(uint32_t params)
+@@ -2335,6 +2335,10 @@ void MediaPlayerService::addBatteryData(uint32_t params)
  }
  
  status_t MediaPlayerService::pullBatteryData(Parcel* reply) {

@@ -1,4 +1,4 @@
-From 01e250be71b707d43d03d947dca3edd7ad1ea95f Mon Sep 17 00:00:00 2001
+From 84fdcc003e95a8e039fbede7996b14b1dd231920 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Tue, 25 Feb 2014 22:21:00 -0500
 Subject: [PATCH] revert camera api version to its Android 4.2.1 value

@@ -1,4 +1,4 @@
-From cd8aeffad6fbf6369c0536f49f0dddbcac21fe42 Mon Sep 17 00:00:00 2001
+From 6fdc17048113a9147eefb5927ce9afb8aa4030fd Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Sat, 15 Nov 2014 01:15:44 -0500
 Subject: [PATCH] lollipop: change in Ext4::format() signature

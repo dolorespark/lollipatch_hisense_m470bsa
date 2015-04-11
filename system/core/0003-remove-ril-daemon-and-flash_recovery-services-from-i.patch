@@ -1,4 +1,4 @@
-From 12d05aa133b3dcb052da0c94946181e17141661d Mon Sep 17 00:00:00 2001
+From 1f6ba1f352a6470bdc8ed209245c5d4846194247 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Fri, 27 Jun 2014 02:04:49 -0400
 Subject: [PATCH] remove 'ril-daemon' and 'flash_recovery' services from
@@ -9,10 +9,10 @@ Subject: [PATCH] remove 'ril-daemon' and 'flash_recovery' services from
  1 file changed, 12 deletions(-)
 
 diff --git a/rootdir/init.rc b/rootdir/init.rc
-index 8ba7c10..fd7f7db 100644
+index cbcb842..c913c9d 100644
 --- a/rootdir/init.rc
 +++ b/rootdir/init.rc
-@@ -545,13 +545,6 @@ service debuggerd /system/bin/debuggerd
+@@ -540,13 +540,6 @@ service debuggerd /system/bin/debuggerd
  service debuggerd64 /system/bin/debuggerd64
      class main
  
@@ -26,7 +26,7 @@ index 8ba7c10..fd7f7db 100644
  service surfaceflinger /system/bin/surfaceflinger
      class core
      user system
-@@ -594,11 +587,6 @@ service installd /system/bin/installd
+@@ -589,11 +582,6 @@ service installd /system/bin/installd
      class main
      socket installd stream 600 system system
  

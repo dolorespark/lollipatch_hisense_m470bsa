@@ -1,4 +1,4 @@
-From dd0663b39a1cdfec8cf3c25ae2f88f93357ae313 Mon Sep 17 00:00:00 2001
+From 46f9109dbefa8db4058429032ea3959204785f7c Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Thu, 21 Aug 2014 21:47:34 -0400
 Subject: [PATCH] send mkfs.f2fs to /system/bin rather than /sbin
@@ -8,7 +8,7 @@ Subject: [PATCH] send mkfs.f2fs to /system/bin rather than /sbin
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/Android.mk b/Android.mk
-index bee1071..dbe6baf 100644
+index 48cdb55..4f4a8b1 100644
 --- a/Android.mk
 +++ b/Android.mk
 @@ -68,7 +68,9 @@ LOCAL_FORCE_STATIC_EXECUTABLE := true

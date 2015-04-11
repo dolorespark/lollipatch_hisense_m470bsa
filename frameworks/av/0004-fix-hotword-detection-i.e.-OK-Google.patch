@@ -1,29 +1,35 @@
-From 9bbfcea2e0d266071112e56ad1230616e2845fe9 Mon Sep 17 00:00:00 2001
+From 1033ff6c2328fd4826cb29914aa175981fb565a1 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
-Date: Wed, 25 Jun 2014 23:55:12 -0400
+Date: Tue, 10 Mar 2015 15:36:51 -0400
 Subject: [PATCH] fix hotword detection (i.e. 'OK Google')
 
 ---
- media/libmedia/AudioRecord.cpp |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ media/libmedia/AudioRecord.cpp |    7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/media/libmedia/AudioRecord.cpp b/media/libmedia/AudioRecord.cpp
-index 9e7ba88..edbc419 100644
+index ca3832d..a063ae3 100644
 --- a/media/libmedia/AudioRecord.cpp
 +++ b/media/libmedia/AudioRecord.cpp
-@@ -165,7 +165,11 @@ status_t AudioRecord::set(
+@@ -167,12 +167,17 @@ status_t AudioRecord::set(
+         return INVALID_OPERATION;
      }
  
-     // handle default values first.
--    if (inputSource == AUDIO_SOURCE_DEFAULT) {
 +    // DoPa (20140624) - 'audio_policy.tegra.so' doesn't support AUDIO_SOURCE_HOTWORD,
 +    // so change inputSource to AUDIO_SOURCE_MIC at the native level which doesn't differentiate
 +    // between the two but leave it as-is in the higher-level Java code which does
-+    if (inputSource == AUDIO_SOURCE_DEFAULT ||
-+        inputSource == AUDIO_SOURCE_HOTWORD) {
-         inputSource = AUDIO_SOURCE_MIC;
+     if (pAttributes == NULL) {
+         memset(&mAttributes, 0, sizeof(audio_attributes_t));
+-        mAttributes.source = inputSource;
++        mAttributes.source = (inputSource == AUDIO_SOURCE_HOTWORD) ? AUDIO_SOURCE_MIC : inputSource;
+     } else {
+         // stream type shouldn't be looked at, this track has audio attributes
+         memcpy(&mAttributes, pAttributes, sizeof(audio_attributes_t));
++        if (mAttributes.source == AUDIO_SOURCE_HOTWORD)
++            mAttributes.source = AUDIO_SOURCE_MIC;
+         ALOGV("Building AudioRecord with attributes: source=%d flags=0x%x tags=[%s]",
+               mAttributes.source, mAttributes.flags, mAttributes.tags);
      }
-     mInputSource = inputSource;
 -- 
 1.7.9.5
 

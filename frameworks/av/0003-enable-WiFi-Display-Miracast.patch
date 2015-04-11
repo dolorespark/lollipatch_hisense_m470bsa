@@ -1,4 +1,4 @@
-From d797531a16f88f41b05dc2bc6a1e314b3a4a35c1 Mon Sep 17 00:00:00 2001
+From 449fa18f49a4df0c48edf5140220596df763e0c3 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Wed, 26 Mar 2014 23:00:00 -0400
 Subject: [PATCH] enable WiFi Display (Miracast)
@@ -9,10 +9,10 @@ Subject: [PATCH] enable WiFi Display (Miracast)
  2 files changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/media/libstagefright/ACodec.cpp b/media/libstagefright/ACodec.cpp
-index 2f2f9cf..fed17de 100644
+index e015f1a..1abad64 100644
 --- a/media/libstagefright/ACodec.cpp
 +++ b/media/libstagefright/ACodec.cpp
-@@ -2597,9 +2597,9 @@ status_t ACodec::setupAVCEncoderParameters(const sp<AMessage> &msg) {
+@@ -2846,9 +2846,9 @@ status_t ACodec::setupAVCEncoderParameters(const sp<AMessage> &msg) {
      if (msg->findInt32("intra-refresh-mode", &intraRefreshMode)) {
          err = setCyclicIntraMacroblockRefresh(msg, intraRefreshMode);
          if (err != OK) {

@@ -1,4 +1,4 @@
-From 7a403531b7391a4b1225926075e46c020b218b07 Mon Sep 17 00:00:00 2001
+From df648591b2f6ca950702b8270aa658547b073afa Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Tue, 18 Nov 2014 19:28:20 -0500
 Subject: [PATCH] add hooks for Performance.apk settings
@@ -75,12 +75,12 @@ literal 0
 HcmV?d00001
 
 diff --git a/res/values/strings.xml b/res/values/strings.xml
-index 0a139d5..4978e6d 100644
+index c8e2a1b..6c29f56 100644
 --- a/res/values/strings.xml
 +++ b/res/values/strings.xml
-@@ -5979,4 +5979,7 @@
-    <!-- Message for encryption dialog telling the user that Talkback and other accessibility services will be disabled. -->
-    <string name="encrypt_talkback_dialog_message_password">When you enter your password to start this device, accessibility services like <xliff:g id="service" example="TalkBack">%1$s</xliff:g> won\'t yet be available.</string>
+@@ -6050,4 +6050,7 @@
+    <string name="imei_information_summary">IMEI relative information</string>
+    <string name="slot_number">(Slot<xliff:g id="slot_num">%1$d</xliff:g>)</string>
  
 +    <!-- Header title for Performance settings -->
 +    <string name="performance_settings">Performance</string>
@@ -106,10 +106,10 @@ index 01a4f83..2dfaaac 100644
          <dashboard-tile
                  android:id="@+id/application_settings"
 diff --git a/src/com/android/settings/SettingsActivity.java b/src/com/android/settings/SettingsActivity.java
-index 37fcc87..4234fb5 100644
+index dc5675c..23259bb 100644
 --- a/src/com/android/settings/SettingsActivity.java
 +++ b/src/com/android/settings/SettingsActivity.java
-@@ -1196,6 +1196,13 @@ public class SettingsActivity extends Activity
+@@ -1217,6 +1217,13 @@ public class SettingsActivity extends Activity
                              UserManager.DISALLOW_DEBUGGING_FEATURES)) {
                          removeTile = true;
                      }

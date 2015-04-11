@@ -1,4 +1,4 @@
-From 50610377d9bba3c8296dfc5a5fd3afb7747baa17 Mon Sep 17 00:00:00 2001
+From 268ea8780330367db5f1788b1ae42ef28926cc50 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Mon, 10 Mar 2014 22:17:44 -0500
 Subject: [PATCH] emulate methods whose signatures changed after Android 4.2.1

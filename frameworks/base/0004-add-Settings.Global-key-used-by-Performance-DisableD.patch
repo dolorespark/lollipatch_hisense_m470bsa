@@ -1,18 +1,17 @@
-From 63e1288cc0ae3830d596c99b57cc0602d2df3be9 Mon Sep 17 00:00:00 2001
+From dd003ef1e6a74c155643fe172299fd3153592523 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Tue, 20 Jan 2015 23:55:50 -0500
-Subject: [PATCH] add Settings.Global key used by
- Performance->DisableDimmer
+Subject: [PATCH] add Settings.Global key used by Performance->DisableDimmer
 
 ---
  core/java/android/provider/Settings.java |    6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
-index 6a0f250..5297250 100644
+index 3da43fd..cb51aa9 100644
 --- a/core/java/android/provider/Settings.java
 +++ b/core/java/android/provider/Settings.java
-@@ -5281,6 +5281,12 @@ public final class Settings {
+@@ -5299,6 +5299,12 @@ public final class Settings {
          public static final String MAX_GPU_SPEED = "max_gpu_speed";
  
          /**

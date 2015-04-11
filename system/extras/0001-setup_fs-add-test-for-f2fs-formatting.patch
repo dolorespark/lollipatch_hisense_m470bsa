@@ -1,4 +1,4 @@
-From 5cd8f4bbae2c55a401d4735d4fb4c48883a65629 Mon Sep 17 00:00:00 2001
+From 6af5f9beb53bcbc31c5ee0228543eeb4887e12a0 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Sat, 30 Aug 2014 11:00:54 -0400
 Subject: [PATCH] setup_fs: add test for f2fs formatting

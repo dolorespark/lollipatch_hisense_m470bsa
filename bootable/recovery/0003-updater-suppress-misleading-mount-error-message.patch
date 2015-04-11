@@ -1,4 +1,4 @@
-From 277e84035c7a7c8d9505772912558c11984ed4f9 Mon Sep 17 00:00:00 2001
+From 3eea6c886813c423572aa6ce8f18452e43331808 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Wed, 21 Jan 2015 00:45:14 -0500
 Subject: [PATCH] updater: suppress misleading mount-error message
@@ -8,10 +8,10 @@ Subject: [PATCH] updater: suppress misleading mount-error message
  1 file changed, 6 insertions(+)
 
 diff --git a/updater/install.c b/updater/install.c
-index ff7de47..4881ade 100644
+index 2b2ffb0..a04885c 100644
 --- a/updater/install.c
 +++ b/updater/install.c
-@@ -167,8 +167,14 @@ Value* MountFn(const char* name, State* state, int argc, Expr* argv[]) {
+@@ -168,8 +168,14 @@ Value* MountFn(const char* name, State* state, int argc, Expr* argv[]) {
          if (mount(location, mount_point, fs_type,
                    MS_NOATIME | MS_NODEV | MS_NODIRATIME,
                    has_mount_options ? mount_options : "") < 0) {

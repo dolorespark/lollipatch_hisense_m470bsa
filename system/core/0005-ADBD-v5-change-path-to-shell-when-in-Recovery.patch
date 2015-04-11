@@ -1,4 +1,4 @@
-From 017e31dd64a17e6706c03d438b761e20133df979 Mon Sep 17 00:00:00 2001
+From 9b0e47fe539eee1e39a37e88d34565918939b5ca Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Wed, 12 Nov 2014 22:54:32 -0500
 Subject: [PATCH] ADBD-v5: change path to shell when in Recovery
@@ -29,7 +29,7 @@ index 10a1e0d..0f92359 100644
          default:
              break;
 diff --git a/adb/services.c b/adb/services.c
-index e61371a..06e98f3 100644
+index 21b08dc..4d444d9 100644
 --- a/adb/services.c
 +++ b/adb/services.c
 @@ -303,6 +303,8 @@ static int create_subproc_raw(const char *cmd, const char *arg0, const char *arg

@@ -1,4 +1,4 @@
-From 273d608e897670c85389db39720e9f0899657e9a Mon Sep 17 00:00:00 2001
+From 1dd65ae97e952d83ccf52c18a2999f89cbdd03f5 Mon Sep 17 00:00:00 2001
 From: c457 <android.c357@gmail.com>
 Date: Sat, 31 Jan 2015 02:49:35 -0600
 Subject: [PATCH] tinyalsa: Forward port undocumented change
@@ -10,10 +10,10 @@ Change-Id: I948513807941f0e81b57d113a2f40710889525a0
  2 files changed, 58 insertions(+)
 
 diff --git a/include/tinyalsa/asoundlib.h b/include/tinyalsa/asoundlib.h
-index 010d7bb..f7f56df 100644
+index 2b96dca..e359457 100644
 --- a/include/tinyalsa/asoundlib.h
 +++ b/include/tinyalsa/asoundlib.h
-@@ -287,9 +287,11 @@ int mixer_ctl_set_percent(struct mixer_ctl *ctl, unsigned int id, int percent);
+@@ -290,9 +290,11 @@ int mixer_ctl_set_percent(struct mixer_ctl *ctl, unsigned int id, int percent);
  
  int mixer_ctl_get_value(struct mixer_ctl *ctl, unsigned int id);
  int mixer_ctl_get_array(struct mixer_ctl *ctl, void *array, size_t count);

@@ -1,6 +1,6 @@
-From db4da7e1abcd0db50e19b40d118021d9678c68b3 Mon Sep 17 00:00:00 2001
+From e945f2fb300d60a5f4b85a96a16c8aeea5573bfe Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
-Date: Mon, 24 Nov 2014 23:23:22 -0500
+Date: Tue, 10 Mar 2015 15:54:09 -0400
 Subject: [PATCH] enable the use of Nvidia's 'legacy' audio HAL
 
 ---
@@ -10,7 +10,7 @@ Subject: [PATCH] enable the use of Nvidia's 'legacy' audio HAL
  3 files changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/services/audiopolicy/Android.mk b/services/audiopolicy/Android.mk
-index 6512c38..28171fe 100644
+index 188fc89..8e44591 100644
 --- a/services/audiopolicy/Android.mk
 +++ b/services/audiopolicy/Android.mk
 @@ -2,6 +2,9 @@ LOCAL_PATH:= $(call my-dir)
@@ -24,7 +24,7 @@ index 6512c38..28171fe 100644
      AudioPolicyService.cpp \
      AudioPolicyEffects.cpp
 diff --git a/services/audiopolicy/AudioPolicyClientImplLegacy.cpp b/services/audiopolicy/AudioPolicyClientImplLegacy.cpp
-index 97719da..6fab89e 100644
+index a79f8ae..f541fcb 100644
 --- a/services/audiopolicy/AudioPolicyClientImplLegacy.cpp
 +++ b/services/audiopolicy/AudioPolicyClientImplLegacy.cpp
 @@ -125,8 +125,11 @@ audio_io_handle_t aps_open_output_on_module(void *service __unused,
@@ -41,10 +41,10 @@ index 97719da..6fab89e 100644
  
  audio_io_handle_t aps_open_dup_output(void *service __unused,
 diff --git a/services/audiopolicy/AudioPolicyInterfaceImplLegacy.cpp b/services/audiopolicy/AudioPolicyInterfaceImplLegacy.cpp
-index e1e81e1..eadaf88 100644
+index b8846c6..4a24ad5 100644
 --- a/services/audiopolicy/AudioPolicyInterfaceImplLegacy.cpp
 +++ b/services/audiopolicy/AudioPolicyInterfaceImplLegacy.cpp
-@@ -431,13 +431,17 @@ bool AudioPolicyService::isStreamActive(audio_stream_type_t stream, uint32_t inP
+@@ -462,8 +462,10 @@ bool AudioPolicyService::isStreamActive(audio_stream_type_t stream, uint32_t inP
      return mpAudioPolicy->is_stream_active(mpAudioPolicy, stream, inPastMs);
  }
  
@@ -52,8 +52,10 @@ index e1e81e1..eadaf88 100644
  bool AudioPolicyService::isStreamActiveRemotely(audio_stream_type_t stream, uint32_t inPastMs) const
  {
 +/*
-     if (mpAudioPolicy == NULL) {
-         return 0;
+     if (uint32_t(stream) >= AUDIO_STREAM_PUBLIC_CNT) {
+         return false;
+     }
+@@ -472,6 +474,8 @@ bool AudioPolicyService::isStreamActiveRemotely(audio_stream_type_t stream, uint
      }
      Mutex::Autolock _l(mLock);
      return mpAudioPolicy->is_stream_active_remotely(mpAudioPolicy, stream, inPastMs);
@@ -62,7 +64,7 @@ index e1e81e1..eadaf88 100644
  }
  
  bool AudioPolicyService::isSourceActive(audio_source_t source) const
-@@ -472,8 +476,10 @@ status_t AudioPolicyService::queryDefaultPreProcessing(int audioSession,
+@@ -506,8 +510,10 @@ status_t AudioPolicyService::queryDefaultPreProcessing(int audioSession,
      return audioPolicyEffects->queryDefaultInputEffects(audioSession, descriptors, count);
  }
  
@@ -73,7 +75,7 @@ index e1e81e1..eadaf88 100644
      if (mpAudioPolicy == NULL) {
          ALOGV("mpAudioPolicy == NULL");
          return false;
-@@ -485,6 +491,8 @@ bool AudioPolicyService::isOffloadSupported(const audio_offload_info_t& info)
+@@ -519,6 +525,8 @@ bool AudioPolicyService::isOffloadSupported(const audio_offload_info_t& info)
      }
  
      return mpAudioPolicy->is_offload_supported(mpAudioPolicy, &info);

@@ -1,4 +1,4 @@
-From 6e461f9c5999100bfc1f9ace984f1f8bd56cbb18 Mon Sep 17 00:00:00 2001
+From d33986a242fbc0643aa932bb7f8ce0a06b4a4007 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Thu, 20 Feb 2014 14:19:55 -0500
 Subject: [PATCH] restore reservedVectorImpl methods needed by Hisense blobs

@@ -1,4 +1,4 @@
-From 804b6f810d8e8af834c636bc87838cf0859642ca Mon Sep 17 00:00:00 2001
+From 4892fc274044f018a37a4f8cfe4e766cb3631740 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Wed, 4 Jun 2014 02:31:47 -0500
 Subject: [PATCH] enable passing OTA packaging options from 'BoardConfig.mk'
@@ -9,10 +9,10 @@ Subject: [PATCH] enable passing OTA packaging options from 'BoardConfig.mk'
  2 files changed, 36 insertions(+), 17 deletions(-)
 
 diff --git a/core/Makefile b/core/Makefile
-index b08ad1b..2c7e58f 100644
+index 15c7f02..b94b372 100644
 --- a/core/Makefile
 +++ b/core/Makefile
-@@ -1449,6 +1449,8 @@ ifneq ($(recovery_fstab),)
+@@ -1461,6 +1461,8 @@ ifneq ($(recovery_fstab),)
  
  # -----------------------------------------------------------------
  # OTA update package
@@ -21,7 +21,7 @@ index b08ad1b..2c7e58f 100644
  
  name := $(TARGET_PRODUCT)
  ifeq ($(TARGET_BUILD_TYPE),debug)
-@@ -1467,6 +1469,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
+@@ -1479,6 +1481,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
  	   --block \
  	   -p $(HOST_OUT) \
  	   -k $(KEY_CERT_PAIR) \
@@ -30,7 +30,7 @@ index b08ad1b..2c7e58f 100644
  	   $(BUILT_TARGET_FILES_PACKAGE) $@
  
 diff --git a/tools/releasetools/ota_from_target_files b/tools/releasetools/ota_from_target_files
-index 755e5c2..7ec0958 100755
+index 945f11a..ebeae19 100755
 --- a/tools/releasetools/ota_from_target_files
 +++ b/tools/releasetools/ota_from_target_files
 @@ -13,6 +13,10 @@
@@ -98,7 +98,7 @@ index 755e5c2..7ec0958 100755
    if OPTIONS.two_step:
      if not OPTIONS.info_dict.get("multistage_support", None):
        assert False, "two-step packages not supported by this build"
-@@ -570,7 +577,7 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
+@@ -571,7 +578,7 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
    else:
      script.FormatPartition("/system")
      script.Mount("/system", recovery_mount_options)
@@ -107,7 +107,7 @@ index 755e5c2..7ec0958 100755
        script.UnpackPackageDir("recovery", "/system")
      script.UnpackPackageDir("system", "/system")
  
-@@ -580,7 +587,7 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
+@@ -581,7 +588,7 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
    boot_img = common.GetBootableImage("boot.img", "boot.img",
                                       OPTIONS.input_tmp, "BOOT")
  
@@ -116,7 +116,7 @@ index 755e5c2..7ec0958 100755
      def output_sink(fn, data):
        common.ZipWriteStr(output_zip, "recovery/" + fn, data)
        system_items.Get("system/" + fn, dir=False)
-@@ -1104,12 +1111,15 @@ def WriteIncrementalOTAPackage(target_zip, source_zip, output_zip):
+@@ -1110,12 +1117,15 @@ def WriteIncrementalOTAPackage(target_zip, source_zip, output_zip):
    updating_boot = (not OPTIONS.two_step and
                     (source_boot.data != target_boot.data))
  
@@ -138,7 +138,7 @@ index 755e5c2..7ec0958 100755
  
    # Here's how we divide up the progress bar:
    #  0.1 for verifying the start state (PatchCheck calls)
-@@ -1419,12 +1429,14 @@ def main(argv):
+@@ -1425,12 +1435,14 @@ def main(argv):
        OPTIONS.updater_binary = a
      elif o in ("--no_fallback_to_full",):
        OPTIONS.fallback_to_full = False
@@ -154,7 +154,7 @@ index 755e5c2..7ec0958 100755
                               extra_long_opts=["board_config=",
                                                "package_key=",
                                                "incremental_from=",
-@@ -1440,6 +1452,7 @@ def main(argv):
+@@ -1446,6 +1458,7 @@ def main(argv):
                                                "oem_settings=",
                                                "verify",
                                                "no_fallback_to_full",
@@ -162,7 +162,7 @@ index 755e5c2..7ec0958 100755
                                                ],
                               extra_option_handler=option_handler)
  
-@@ -1447,6 +1460,9 @@ def main(argv):
+@@ -1453,6 +1466,9 @@ def main(argv):
      common.Usage(__doc__)
      sys.exit(1)
  
