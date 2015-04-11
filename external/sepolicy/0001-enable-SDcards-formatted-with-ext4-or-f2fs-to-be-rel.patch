@@ -1,0 +1,25 @@
+From dc7381fdbdc7723c0bf2d457cfa0268964deec98 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Thu, 26 Mar 2015 00:15:57 -0400
+Subject: [PATCH] enable SDcards formatted with ext4 or f2fs to be relabeled
+
+---
+ domain.te |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/domain.te b/domain.te
+index c978ffa..657b9ae 100644
+--- a/domain.te
++++ b/domain.te
+@@ -298,7 +298,7 @@ neverallow { domain -recovery } rootfs:file { create write setattr relabelto app
+ 
+ # Restrict context mounts to specific types marked with
+ # the contextmount_type attribute.
+-neverallow domain {fs_type -contextmount_type}:filesystem relabelto;
++neverallow domain {fs_type -contextmount_type -sdcard_posix}:filesystem relabelto;
+ 
+ # Ensure that context mount types are not writable, to ensure that
+ # the write to /system restriction above is not bypassed via context=
+-- 
+1.7.9.5
+

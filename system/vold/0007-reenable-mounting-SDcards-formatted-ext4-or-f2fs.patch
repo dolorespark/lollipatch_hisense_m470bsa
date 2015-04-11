@@ -1,0 +1,153 @@
+From 8b779010a384dbdbf8746e9e1e4b8433b5ccfeee Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Thu, 26 Mar 2015 01:27:57 -0400
+Subject: [PATCH] reenable mounting SDcards formatted ext4 or f2fs (SEPolicy
+ change)
+
+---
+ Ext4.cpp          |   15 ++++++++++++---
+ Ext4.h            |    2 +-
+ F2FS.cpp          |    2 +-
+ Volume.cpp        |    2 +-
+ VolumeManager.cpp |   12 +++++++-----
+ 5 files changed, 22 insertions(+), 11 deletions(-)
+
+diff --git a/Ext4.cpp b/Ext4.cpp
+index 3d119c7..2db019a 100644
+--- a/Ext4.cpp
++++ b/Ext4.cpp
+@@ -38,6 +38,8 @@
+ #include <cutils/log.h>
+ #include <cutils/properties.h>
+ 
++#include <private/android_filesystem_config.h>
++
+ #include <logwrap/logwrap.h>
+ 
+ #include "Ext4.h"
+@@ -48,9 +50,10 @@ static char MKEXT4FS_PATH[] = "/system/bin/make_ext4fs";
+ #define RESIZE2FS_PATH "/system/bin/resize2fs"
+ 
+ int Ext4::doMount(const char *fsPath, const char *mountPoint, bool ro, bool remount,
+-        bool executable) {
++        bool executable, bool sdcard) {
+     int rc;
+     unsigned long flags;
++    const char* data = sdcard? "context=u:object_r:sdcard_posix:s0" : NULL;
+ 
+     flags = MS_NOATIME | MS_NODEV | MS_NOSUID | MS_DIRSYNC;
+ 
+@@ -58,12 +61,18 @@ int Ext4::doMount(const char *fsPath, const char *mountPoint, bool ro, bool remo
+     flags |= (ro ? MS_RDONLY : 0);
+     flags |= (remount ? MS_REMOUNT : 0);
+ 
+-    rc = mount(fsPath, mountPoint, "ext4", flags, NULL);
++    rc = mount(fsPath, mountPoint, "ext4", flags, data);
++
++    if (sdcard && rc == 0) {
++        // Write access workaround
++        chown(mountPoint, AID_MEDIA_RW, AID_MEDIA_RW);
++        chmod(mountPoint, 0755);
++    }
+ 
+     if (rc && errno == EROFS) {
+         SLOGE("%s appears to be a read only filesystem - retrying mount RO", fsPath);
+         flags |= MS_RDONLY;
+-        rc = mount(fsPath, mountPoint, "ext4", flags, NULL);
++        rc = mount(fsPath, mountPoint, "ext4", flags, data);
+     }
+ 
+     return rc;
+diff --git a/Ext4.h b/Ext4.h
+index 5b01a53..67521d7 100644
+--- a/Ext4.h
++++ b/Ext4.h
+@@ -22,7 +22,7 @@
+ class Ext4 {
+ public:
+     static int doMount(const char *fsPath, const char *mountPoint, bool ro, bool remount,
+-            bool executable);
++            bool executable, bool sdcard);
+     static int check(const char *fsPath);
+     static int format(const char *fsPath, unsigned int numSectors, const char *mountpoint);
+     static int resize(const char *fsPath, unsigned int numSectors);
+diff --git a/F2FS.cpp b/F2FS.cpp
+index 61c2c90..077261d 100644
+--- a/F2FS.cpp
++++ b/F2FS.cpp
+@@ -60,7 +60,7 @@ int F2FS::doMount(const char *fsPath, const char *mountPoint, bool ro, bool
+ 
+     if (sdcard) {
+         // Mount external volumes with forced context
+-        strcat(data, ",context=u:object_r:sdcard_external:s0");
++        strcat(data, ",context=u:object_r:sdcard_posix:s0");
+     }
+ 
+     rc = mount(fsPath, mountPoint, "f2fs", flags, data);
+diff --git a/Volume.cpp b/Volume.cpp
+index b40d0ff..cb1290d 100644
+--- a/Volume.cpp
++++ b/Volume.cpp
+@@ -506,7 +506,7 @@ int Volume::mountVol() {
+                     return -1;
+                 }
+ 
+-                if (Ext4::doMount(devicePath, getMountpoint(), false, false, false)) {
++                if (Ext4::doMount(devicePath, getMountpoint(), false, false, false, true)) {
+                     SLOGE("%s failed to mount via EXT4 (%s)\n", devicePath, strerror(errno));
+                     continue;
+                 }
+diff --git a/VolumeManager.cpp b/VolumeManager.cpp
+index 538c3b5..ad2bfd0 100644
+--- a/VolumeManager.cpp
++++ b/VolumeManager.cpp
+@@ -552,7 +552,7 @@ int VolumeManager::createAsec(const char *id, unsigned int numSectors, const cha
+ 
+         int mountStatus;
+         if (usingExt4) {
+-            mountStatus = Ext4::doMount(dmDevice, mountPoint, false, false, false);
++            mountStatus = Ext4::doMount(dmDevice, mountPoint, false, false, false, false);
+         } else {
+             mountStatus = Fat::doMount(dmDevice, mountPoint, false, false, false, ownerUid, 0, 0000,
+                     false);
+@@ -771,7 +771,7 @@ int VolumeManager::finalizeAsec(const char *id) {
+ 
+     int result = 0;
+     if (sb.c_opts & ASEC_SB_C_OPTS_EXT4) {
+-        result = Ext4::doMount(loopDevice, mountPoint, true, true, true);
++        result = Ext4::doMount(loopDevice, mountPoint, true, true, true, false);
+     } else {
+         result = Fat::doMount(loopDevice, mountPoint, true, true, true, 0, 0, 0227, false);
+     }
+@@ -840,7 +840,8 @@ int VolumeManager::fixupAsecPermissions(const char *id, gid_t gid, const char* f
+     int ret = Ext4::doMount(loopDevice, mountPoint,
+             false /* read-only */,
+             true  /* remount */,
+-            false /* executable */);
++            false /* executable */,
++            false /* sdcard */);
+     if (ret) {
+         SLOGE("Unable remount to fix permissions for %s (%s)", id, strerror(errno));
+         return -1;
+@@ -902,7 +903,8 @@ int VolumeManager::fixupAsecPermissions(const char *id, gid_t gid, const char* f
+     result |= Ext4::doMount(loopDevice, mountPoint,
+             true /* read-only */,
+             true /* remount */,
+-            true /* execute */);
++            true /* execute */,
++            false /* sdcard */);
+ 
+     if (result) {
+         SLOGE("ASEC fix permissions failed (%s)", strerror(errno));
+@@ -1336,7 +1338,7 @@ int VolumeManager::mountAsec(const char *id, const char *key, int ownerUid, bool
+ 
+     int result;
+     if (sb.c_opts & ASEC_SB_C_OPTS_EXT4) {
+-        result = Ext4::doMount(dmDevice, mountPoint, readOnly, false, readOnly);
++        result = Ext4::doMount(dmDevice, mountPoint, readOnly, false, readOnly, false);
+     } else {
+         result = Fat::doMount(dmDevice, mountPoint, readOnly, false, readOnly, ownerUid, 0, 0222, false);
+     }
+-- 
+1.7.9.5
+
