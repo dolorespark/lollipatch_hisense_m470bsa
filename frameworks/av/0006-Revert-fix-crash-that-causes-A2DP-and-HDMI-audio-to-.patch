@@ -1,38 +1,40 @@
-From 68853ee9758ea3917705666644285883c607cfc6 Mon Sep 17 00:00:00 2001
+From b96c570431576b5175c9e558c507a9ebdb69e354 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
-Date: Fri, 28 Feb 2014 22:34:23 -0500
-Subject: [PATCH] fix crash that causes A2DP and HDMI audio to fail
+Date: Wed, 8 Jul 2015 15:01:17 -0400
+Subject: [PATCH] Revert "fix crash that causes A2DP and HDMI audio to fail"
 
+This reverts commit 11edb6f161d130682f8b46f213985474caa23e2e.
+No longer needed.
 ---
- media/libmediaplayerservice/MediaPlayerService.cpp | 4 ++++
+ media/libmediaplayerservice/MediaPlayerService.cpp | 4 ----
  services/audioflinger/Configuration.h              | 2 +-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ 2 files changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/media/libmediaplayerservice/MediaPlayerService.cpp b/media/libmediaplayerservice/MediaPlayerService.cpp
-index d461af3..e4657e1 100644
+index e4657e1..d461af3 100644
 --- a/media/libmediaplayerservice/MediaPlayerService.cpp
 +++ b/media/libmediaplayerservice/MediaPlayerService.cpp
-@@ -2335,6 +2335,10 @@ void MediaPlayerService::addBatteryData(uint32_t params)
+@@ -2335,10 +2335,6 @@ void MediaPlayerService::addBatteryData(uint32_t params)
  }
  
  status_t MediaPlayerService::pullBatteryData(Parcel* reply) {
-+    // DoPa (20140228) - if this doesn't look like a valid Parcel*, exit
-+    if (!((uint32_t)reply & 0xf0000000))
-+        return NO_ERROR;
-+
+-    // DoPa (20140228) - if this doesn't look like a valid Parcel*, exit
+-    if (!((uint32_t)reply & 0xf0000000))
+-        return NO_ERROR;
+-
      Mutex::Autolock lock(mLock);
  
      // audio output devices usage
 diff --git a/services/audioflinger/Configuration.h b/services/audioflinger/Configuration.h
-index 6a8aeb1..c765450 100644
+index c765450..6a8aeb1 100644
 --- a/services/audioflinger/Configuration.h
 +++ b/services/audioflinger/Configuration.h
 @@ -21,7 +21,7 @@
  #define ANDROID_AUDIOFLINGER_CONFIGURATION_H
  
  // uncomment to enable detailed battery usage reporting (not debugged)
--//#define ADD_BATTERY_DATA
-+#define ADD_BATTERY_DATA
+-#define ADD_BATTERY_DATA
++//#define ADD_BATTERY_DATA
  
  // uncomment to enable the audio watchdog
  //#define AUDIO_WATCHDOG

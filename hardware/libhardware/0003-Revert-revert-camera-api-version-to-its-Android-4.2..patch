@@ -1,0 +1,30 @@
+From 096611712c0d9ac0f582a788a4e3b5def8acfada Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Wed, 8 Jul 2015 15:22:21 -0400
+Subject: [PATCH] Revert "revert camera api version to its Android 4.2.1 value"
+
+This reverts commit 75740b7cf475a5b91ec30162ed9a1e4d3f9ead56.
+This appears not to be needed any longer.
+---
+ include/hardware/camera_common.h | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/include/hardware/camera_common.h b/include/hardware/camera_common.h
+index 102e64c..dadbc8f 100644
+--- a/include/hardware/camera_common.h
++++ b/include/hardware/camera_common.h
+@@ -101,11 +101,7 @@ __BEGIN_DECLS
+ #define CAMERA_MODULE_API_VERSION_2_2 HARDWARE_MODULE_API_VERSION(2, 2)
+ #define CAMERA_MODULE_API_VERSION_2_3 HARDWARE_MODULE_API_VERSION(2, 3)
+ 
+-/*
+- * DoPa (20140225) - this is the value used by Android 4.2.1
+ #define CAMERA_MODULE_API_VERSION_CURRENT CAMERA_MODULE_API_VERSION_2_3
+-*/
+-#define CAMERA_MODULE_API_VERSION_CURRENT CAMERA_MODULE_API_VERSION_2_0
+ 
+ /**
+  * All device versions <= HARDWARE_DEVICE_API_VERSION(1, 0xFF) must be treated
+-- 
+1.9.1
+

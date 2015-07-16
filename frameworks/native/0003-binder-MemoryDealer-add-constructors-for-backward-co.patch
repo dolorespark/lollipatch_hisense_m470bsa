@@ -5,8 +5,8 @@ Subject: [PATCH] binder/MemoryDealer: add constructors for backward
  compatibility
 
 ---
- include/binder/MemoryDealer.h |    6 ++++--
- libs/binder/MemoryDealer.cpp  |   12 ++++++++++++
+ include/binder/MemoryDealer.h |  6 ++++--
+ libs/binder/MemoryDealer.cpp  | 12 ++++++++++++
  2 files changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/include/binder/MemoryDealer.h b/include/binder/MemoryDealer.h
@@ -50,5 +50,5 @@ index 8739625..5d8ab25 100644
  {
      delete mAllocator;
 -- 
-1.7.9.5
+1.9.1
 

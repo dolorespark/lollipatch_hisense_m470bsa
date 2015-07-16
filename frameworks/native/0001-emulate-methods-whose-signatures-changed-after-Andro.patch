@@ -4,8 +4,8 @@ Date: Mon, 10 Mar 2014 22:17:44 -0500
 Subject: [PATCH] emulate methods whose signatures changed after Android 4.2.1
 
 ---
- libs/binder/IPCThreadState.cpp |    8 ++++++++
- libs/binder/MemoryBase.cpp     |    6 ++++++
+ libs/binder/IPCThreadState.cpp | 8 ++++++++
+ libs/binder/MemoryBase.cpp     | 6 ++++++
  2 files changed, 14 insertions(+)
 
 diff --git a/libs/binder/IPCThreadState.cpp b/libs/binder/IPCThreadState.cpp
@@ -42,5 +42,5 @@ index 033066b..5495374 100644
 +    _ZN7android10MemoryBaseC1ERKNS_2spINS_11IMemoryHeapEEEij(obj, h, o, size);
 +}
 -- 
-1.7.9.5
+1.9.1
 

@@ -1,20 +1,20 @@
-From 2a87af814ec7f1cf57acb9012c7868c2e62273fe Mon Sep 17 00:00:00 2001
+From 993bd8d8f1df7d58397d2fd07cb81854666e89ff Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Tue, 20 Jan 2015 23:53:15 -0500
 Subject: [PATCH] add Reboot options to Power Menu
 
 ---
- core/java/android/provider/Settings.java           |    6 +++
- core/java/android/view/WindowManagerPolicy.java    |    2 +
- .../res/res/drawable-hdpi/ic_lock_reboot_alpha.png |  Bin 0 -> 1055 bytes
- .../res/drawable-hdpi/ic_lock_recovery_alpha.png   |  Bin 0 -> 1046 bytes
- core/res/res/drawable/ic_lock_reboot.xml           |   19 +++++++
- core/res/res/drawable/ic_lock_recovery.xml         |   19 +++++++
- core/res/res/values/strings.xml                    |    5 ++
- core/res/res/values/symbols.xml                    |    5 ++
- .../internal/policy/impl/GlobalActions.java        |   53 ++++++++++++++++++++
- .../com/android/server/power/ShutdownThread.java   |    6 ++-
- .../android/server/wm/WindowManagerService.java    |   12 +++++
+ core/java/android/provider/Settings.java           |   6 +++
+ core/java/android/view/WindowManagerPolicy.java    |   2 +
+ .../res/res/drawable-hdpi/ic_lock_reboot_alpha.png | Bin 0 -> 1055 bytes
+ .../res/drawable-hdpi/ic_lock_recovery_alpha.png   | Bin 0 -> 1046 bytes
+ core/res/res/drawable/ic_lock_reboot.xml           |  19 ++++++++
+ core/res/res/drawable/ic_lock_recovery.xml         |  19 ++++++++
+ core/res/res/values/strings.xml                    |   5 ++
+ core/res/res/values/symbols.xml                    |   5 ++
+ .../internal/policy/impl/GlobalActions.java        |  53 +++++++++++++++++++++
+ .../com/android/server/power/ShutdownThread.java   |   6 ++-
+ .../android/server/wm/WindowManagerService.java    |  12 +++++
  11 files changed, 126 insertions(+), 1 deletion(-)
  create mode 100644 core/res/res/drawable-hdpi/ic_lock_reboot_alpha.png
  create mode 100644 core/res/res/drawable-hdpi/ic_lock_recovery_alpha.png
@@ -301,5 +301,5 @@ index 089d897..45b64ea 100644
          synchronized (mWindowMap) {
              mCurrentProfileIds = currentProfileIds;
 -- 
-1.7.9.5
+1.9.1
 

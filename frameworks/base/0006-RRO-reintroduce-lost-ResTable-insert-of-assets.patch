@@ -1,4 +1,4 @@
-From 1868fa0598855df4a5d6dac93f401f445615125a Mon Sep 17 00:00:00 2001
+From 87127daab8843de1961dfc6edcf97103e2fd1383 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Fri, 7 Nov 2014 10:52:17 +0100
 Subject: [PATCH] RRO: reintroduce lost ResTable insert of assets
@@ -10,9 +10,9 @@ added, were not properly inserted into the ResTable.
 Bug: 17765434
 Change-Id: Ie21f227c654c98730f74a687d0e16ee2b80e747e
 ---
- core/java/android/content/res/AssetManager.java |   16 +++++++++++++++-
- core/jni/android_util_AssetManager.cpp          |    2 +-
- libs/androidfw/AssetManager.cpp                 |    4 ++++
+ core/java/android/content/res/AssetManager.java | 16 +++++++++++++++-
+ core/jni/android_util_AssetManager.cpp          |  2 +-
+ libs/androidfw/AssetManager.cpp                 |  4 ++++
  3 files changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/core/java/android/content/res/AssetManager.java b/core/java/android/content/res/AssetManager.java
@@ -71,5 +71,5 @@ index de6a33c..a1f7858 100644
   }
  
 -- 
-1.7.9.5
+1.9.1
 

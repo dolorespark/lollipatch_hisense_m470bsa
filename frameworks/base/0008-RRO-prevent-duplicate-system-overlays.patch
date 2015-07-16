@@ -1,4 +1,4 @@
-From 12e78c7ba3e9ddb10701afe9c1df3a0182b454c8 Mon Sep 17 00:00:00 2001
+From 94190c8615d3d91202472f4c2cded00ec6e60785 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Fri, 7 Nov 2014 10:57:15 +0100
 Subject: [PATCH] RRO: prevent duplicate system overlays
@@ -10,8 +10,8 @@ once, which will be during Zygote initialization.
 Bug: 17765434
 Change-Id: Ia5064045c77f713c58fb78adc3942f6af1abdc93
 ---
- include/androidfw/AssetManager.h |    2 ++
- libs/androidfw/AssetManager.cpp  |    6 ++++++
+ include/androidfw/AssetManager.h | 2 ++
+ libs/androidfw/AssetManager.cpp  | 6 ++++++
  2 files changed, 8 insertions(+)
 
 diff --git a/include/androidfw/AssetManager.h b/include/androidfw/AssetManager.h
@@ -55,5 +55,5 @@ index a1f7858..542cd93 100644
          Asset* oass = const_cast<AssetManager*>(this)->
              openNonAssetInPathLocked("resources.arsc",
 -- 
-1.7.9.5
+1.9.1
 

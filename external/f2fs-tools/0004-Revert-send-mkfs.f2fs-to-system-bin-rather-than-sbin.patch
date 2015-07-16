@@ -1,0 +1,29 @@
+From 104e9463d1c412b39277d60462b7e81aa129fb92 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Wed, 8 Jul 2015 16:00:47 -0400
+Subject: [PATCH] Revert "send mkfs.f2fs to /system/bin rather than /sbin"
+
+This reverts commit 6836941adc376c72b2ebd98a355903df0185638f.
+The Android 5.x version of 'updater' uses a hard-coded path to /sbin.
+---
+ Android.mk | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/Android.mk b/Android.mk
+index d1e67f2..0ca016e 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -89,9 +89,7 @@ LOCAL_FORCE_STATIC_EXECUTABLE := true
+ # Directly generating into the recovery/root/sbin gets clobbered
+ # when the recovery image is being made.
+ # LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)/sbin
+-#
+-# DoPa (20140819) - send it to /system/bin - recovery uses busybox
+-#LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT_SBIN)
++LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT_SBIN)
+ 
+ LOCAL_SRC_FILES := \
+ 	lib/libf2fs_io.c \
+-- 
+1.9.1
+

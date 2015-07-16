@@ -1,0 +1,52 @@
+From 1fb6da126aeb0656bde3cec3fb1d736972e8181b Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Wed, 8 Jul 2015 14:00:16 -0400
+Subject: [PATCH] ActivityManagerNative: wait for ActivityManager service to
+ become available
+
+The mediaserver process generates NPEs when it tries to check permissions before
+the ActivityManager is available. This patch forces the calling thread to wait
+until it is.
+---
+ core/java/android/app/ActivityManagerNative.java | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+
+diff --git a/core/java/android/app/ActivityManagerNative.java b/core/java/android/app/ActivityManagerNative.java
+index e8d08b8..2894e78 100644
+--- a/core/java/android/app/ActivityManagerNative.java
++++ b/core/java/android/app/ActivityManagerNative.java
+@@ -46,6 +46,7 @@ import android.os.PersistableBundle;
+ import android.os.RemoteException;
+ import android.os.ServiceManager;
+ import android.os.StrictMode;
++import android.os.SystemClock;
+ import android.service.voice.IVoiceInteractionSession;
+ import android.text.TextUtils;
+ import android.util.Log;
+@@ -2381,14 +2382,18 @@ public abstract class ActivityManagerNative extends Binder implements IActivityM
+ 
+     private static final Singleton<IActivityManager> gDefault = new Singleton<IActivityManager>() {
+         protected IActivityManager create() {
++            int ctr = 10;
+             IBinder b = ServiceManager.getService("activity");
+-            if (false) {
+-                Log.v("ActivityManager", "default service binder = " + b);
++            while (b == null) {
++                if (ctr-- == 0) {
++                    Log.w("ActivityManagerNative", "timed-out waiting for activity service");
++                    return null;
++                }
++                Log.w("ActivityManagerNative", "waiting for activity service...");
++                SystemClock.sleep(1000);
++                b = ServiceManager.getService("activity");
+             }
+             IActivityManager am = asInterface(b);
+-            if (false) {
+-                Log.v("ActivityManager", "default service = " + am);
+-            }
+             return am;
+         }
+     };
+-- 
+1.9.1
+

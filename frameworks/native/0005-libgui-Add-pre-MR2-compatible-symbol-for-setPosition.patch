@@ -1,0 +1,33 @@
+From e711d66ed0a2f8fa54315a580f8af2fc79cdfefc Mon Sep 17 00:00:00 2001
+From: Ricardo Cerqueira <cyanogenmod@cerqueira.org>
+Date: Mon, 29 Jul 2013 23:45:45 +0100
+Subject: [PATCH] libgui: Add pre-MR2-compatible symbol for setPosition
+
+SurfaceControl::setPosition now takes floats instead of integers as
+arguments, which breaks linkability from pre-MR2 blobs. Add a direct
+compatibility wrapper, since the values are treated in the same
+way.
+---
+ libs/gui/SurfaceControl.cpp | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/libs/gui/SurfaceControl.cpp b/libs/gui/SurfaceControl.cpp
+index 7597c99..2d85059 100644
+--- a/libs/gui/SurfaceControl.cpp
++++ b/libs/gui/SurfaceControl.cpp
+@@ -104,6 +104,12 @@ status_t SurfaceControl::setPosition(float x, float y) {
+     if (err < 0) return err;
+     return mClient->setPosition(mHandle, x, y);
+ }
++
++extern "C" int _ZN7android14SurfaceControl11setPositionEff(float x, float y);
++extern "C" int _ZN7android14SurfaceControl11setPositionEii(int32_t x, int32_t y) {
++    return _ZN7android14SurfaceControl11setPositionEff((float)x, (float)y);
++}
++
+ status_t SurfaceControl::setSize(uint32_t w, uint32_t h) {
+     status_t err = validate();
+     if (err < 0) return err;
+-- 
+1.9.1
+

@@ -4,7 +4,7 @@ Date: Thu, 26 Mar 2015 00:15:57 -0400
 Subject: [PATCH] enable SDcards formatted with ext4 or f2fs to be relabeled
 
 ---
- domain.te |    2 +-
+ domain.te | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/domain.te b/domain.te
@@ -21,5 +21,5 @@ index c978ffa..657b9ae 100644
  # Ensure that context mount types are not writable, to ensure that
  # the write to /system restriction above is not bypassed via context=
 -- 
-1.7.9.5
+1.9.1
 

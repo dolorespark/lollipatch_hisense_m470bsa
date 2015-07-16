@@ -4,8 +4,8 @@ Date: Wed, 26 Feb 2014 10:55:40 -0500
 Subject: [PATCH] emulate a method whose signature changed after Android 4.2.1
 
 ---
- include/gui/SurfaceControl.h |    2 ++
- libs/gui/SurfaceControl.cpp  |    4 ++++
+ include/gui/SurfaceControl.h | 2 ++
+ libs/gui/SurfaceControl.cpp  | 4 ++++
  2 files changed, 6 insertions(+)
 
 diff --git a/include/gui/SurfaceControl.h b/include/gui/SurfaceControl.h
@@ -37,5 +37,5 @@ index 7597c99..c41c8df 100644
      status_t err = validate();
      if (err < 0) return err;
 -- 
-1.7.9.5
+1.9.1
 

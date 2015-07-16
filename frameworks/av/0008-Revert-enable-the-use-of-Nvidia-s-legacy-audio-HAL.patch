@@ -1,86 +1,89 @@
-From cf7b712ad3299593ce2890e955b2eb1621049dca Mon Sep 17 00:00:00 2001
+From 98d8421918bf0e786f43652b3e3a1472b8bddc91 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
-Date: Tue, 10 Mar 2015 15:54:09 -0400
-Subject: [PATCH] enable the use of Nvidia's 'legacy' audio HAL
+Date: Wed, 8 Jul 2015 15:03:24 -0400
+Subject: [PATCH] Revert "enable the use of Nvidia's 'legacy' audio HAL"
 
+This reverts commit fcc952b1ee3f8d4a2e78496a1046351f20ff7449.
+Not needed when using the default audio policy rather than
+'audio_policy.tegra.so'.
 ---
- services/audiopolicy/Android.mk                         | 3 +++
- services/audiopolicy/AudioPolicyClientImplLegacy.cpp    | 5 ++++-
- services/audiopolicy/AudioPolicyInterfaceImplLegacy.cpp | 8 ++++++++
- 3 files changed, 15 insertions(+), 1 deletion(-)
+ services/audiopolicy/Android.mk                         | 3 ---
+ services/audiopolicy/AudioPolicyClientImplLegacy.cpp    | 5 +----
+ services/audiopolicy/AudioPolicyInterfaceImplLegacy.cpp | 8 --------
+ 3 files changed, 1 insertion(+), 15 deletions(-)
 
 diff --git a/services/audiopolicy/Android.mk b/services/audiopolicy/Android.mk
-index 188fc89..8e44591 100644
+index 8e44591..188fc89 100644
 --- a/services/audiopolicy/Android.mk
 +++ b/services/audiopolicy/Android.mk
-@@ -2,6 +2,9 @@ LOCAL_PATH:= $(call my-dir)
+@@ -2,9 +2,6 @@ LOCAL_PATH:= $(call my-dir)
  
  include $(CLEAR_VARS)
  
-+# DoPa (20141124) - required in order to use Nvidia's 4.2.1 blobs
-+USE_LEGACY_AUDIO_POLICY := 1
-+
+-# DoPa (20141124) - required in order to use Nvidia's 4.2.1 blobs
+-USE_LEGACY_AUDIO_POLICY := 1
+-
  LOCAL_SRC_FILES:= \
      AudioPolicyService.cpp \
      AudioPolicyEffects.cpp
 diff --git a/services/audiopolicy/AudioPolicyClientImplLegacy.cpp b/services/audiopolicy/AudioPolicyClientImplLegacy.cpp
-index a79f8ae..f541fcb 100644
+index f541fcb..a79f8ae 100644
 --- a/services/audiopolicy/AudioPolicyClientImplLegacy.cpp
 +++ b/services/audiopolicy/AudioPolicyClientImplLegacy.cpp
-@@ -125,8 +125,11 @@ audio_io_handle_t aps_open_output_on_module(void *service __unused,
+@@ -125,11 +125,8 @@ audio_io_handle_t aps_open_output_on_module(void *service __unused,
                                                     audio_output_flags_t flags,
                                                     const audio_offload_info_t *offloadInfo)
  {
-+    /* DoPa (20141124) - 'offloadInfo' was added after Nvidia's 4.2.1 blobs
-+     * were built, so plug in a NULL to avoid passing a random value
-+     */
+-    /* DoPa (20141124) - 'offloadInfo' was added after Nvidia's 4.2.1 blobs
+-     * were built, so plug in a NULL to avoid passing a random value
+-     */
      return open_output(module, pDevices, pSamplingRate, pFormat, pChannelMask,
--                          pLatencyMs, flags, offloadInfo);
-+                          pLatencyMs, flags, /*offloadInfo*/ NULL);
+-                          pLatencyMs, flags, /*offloadInfo*/ NULL);
++                          pLatencyMs, flags, offloadInfo);
  }
  
  audio_io_handle_t aps_open_dup_output(void *service __unused,
 diff --git a/services/audiopolicy/AudioPolicyInterfaceImplLegacy.cpp b/services/audiopolicy/AudioPolicyInterfaceImplLegacy.cpp
-index b8846c6..4a24ad5 100644
+index 4a24ad5..b8846c6 100644
 --- a/services/audiopolicy/AudioPolicyInterfaceImplLegacy.cpp
 +++ b/services/audiopolicy/AudioPolicyInterfaceImplLegacy.cpp
-@@ -462,8 +462,10 @@ bool AudioPolicyService::isStreamActive(audio_stream_type_t stream, uint32_t inP
+@@ -462,10 +462,8 @@ bool AudioPolicyService::isStreamActive(audio_stream_type_t stream, uint32_t inP
      return mpAudioPolicy->is_stream_active(mpAudioPolicy, stream, inPastMs);
  }
  
-+/* DoPa (20141124) - this function is not supported by Nvidia's 4.2.1 blobs */
+-/* DoPa (20141124) - this function is not supported by Nvidia's 4.2.1 blobs */
  bool AudioPolicyService::isStreamActiveRemotely(audio_stream_type_t stream, uint32_t inPastMs) const
  {
-+/*
+-/*
      if (uint32_t(stream) >= AUDIO_STREAM_PUBLIC_CNT) {
          return false;
      }
-@@ -472,6 +474,8 @@ bool AudioPolicyService::isStreamActiveRemotely(audio_stream_type_t stream, uint
+@@ -474,8 +472,6 @@ bool AudioPolicyService::isStreamActiveRemotely(audio_stream_type_t stream, uint
      }
      Mutex::Autolock _l(mLock);
      return mpAudioPolicy->is_stream_active_remotely(mpAudioPolicy, stream, inPastMs);
-+*/
-+    return false;
+-*/
+-    return false;
  }
  
  bool AudioPolicyService::isSourceActive(audio_source_t source) const
-@@ -506,8 +510,10 @@ status_t AudioPolicyService::queryDefaultPreProcessing(int audioSession,
+@@ -510,10 +506,8 @@ status_t AudioPolicyService::queryDefaultPreProcessing(int audioSession,
      return audioPolicyEffects->queryDefaultInputEffects(audioSession, descriptors, count);
  }
  
-+/* DoPa (20141124) - this function is not supported by Nvidia's 4.2.1 blobs */
+-/* DoPa (20141124) - this function is not supported by Nvidia's 4.2.1 blobs */
  bool AudioPolicyService::isOffloadSupported(const audio_offload_info_t& info)
  {
-+/*
+-/*
      if (mpAudioPolicy == NULL) {
          ALOGV("mpAudioPolicy == NULL");
          return false;
-@@ -519,6 +525,8 @@ bool AudioPolicyService::isOffloadSupported(const audio_offload_info_t& info)
+@@ -525,8 +519,6 @@ bool AudioPolicyService::isOffloadSupported(const audio_offload_info_t& info)
      }
  
      return mpAudioPolicy->is_offload_supported(mpAudioPolicy, &info);
-+*/
-+    return false;
+-*/
+-    return false;
  }
  
  status_t AudioPolicyService::listAudioPorts(audio_port_role_t role __unused,

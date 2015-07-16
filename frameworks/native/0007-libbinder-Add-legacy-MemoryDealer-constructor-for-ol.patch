@@ -1,0 +1,34 @@
+From a3952d115c513b2521ef38d1981df6b9bd3f3355 Mon Sep 17 00:00:00 2001
+From: Thomas Wendt <thoemy@gmx.net>
+Date: Mon, 24 Nov 2014 22:00:03 +0100
+Subject: [PATCH] libbinder: Add legacy MemoryDealer constructor for old Nvidia
+ OMX adaptor
+
+    Fixes the following error:
+    E/hwcomposer(  158): failed to load /system/lib/libnvcap_video.so:
+    dlopen failed: could not load library "libnvomxadaptor.so" needed by
+    "libnvcap_video.so"; caused by cannot locate symbol
+    "_ZN7android12MemoryDealerC1EjPKc" referenced by "libnvomxadaptor.so"
+
+    DoPa (20150624) - the location of the patch has been moved
+    out of 'namespace android' to avoid a compiler error
+---
+ libs/binder/MemoryDealer.cpp | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/libs/binder/MemoryDealer.cpp b/libs/binder/MemoryDealer.cpp
+index 8739625..7f7ce2d 100644
+--- a/libs/binder/MemoryDealer.cpp
++++ b/libs/binder/MemoryDealer.cpp
+@@ -466,3 +466,8 @@ void SimpleBestFitAllocator::dump_l(String8& result,
+ 
+ 
+ }; // namespace android
++
++extern "C" void _ZN7android12MemoryDealerC2EjPKcj(void* obj, size_t size, const char* name, uint32_t flags);
++extern "C" void _ZN7android12MemoryDealerC1EjPKc(void* obj, size_t size, const char* name) {
++    _ZN7android12MemoryDealerC2EjPKcj(obj, size, name, 0);
++}
+-- 
+1.9.1
+

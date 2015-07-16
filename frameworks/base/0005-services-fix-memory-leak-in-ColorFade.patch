@@ -1,4 +1,4 @@
-From 2e53e909a7ab11058656302867fd496944196baa Mon Sep 17 00:00:00 2001
+From c22bd2f89360f66d9c2cb6bd4ad4b8a682b6ef1a Mon Sep 17 00:00:00 2001
 From: Evisceration <eviscerationls@gmail.com>
 Date: Mon, 22 Dec 2014 23:46:58 +0100
 Subject: [PATCH] services: fix memory leak in ColorFade
@@ -11,7 +11,7 @@ to this person
 
 Change-Id: Ica9a4ae02cd3c8435f46dd9c3bfdb52317f9a7ef
 ---
- .../java/com/android/server/display/ColorFade.java |    5 ++++-
+ services/core/java/com/android/server/display/ColorFade.java | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/display/ColorFade.java b/services/core/java/com/android/server/display/ColorFade.java
@@ -45,5 +45,5 @@ index 6e61e41..fba7463 100644
          }
          return true;
 -- 
-1.7.9.5
+1.9.1
 

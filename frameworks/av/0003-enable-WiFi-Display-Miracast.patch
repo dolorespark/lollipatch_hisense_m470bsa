@@ -1,11 +1,11 @@
-From 449fa18f49a4df0c48edf5140220596df763e0c3 Mon Sep 17 00:00:00 2001
+From 53f7bd3fb061a270b1e24493f86544561a8896c9 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Wed, 26 Mar 2014 23:00:00 -0400
 Subject: [PATCH] enable WiFi Display (Miracast)
 
 ---
- media/libstagefright/ACodec.cpp                    |    6 +++---
- .../wifi-display/source/WifiDisplaySource.cpp      |    7 ++++++-
+ media/libstagefright/ACodec.cpp                                | 6 +++---
+ media/libstagefright/wifi-display/source/WifiDisplaySource.cpp | 7 ++++++-
  2 files changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/media/libstagefright/ACodec.cpp b/media/libstagefright/ACodec.cpp
@@ -44,5 +44,5 @@ index da405e2..3cabcde 100644
      } else if (value == "none") {
          ALOGI("Sink does not support content protection.");
 -- 
-1.7.9.5
+1.9.1
 

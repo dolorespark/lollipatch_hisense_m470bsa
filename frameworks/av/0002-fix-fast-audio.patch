@@ -1,4 +1,4 @@
-From cb23c9b465ff0f823b188c367b491521764f1f87 Mon Sep 17 00:00:00 2001
+From fb0dd1b5e557edc7b489fc7e8ba095017effafc7 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Wed, 26 Feb 2014 22:13:30 -0500
 Subject: [PATCH] fix fast audio
@@ -6,8 +6,8 @@ Subject: [PATCH] fix fast audio
 add missing symbols that prevent libnvasfparserhal.so and
 libnvaviparserhal.so from loading
 ---
- include/media/stagefright/MediaDefs.h |    6 ++++++
- media/libstagefright/MediaDefs.cpp    |    6 ++++++
+ include/media/stagefright/MediaDefs.h | 6 ++++++
+ media/libstagefright/MediaDefs.cpp    | 6 ++++++
  2 files changed, 12 insertions(+)
 
 diff --git a/include/media/stagefright/MediaDefs.h b/include/media/stagefright/MediaDefs.h
@@ -87,5 +87,5 @@ index c5a6939..9331a89 100644
  const char *MEDIA_MIMETYPE_TEXT_3GPP = "text/3gpp-tt";
  const char *MEDIA_MIMETYPE_TEXT_SUBRIP = "application/x-subrip";
 -- 
-1.7.9.5
+1.9.1
 

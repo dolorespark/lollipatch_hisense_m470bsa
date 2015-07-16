@@ -1,10 +1,10 @@
-From 1da528357d5790bb010f58033918ddb465804a3b Mon Sep 17 00:00:00 2001
+From 6072c1852d7c69127bb1c799707425fd0868a4d0 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Tue, 20 Jan 2015 23:45:33 -0500
 Subject: [PATCH] add Settings.Global keys used by Performance->SpeedControl
 
 ---
- core/java/android/provider/Settings.java |   18 ++++++++++++++++++
+ core/java/android/provider/Settings.java | 18 ++++++++++++++++++
  1 file changed, 18 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
@@ -37,5 +37,5 @@ index 838686a..53be3e7 100644
           */
          public static final String ADB_ENABLED = "adb_enabled";
 -- 
-1.7.9.5
+1.9.1
 

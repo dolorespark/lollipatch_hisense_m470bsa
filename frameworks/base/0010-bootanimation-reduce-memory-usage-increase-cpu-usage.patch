@@ -1,0 +1,142 @@
+From 3977220216d99c4037704cb04c3ec7babd069ef8 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Tue, 14 Jul 2015 18:04:59 -0400
+Subject: [PATCH] bootanimation: reduce memory usage, increase cpu usage
+
+This is a modified, AOSP version of a patch for CM12 by NuShrike on XDA
+(http://forum.xda-developers.com/showpost.php?p=58949285&postcount=115).
+
+The standard 'bootanimation' binary caches each animation frame it creates
+on the first iteration so it can be redisplayed on subsequent iterations.
+This saves cpu cycles at the cost of significantly increased memory usage.
+For full-screen animations with many frames, memory requirements can be so
+enormous as to trigger the LMK, produce multiple ANRs, and slow startup to
+a crawl.
+
+This patch changes the implementation so that it caches only two frames:
+the current one and the next one. Immediately after displaying the current
+frame, it generates the next one using the time that would otherwise have
+been used to sleep. In most cases, this is sufficient to produce a smooth
+animation, though stutters will occur during periods of heavy cpu load.
+
+Overall, this methodology trades inelastic memory usage for elastic cpu
+usage. Normal scheduling mechanisms will ensure the process can't put an
+undue burden on the cpu. If anything suffers from an overly large, high
+frame-rate animation, it's the animation itself, not the other tasks that
+run during startup.
+---
+ cmds/bootanimation/BootAnimation.cpp | 60 +++++++++++++++++++-----------------
+ 1 file changed, 32 insertions(+), 28 deletions(-)
+
+diff --git a/cmds/bootanimation/BootAnimation.cpp b/cmds/bootanimation/BootAnimation.cpp
+index b2474f2..01fdac3 100644
+--- a/cmds/bootanimation/BootAnimation.cpp
++++ b/cmds/bootanimation/BootAnimation.cpp
+@@ -175,11 +175,6 @@ status_t BootAnimation::initTexture(const Animation::Frame& frame)
+         delete codec;
+     }
+ 
+-    // FileMap memory is never released until application exit.
+-    // Release it now as the texture is already loaded and the memory used for
+-    // the packed resource can be released.
+-    frame.map->release();
+-
+     // ensure we can call getPixels(). No need to call unlock, since the
+     // bitmap will go out of scope when we return from this method.
+     bitmap.lockPixels();
+@@ -581,10 +576,31 @@ bool BootAnimation::movie()
+     Region clearReg(Rect(mWidth, mHeight));
+     clearReg.subtractSelf(Rect(xc, yc, xc+animation.width, yc+animation.height));
+ 
++    // gen/init streaming-texture ringbuffer
++    const size_t FRAME_CACHE = 2;
++    GLuint frame_tid[FRAME_CACHE];
++    size_t tid_idx = 0;
++
++    // swap between FRAME_CACHE pre-allocated textures
++    glGenTextures(FRAME_CACHE, frame_tid);
++    // configure textures
++    for (size_t j=0; j < FRAME_CACHE; j++) {
++        glBindTexture(GL_TEXTURE_2D, frame_tid[j]);
++        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
++        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
++    }
++
+     for (size_t i=0 ; i<pcount ; i++) {
+         const Animation::Part& part(animation.parts[i]);
+         const size_t fcount = part.frames.size();
+-        glBindTexture(GL_TEXTURE_2D, 0);
++        size_t findex = 0;
++
++        // load the initial texture for this part
++        const Animation::Frame& frame0(part.frames[findex++]);
++        findex %= fcount;
++        glBindTexture(GL_TEXTURE_2D, frame_tid[tid_idx++]);
++        tid_idx %= FRAME_CACHE;
++        initTexture(frame0);
+ 
+         for (int r=0 ; !part.count || r<part.count ; r++) {
+             // Exit any non playuntil complete parts immediately
+@@ -603,21 +619,8 @@ bool BootAnimation::movie()
+                     1.0f);
+ 
+             for (size_t j=0 ; j<fcount && (!exitPending() || part.playUntilComplete) ; j++) {
+-                const Animation::Frame& frame(part.frames[j]);
+                 nsecs_t lastFrame = systemTime();
+ 
+-                if (r > 0) {
+-                    glBindTexture(GL_TEXTURE_2D, frame.tid);
+-                } else {
+-                    if (part.count != 1) {
+-                        glGenTextures(1, &frame.tid);
+-                        glBindTexture(GL_TEXTURE_2D, frame.tid);
+-                        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+-                        glTexParameterx(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+-                    }
+-                    initTexture(frame);
+-                }
+-
+                 if (!clearReg.isEmpty()) {
+                     Region::const_iterator head(clearReg.begin());
+                     Region::const_iterator tail(clearReg.end());
+@@ -633,10 +636,16 @@ bool BootAnimation::movie()
+                 glDrawTexiOES(xc, yc, 0, animation.width, animation.height);
+                 eglSwapBuffers(mDisplay, mSurface);
+ 
++                // pre-load next texture before sleep to use up slack time
++                const Animation::Frame& frame(part.frames[findex++]);
++                findex %= fcount;
++                glBindTexture(GL_TEXTURE_2D, frame_tid[tid_idx++]);
++                tid_idx %= FRAME_CACHE;
++                initTexture(frame);
++
+                 nsecs_t now = systemTime();
+                 nsecs_t delay = frameDuration - (now - lastFrame);
+                 //ALOGD("%lld, %lld", ns2ms(now - lastFrame), ns2ms(delay));
+-                lastFrame = now;
+ 
+                 if (delay > 0) {
+                     struct timespec spec;
+@@ -657,16 +666,11 @@ bool BootAnimation::movie()
+             if(exitPending() && !part.count)
+                 break;
+         }
+-
+-        // free the textures for this part
+-        if (part.count != 1) {
+-            for (size_t j=0 ; j<fcount ; j++) {
+-                const Animation::Frame& frame(part.frames[j]);
+-                glDeleteTextures(1, &frame.tid);
+-            }
+-        }
+     }
+ 
++    // free the texture ring-buffer cache
++    glDeleteTextures(FRAME_CACHE, frame_tid);
++
+     return false;
+ }
+ 
+-- 
+1.9.1
+

@@ -1,0 +1,45 @@
+From 3ad8788a1771d0f764a4d08f6c371032ebc3bb43 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Fri, 19 Jun 2015 22:20:02 -0400
+Subject: [PATCH] Revert "emulate a method whose signature changed after
+ Android 4.2.1"
+
+This reverts commit c2d727307c985a166eb80fabb26ffd4777a02ce9.
+
+(DoPa) This will be replaced by a similar patch taken from CM12.1
+---
+ include/gui/SurfaceControl.h | 2 --
+ libs/gui/SurfaceControl.cpp  | 4 ----
+ 2 files changed, 6 deletions(-)
+
+diff --git a/include/gui/SurfaceControl.h b/include/gui/SurfaceControl.h
+index 48ffd73..84fb9f9 100644
+--- a/include/gui/SurfaceControl.h
++++ b/include/gui/SurfaceControl.h
+@@ -60,8 +60,6 @@ public:
+     status_t    setLayerStack(int32_t layerStack);
+     status_t    setLayer(int32_t layer);
+     status_t    setPosition(float x, float y);
+-    // DoPa (20140226) - kludge to create a needed symbol - similar to CM11
+-    status_t    setPosition(int32_t, int32_t y);
+     status_t    setSize(uint32_t w, uint32_t h);
+     status_t    hide();
+     status_t    show();
+diff --git a/libs/gui/SurfaceControl.cpp b/libs/gui/SurfaceControl.cpp
+index c41c8df..7597c99 100644
+--- a/libs/gui/SurfaceControl.cpp
++++ b/libs/gui/SurfaceControl.cpp
+@@ -104,10 +104,6 @@ status_t SurfaceControl::setPosition(float x, float y) {
+     if (err < 0) return err;
+     return mClient->setPosition(mHandle, x, y);
+ }
+-// DoPa (20140226) - kludge to create a needed symbol - similar to CM11
+-status_t SurfaceControl::setPosition(int32_t x, int32_t y) {
+-    return setPosition((float)x, (float)y);
+-}
+ status_t SurfaceControl::setSize(uint32_t w, uint32_t h) {
+     status_t err = validate();
+     if (err < 0) return err;
+-- 
+1.9.1
+

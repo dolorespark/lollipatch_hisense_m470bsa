@@ -1,10 +1,10 @@
-From 1033ff6c2328fd4826cb29914aa175981fb565a1 Mon Sep 17 00:00:00 2001
+From 83b05915c15fe867f6bff2c558b5f3adcfa445c2 Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Tue, 10 Mar 2015 15:36:51 -0400
 Subject: [PATCH] fix hotword detection (i.e. 'OK Google')
 
 ---
- media/libmedia/AudioRecord.cpp |    7 ++++++-
+ media/libmedia/AudioRecord.cpp | 7 ++++++-
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/media/libmedia/AudioRecord.cpp b/media/libmedia/AudioRecord.cpp
@@ -31,5 +31,5 @@ index ca3832d..a063ae3 100644
                mAttributes.source, mAttributes.flags, mAttributes.tags);
      }
 -- 
-1.7.9.5
+1.9.1
 

@@ -1,4 +1,4 @@
-From 5d539876d75e6d1852ee656202bcd32960d4176f Mon Sep 17 00:00:00 2001
+From ff741f05a1cc7affc5d2f90ee51fa86799b0f346 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?M=C3=A5rten=20Kongstad?= <marten.kongstad@sonymobile.com>
 Date: Fri, 7 Nov 2014 10:56:12 +0100
 Subject: [PATCH] RRO idmap: pad with 0xffffffff, not 0x00000000
@@ -9,7 +9,7 @@ non-existing entry: 0xffffffff should be used instead.
 Bug: 17765434
 Change-Id: If2c7e09feba2224eeafe88fd9230e6392d81b9a7
 ---
- libs/androidfw/ResourceTypes.cpp |   10 +++++-----
+ libs/androidfw/ResourceTypes.cpp | 10 +++++-----
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/libs/androidfw/ResourceTypes.cpp b/libs/androidfw/ResourceTypes.cpp
@@ -37,5 +37,5 @@ index bdb53c3..45929c7 100644
  
          if (!typeMap.entryMap.isEmpty()) {
 -- 
-1.7.9.5
+1.9.1
 

@@ -1,0 +1,57 @@
+From 241a0380c67e6a4e2f3af02607320b0277345672 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Tue, 23 Jun 2015 19:56:56 -0400
+Subject: [PATCH] Revert "binder/MemoryDealer: add constructors for backward
+ compatibility"
+
+This reverts commit 896599ea22b8f9562a592a70f8902322e030aa0a.
+
+(DoPa) This will be replaced by a similar patch taken from CM12.1
+---
+ include/binder/MemoryDealer.h |  6 ++----
+ libs/binder/MemoryDealer.cpp  | 12 ------------
+ 2 files changed, 2 insertions(+), 16 deletions(-)
+
+diff --git a/include/binder/MemoryDealer.h b/include/binder/MemoryDealer.h
+index 2ba5e8c..aa415d5 100644
+--- a/include/binder/MemoryDealer.h
++++ b/include/binder/MemoryDealer.h
+@@ -34,10 +34,8 @@ class SimpleBestFitAllocator;
+ class MemoryDealer : public RefBase
+ {
+ public:
+-    MemoryDealer(size_t size);
+-    MemoryDealer(size_t size, const char* name);
+-    MemoryDealer(size_t size, const char* name, uint32_t flags
+-    /* or bits such as MemoryHeapBase::READ_ONLY */ );
++    MemoryDealer(size_t size, const char* name = 0,
++            uint32_t flags = 0 /* or bits such as MemoryHeapBase::READ_ONLY */ );
+ 
+     virtual sp<IMemory> allocate(size_t size);
+     virtual void        deallocate(size_t offset);
+diff --git a/libs/binder/MemoryDealer.cpp b/libs/binder/MemoryDealer.cpp
+index 5d8ab25..8739625 100644
+--- a/libs/binder/MemoryDealer.cpp
++++ b/libs/binder/MemoryDealer.cpp
+@@ -231,18 +231,6 @@ MemoryDealer::MemoryDealer(size_t size, const char* name, uint32_t flags)
+ {    
+ }
+ 
+-MemoryDealer::MemoryDealer(size_t size, const char* name)
+-    : mHeap(new MemoryHeapBase(size, 0, name)),
+-    mAllocator(new SimpleBestFitAllocator(size))
+-{    
+-}
+-
+-MemoryDealer::MemoryDealer(size_t size)
+-    : mHeap(new MemoryHeapBase(size, 0, 0)),
+-    mAllocator(new SimpleBestFitAllocator(size))
+-{    
+-}
+-
+ MemoryDealer::~MemoryDealer()
+ {
+     delete mAllocator;
+-- 
+1.9.1
+

@@ -1,10 +1,10 @@
-From dd003ef1e6a74c155643fe172299fd3153592523 Mon Sep 17 00:00:00 2001
+From 416b8c1f0db109b9e7849d203c1cb5c14924008c Mon Sep 17 00:00:00 2001
 From: DoloresPark <dolorespark@e-vertise.com>
 Date: Tue, 20 Jan 2015 23:55:50 -0500
 Subject: [PATCH] add Settings.Global key used by Performance->DisableDimmer
 
 ---
- core/java/android/provider/Settings.java |    6 ++++++
+ core/java/android/provider/Settings.java | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/core/java/android/provider/Settings.java b/core/java/android/provider/Settings.java
@@ -25,5 +25,5 @@ index 3da43fd..cb51aa9 100644
           */
          public static final String ADB_ENABLED = "adb_enabled";
 -- 
-1.7.9.5
+1.9.1
 
