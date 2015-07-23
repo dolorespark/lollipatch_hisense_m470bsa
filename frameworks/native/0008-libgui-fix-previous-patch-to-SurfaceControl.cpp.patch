@@ -1,0 +1,31 @@
+From 3cf7fb4583b9f0b9a8a267fc0e6d700f7d9898d7 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Thu, 23 Jul 2015 15:46:54 -0400
+Subject: [PATCH] libgui: fix previous patch to SurfaceControl.cpp
+
+---
+ libs/gui/SurfaceControl.cpp | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/libs/gui/SurfaceControl.cpp b/libs/gui/SurfaceControl.cpp
+index 2d85059..534df6f 100644
+--- a/libs/gui/SurfaceControl.cpp
++++ b/libs/gui/SurfaceControl.cpp
+@@ -105,9 +105,11 @@ status_t SurfaceControl::setPosition(float x, float y) {
+     return mClient->setPosition(mHandle, x, y);
+ }
+ 
+-extern "C" int _ZN7android14SurfaceControl11setPositionEff(float x, float y);
+-extern "C" int _ZN7android14SurfaceControl11setPositionEii(int32_t x, int32_t y) {
+-    return _ZN7android14SurfaceControl11setPositionEff((float)x, (float)y);
++extern "C" status_t _ZN7android14SurfaceControl11setPositionEii(void* obj, int32_t x, int32_t y);
++extern "C" status_t _ZN7android14SurfaceControl11setPositionEff(void* obj, float x, float y);
++
++extern "C" status_t _ZN7android14SurfaceControl11setPositionEii(void* obj, int32_t x, int32_t y) {
++    return _ZN7android14SurfaceControl11setPositionEff(obj, static_cast<float>(x), static_cast<float>(y));
+ }
+ 
+ status_t SurfaceControl::setSize(uint32_t w, uint32_t h) {
+-- 
+1.9.1
+
