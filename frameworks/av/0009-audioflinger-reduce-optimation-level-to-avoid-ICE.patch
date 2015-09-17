@@ -1,0 +1,25 @@
+From e40cd6f3179074e181e0e437fdbeb32ff84bcc17 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Wed, 12 Aug 2015 13:29:20 -0400
+Subject: [PATCH] audioflinger: reduce optimation level to avoid ICE
+
+---
+ services/audioflinger/Android.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/audioflinger/Android.mk b/services/audioflinger/Android.mk
+index f0196c6..e9ae89f 100644
+--- a/services/audioflinger/Android.mk
++++ b/services/audioflinger/Android.mk
+@@ -81,7 +81,7 @@ else
+     LOCAL_CFLAGS += -DANDROID_SMP=0
+ endif
+ 
+-LOCAL_CFLAGS += -fvisibility=hidden
++LOCAL_CFLAGS += -fvisibility=hidden -O2
+ 
+ include $(BUILD_SHARED_LIBRARY)
+ 
+-- 
+1.9.1
+

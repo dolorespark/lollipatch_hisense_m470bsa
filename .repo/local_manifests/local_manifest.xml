@@ -7,6 +7,12 @@
   <remote  name="dopa"
            fetch="https://github.com/dolorespark" />
 
+  <remote  name="omni"
+           fetch="https://github.com/omnirom" />
+
+  <remote  name="aosp"
+           fetch=".." />
+
   <project path="external/exfat"
            name="android_external_exfat"
            revision="refs/heads/cm-11.0"
@@ -26,5 +32,15 @@
            name="android_external_pigz"
            revision="refs/heads/cm-11.0"
            remote="cm" />
+
+  <project path="bootable/recovery-twrp"
+           name="android_bootable_recovery"
+           revision="refs/heads/android-5.1"
+           remote="omni" />
+
+  <project path="prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9"
+           name="platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9"
+           revision="master"
+           remote="aosp" />
 
 </manifest>

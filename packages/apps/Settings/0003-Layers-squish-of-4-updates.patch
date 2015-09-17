@@ -1,0 +1,876 @@
+From 20f868ae21ba21025d4d0ee7c2d5c0351da47198 Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Sat, 8 Aug 2015 22:30:00 -0400
+Subject: [PATCH] Layers: squish of 4 updates
+
+This combines the 4 patches listed below:
+
+From: camcory <camcory1@gmail.com>
+Date: Tue, 14 Apr 2015 15:59:07 -0400
+    Fix subsettings FC
+
+From: droyd <mikew8978@gmail.com>
+Date: Wed, 22 Apr 2015 10:36:52 -0400
+    Expose settinngs  icons for tint
+
+From: camcory <camcory1@gmail.com>
+Date: Fri, 24 Apr 2015 06:58:33 -0400
+    Remove ROM dependent drawables
+
+From: camcory <camcory1@gmail.com>
+Date: Fri, 24 Apr 2015 07:04:31 -0400
+    Auto mirrored for ic_settings_nfc_payment_exposed
+---
+ res/drawable/ic_settings_about_exposed.xml         | 14 +++++++
+ res/drawable/ic_settings_accessibility_exposed.xml | 14 +++++++
+ res/drawable/ic_settings_accounts_exposed.xml      | 14 +++++++
+ res/drawable/ic_settings_applications_exposed.xml  | 14 +++++++
+ res/drawable/ic_settings_backup_exposed.xml        | 14 +++++++
+ res/drawable/ic_settings_battery_exposed.xml       | 14 +++++++
+ res/drawable/ic_settings_bluetooth2_exposed.xml    | 14 +++++++
+ res/drawable/ic_settings_data_usage_exposed.xml    | 14 +++++++
+ res/drawable/ic_settings_date_time_exposed.xml     | 14 +++++++
+ res/drawable/ic_settings_development_exposed.xml   | 14 +++++++
+ res/drawable/ic_settings_display.xml               | 23 -----------
+ res/drawable/ic_settings_display_exposed.xml       | 15 +++++++
+ res/drawable/ic_settings_home_exposed.xml          | 14 +++++++
+ res/drawable/ic_settings_language_exposed.xml      | 14 +++++++
+ res/drawable/ic_settings_location_exposed.xml      | 14 +++++++
+ res/drawable/ic_settings_more_exposed.xml          | 14 +++++++
+ res/drawable/ic_settings_multiuser_exposed.xml     | 14 +++++++
+ res/drawable/ic_settings_nfc_payment.xml           | 23 -----------
+ res/drawable/ic_settings_nfc_payment_exposed.xml   | 15 +++++++
+ res/drawable/ic_settings_notifications_exposed.xml | 14 +++++++
+ res/drawable/ic_settings_print_exposed.xml         | 14 +++++++
+ res/drawable/ic_settings_security_exposed.xml      | 14 +++++++
+ res/drawable/ic_settings_storage_exposed.xml       | 14 +++++++
+ res/drawable/ic_settings_wireless_exposed.xml      | 14 +++++++
+ res/drawable/ic_sim_sd_exposed.xml                 | 14 +++++++
+ res/values/layers_colors.xml                       |  1 +
+ res/values/themes.xml                              |  2 +-
+ res/xml/dashboard_categories.xml                   | 46 +++++++++++-----------
+ .../android/settings/fuelgauge/BatteryEntry.java   |  4 +-
+ .../settings/search/SearchIndexableResources.java  |  4 +-
+ 30 files changed, 353 insertions(+), 74 deletions(-)
+ create mode 100644 res/drawable/ic_settings_about_exposed.xml
+ create mode 100644 res/drawable/ic_settings_accessibility_exposed.xml
+ create mode 100644 res/drawable/ic_settings_accounts_exposed.xml
+ create mode 100644 res/drawable/ic_settings_applications_exposed.xml
+ create mode 100644 res/drawable/ic_settings_backup_exposed.xml
+ create mode 100644 res/drawable/ic_settings_battery_exposed.xml
+ create mode 100644 res/drawable/ic_settings_bluetooth2_exposed.xml
+ create mode 100644 res/drawable/ic_settings_data_usage_exposed.xml
+ create mode 100644 res/drawable/ic_settings_date_time_exposed.xml
+ create mode 100644 res/drawable/ic_settings_development_exposed.xml
+ delete mode 100644 res/drawable/ic_settings_display.xml
+ create mode 100644 res/drawable/ic_settings_display_exposed.xml
+ create mode 100644 res/drawable/ic_settings_home_exposed.xml
+ create mode 100644 res/drawable/ic_settings_language_exposed.xml
+ create mode 100644 res/drawable/ic_settings_location_exposed.xml
+ create mode 100644 res/drawable/ic_settings_more_exposed.xml
+ create mode 100644 res/drawable/ic_settings_multiuser_exposed.xml
+ delete mode 100644 res/drawable/ic_settings_nfc_payment.xml
+ create mode 100644 res/drawable/ic_settings_nfc_payment_exposed.xml
+ create mode 100644 res/drawable/ic_settings_notifications_exposed.xml
+ create mode 100644 res/drawable/ic_settings_print_exposed.xml
+ create mode 100644 res/drawable/ic_settings_security_exposed.xml
+ create mode 100644 res/drawable/ic_settings_storage_exposed.xml
+ create mode 100644 res/drawable/ic_settings_wireless_exposed.xml
+ create mode 100644 res/drawable/ic_sim_sd_exposed.xml
+
+diff --git a/res/drawable/ic_settings_about_exposed.xml b/res/drawable/ic_settings_about_exposed.xml
+new file mode 100644
+index 0000000..9ef2b9d
+--- /dev/null
++++ b/res/drawable/ic_settings_about_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_about"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_accessibility_exposed.xml b/res/drawable/ic_settings_accessibility_exposed.xml
+new file mode 100644
+index 0000000..f132555
+--- /dev/null
++++ b/res/drawable/ic_settings_accessibility_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_accessibility"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_accounts_exposed.xml b/res/drawable/ic_settings_accounts_exposed.xml
+new file mode 100644
+index 0000000..7604f33
+--- /dev/null
++++ b/res/drawable/ic_settings_accounts_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_accounts"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_applications_exposed.xml b/res/drawable/ic_settings_applications_exposed.xml
+new file mode 100644
+index 0000000..3c062fb
+--- /dev/null
++++ b/res/drawable/ic_settings_applications_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_applications"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_backup_exposed.xml b/res/drawable/ic_settings_backup_exposed.xml
+new file mode 100644
+index 0000000..052ad3f
+--- /dev/null
++++ b/res/drawable/ic_settings_backup_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_backup"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_battery_exposed.xml b/res/drawable/ic_settings_battery_exposed.xml
+new file mode 100644
+index 0000000..3681d36
+--- /dev/null
++++ b/res/drawable/ic_settings_battery_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_battery"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_bluetooth2_exposed.xml b/res/drawable/ic_settings_bluetooth2_exposed.xml
+new file mode 100644
+index 0000000..2457908
+--- /dev/null
++++ b/res/drawable/ic_settings_bluetooth2_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_bluetooth2"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_data_usage_exposed.xml b/res/drawable/ic_settings_data_usage_exposed.xml
+new file mode 100644
+index 0000000..0b722ff
+--- /dev/null
++++ b/res/drawable/ic_settings_data_usage_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_data_usage"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_date_time_exposed.xml b/res/drawable/ic_settings_date_time_exposed.xml
+new file mode 100644
+index 0000000..9dba518
+--- /dev/null
++++ b/res/drawable/ic_settings_date_time_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_date_time"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_development_exposed.xml b/res/drawable/ic_settings_development_exposed.xml
+new file mode 100644
+index 0000000..cfc843d
+--- /dev/null
++++ b/res/drawable/ic_settings_development_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_development"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_display.xml b/res/drawable/ic_settings_display.xml
+deleted file mode 100644
+index 29cc3e4..0000000
+--- a/res/drawable/ic_settings_display.xml
++++ /dev/null
+@@ -1,23 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!--
+-/*
+- * Copyright 2014, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+--->
+-
+-<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+-        android:src="@drawable/ic_settings_display_am"
+-        android:autoMirrored="true"
+-        />
+diff --git a/res/drawable/ic_settings_display_exposed.xml b/res/drawable/ic_settings_display_exposed.xml
+new file mode 100644
+index 0000000..3bc44b4
+--- /dev/null
++++ b/res/drawable/ic_settings_display_exposed.xml
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_display_am"
++        android:tint="@color/ic_settings_icons_exposed"
++        android:autoMirrored="true" />
+diff --git a/res/drawable/ic_settings_home_exposed.xml b/res/drawable/ic_settings_home_exposed.xml
+new file mode 100644
+index 0000000..f7ec80a
+--- /dev/null
++++ b/res/drawable/ic_settings_home_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_home"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_language_exposed.xml b/res/drawable/ic_settings_language_exposed.xml
+new file mode 100644
+index 0000000..6554242
+--- /dev/null
++++ b/res/drawable/ic_settings_language_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_language"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_location_exposed.xml b/res/drawable/ic_settings_location_exposed.xml
+new file mode 100644
+index 0000000..647c37b
+--- /dev/null
++++ b/res/drawable/ic_settings_location_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_location"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_more_exposed.xml b/res/drawable/ic_settings_more_exposed.xml
+new file mode 100644
+index 0000000..5bec6be
+--- /dev/null
++++ b/res/drawable/ic_settings_more_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_more"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_multiuser_exposed.xml b/res/drawable/ic_settings_multiuser_exposed.xml
+new file mode 100644
+index 0000000..86e97b5
+--- /dev/null
++++ b/res/drawable/ic_settings_multiuser_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_multiuser"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_nfc_payment.xml b/res/drawable/ic_settings_nfc_payment.xml
+deleted file mode 100644
+index 10672a9..0000000
+--- a/res/drawable/ic_settings_nfc_payment.xml
++++ /dev/null
+@@ -1,23 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<!--
+-/*
+- * Copyright 2014, The Android Open Source Project
+- *
+- * Licensed under the Apache License, Version 2.0 (the "License");
+- * you may not use this file except in compliance with the License.
+- * You may obtain a copy of the License at
+- *
+- *     http://www.apache.org/licenses/LICENSE-2.0
+- *
+- * Unless required by applicable law or agreed to in writing, software
+- * distributed under the License is distributed on an "AS IS" BASIS,
+- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+- * See the License for the specific language governing permissions and
+- * limitations under the License.
+- */
+--->
+-
+-<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+-        android:src="@drawable/ic_settings_nfc_payment_am"
+-        android:autoMirrored="true"
+-        />
+diff --git a/res/drawable/ic_settings_nfc_payment_exposed.xml b/res/drawable/ic_settings_nfc_payment_exposed.xml
+new file mode 100644
+index 0000000..7f0420c
+--- /dev/null
++++ b/res/drawable/ic_settings_nfc_payment_exposed.xml
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_nfc_payment_am"
++        android:tint="@color/ic_settings_icons_exposed"
++        android:autoMirrored="true" />
+diff --git a/res/drawable/ic_settings_notifications_exposed.xml b/res/drawable/ic_settings_notifications_exposed.xml
+new file mode 100644
+index 0000000..5936309
+--- /dev/null
++++ b/res/drawable/ic_settings_notifications_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_notifications"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_print_exposed.xml b/res/drawable/ic_settings_print_exposed.xml
+new file mode 100644
+index 0000000..a7c9de6
+--- /dev/null
++++ b/res/drawable/ic_settings_print_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_print"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_security_exposed.xml b/res/drawable/ic_settings_security_exposed.xml
+new file mode 100644
+index 0000000..d51413d
+--- /dev/null
++++ b/res/drawable/ic_settings_security_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_security"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_storage_exposed.xml b/res/drawable/ic_settings_storage_exposed.xml
+new file mode 100644
+index 0000000..bfc64c5
+--- /dev/null
++++ b/res/drawable/ic_settings_storage_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_storage"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_settings_wireless_exposed.xml b/res/drawable/ic_settings_wireless_exposed.xml
+new file mode 100644
+index 0000000..db4dbf1
+--- /dev/null
++++ b/res/drawable/ic_settings_wireless_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_settings_wireless"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/drawable/ic_sim_sd_exposed.xml b/res/drawable/ic_sim_sd_exposed.xml
+new file mode 100644
+index 0000000..8896b48
+--- /dev/null
++++ b/res/drawable/ic_sim_sd_exposed.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="utf-8"?>
++
++<!--
++This is the file youll now call in place of the icon call in Dashboard xml
++
++     Call your desired icon
++     @drawable/your_icon
++
++     color/defined_in_colors_xml((DONT CHANGE))
++-->
++
++<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
++        android:src="@drawable/ic_sim_sd"
++        android:tint="@color/ic_settings_icons_exposed" />
+diff --git a/res/values/layers_colors.xml b/res/values/layers_colors.xml
+index 60a8475..b05215a 100644
+--- a/res/values/layers_colors.xml
++++ b/res/values/layers_colors.xml
+@@ -26,4 +26,5 @@
+     <color name="exposed_datachartfillcolor_secondary">#ff80cbc4</color>
+     <color name="exposed_data_limit_chart_labelcolor">#ff37474f</color>
+     <color name="exposed_data_warning_chart_labelcolor">#fff4511e</color>
++    <color name="ic_settings_icons_exposed">#ff009688</color>
+ </resources>
+diff --git a/res/values/themes.xml b/res/values/themes.xml
+index 26b5c4b..675faf7 100644
+--- a/res/values/themes.xml
++++ b/res/values/themes.xml
+@@ -135,7 +135,7 @@
+ 
+         <item name="switchBarTheme">@style/Theme.SwitchBar.Settings</item>
+ 
+-        <item name="preferenceBackgroundColor">@drawable/preference_background</item>
++        <item name="preferenceBackgroundColor">@color/background_color_white</item>
+ 
+         <!-- For all Alert Dialogs -->
+         <item name="android:alertDialogTheme">@style/Theme.AlertDialog</item>
+diff --git a/res/xml/dashboard_categories.xml b/res/xml/dashboard_categories.xml
+index 2dfaaac..8c33901 100644
+--- a/res/xml/dashboard_categories.xml
++++ b/res/xml/dashboard_categories.xml
+@@ -27,7 +27,7 @@
+                 android:id="@+id/wifi_settings"
+                 android:title="@string/wifi_settings_title"
+                 android:fragment="com.android.settings.wifi.WifiSettings"
+-                android:icon="@drawable/ic_settings_wireless"
++                android:icon="@drawable/ic_settings_wireless_exposed"
+                 />
+ 
+         <!-- Bluetooth -->
+@@ -35,7 +35,7 @@
+                 android:id="@+id/bluetooth_settings"
+                 android:title="@string/bluetooth_settings_title"
+                 android:fragment="com.android.settings.bluetooth.BluetoothSettings"
+-                android:icon="@drawable/ic_settings_bluetooth2"
++                android:icon="@drawable/ic_settings_bluetooth2_exposed"
+                 />
+ 
+         <!-- SIM Cards -->
+@@ -43,7 +43,7 @@
+                 android:id="@+id/sim_settings"
+                 android:title="@string/sim_settings_title"
+                 android:fragment="com.android.settings.sim.SimSettings"
+-                android:icon="@drawable/ic_sim_sd"
++                android:icon="@drawable/ic_sim_sd_exposed"
+                 />
+ 
+         <!-- Data Usage -->
+@@ -51,7 +51,7 @@
+                 android:id="@+id/data_usage_settings"
+                 android:title="@string/data_usage_summary_title"
+                 android:fragment="com.android.settings.DataUsageSummary"
+-                android:icon="@drawable/ic_settings_data_usage"
++                android:icon="@drawable/ic_settings_data_usage_exposed"
+                 />
+ 
+         <!-- Operator hook -->
+@@ -66,7 +66,7 @@
+                 android:id="@+id/wireless_settings"
+                 android:title="@string/radio_controls_title"
+                 android:fragment="com.android.settings.WirelessSettings"
+-                android:icon="@drawable/ic_settings_more"
++                android:icon="@drawable/ic_settings_more_exposed"
+                 />
+ 
+     </dashboard-category>
+@@ -81,7 +81,7 @@
+                 android:id="@+id/home_settings"
+                 android:title="@string/home_settings"
+                 android:fragment="com.android.settings.HomeSettings"
+-                android:icon="@drawable/ic_settings_home"
++                android:icon="@drawable/ic_settings_home_exposed"
+                 />
+ 
+         <!-- Display -->
+@@ -89,7 +89,7 @@
+                 android:id="@+id/display_settings"
+                 android:title="@string/display_settings"
+                 android:fragment="com.android.settings.DisplaySettings"
+-                android:icon="@drawable/ic_settings_display"
++                android:icon="@drawable/ic_settings_display_exposed"
+                 />
+ 
+         <!-- Notifications -->
+@@ -97,7 +97,7 @@
+                 android:id="@+id/notification_settings"
+                 android:title="@string/notification_settings"
+                 android:fragment="com.android.settings.notification.NotificationSettings"
+-                android:icon="@drawable/ic_settings_notifications"
++                android:icon="@drawable/ic_settings_notifications_exposed"
+                 />
+ 
+         <!-- Storage -->
+@@ -105,7 +105,7 @@
+                 android:id="@+id/storage_settings"
+                 android:title="@string/storage_settings"
+                 android:fragment="com.android.settings.deviceinfo.Memory"
+-                android:icon="@drawable/ic_settings_storage"
++                android:icon="@drawable/ic_settings_storage_exposed"
+                 />
+ 
+         <!-- Battery -->
+@@ -113,7 +113,7 @@
+                 android:id="@+id/battery_settings"
+                 android:title="@string/power_usage_summary_title"
+                 android:fragment="com.android.settings.fuelgauge.PowerUsageSummary"
+-                android:icon="@drawable/ic_settings_battery"
++                android:icon="@drawable/ic_settings_battery_exposed"
+                 />
+ 
+         <!-- Performance -->
+@@ -129,7 +129,7 @@
+                 android:id="@+id/application_settings"
+                 android:title="@string/applications_settings"
+                 android:fragment="com.android.settings.applications.ManageApplications"
+-                android:icon="@drawable/ic_settings_applications"
++                android:icon="@drawable/ic_settings_applications_exposed"
+                 />
+ 
+         <!-- Manage users -->
+@@ -137,7 +137,7 @@
+                 android:id="@+id/user_settings"
+                 android:title="@string/user_settings_title"
+                 android:fragment="com.android.settings.users.UserSettings"
+-                android:icon="@drawable/ic_settings_multiuser"
++                android:icon="@drawable/ic_settings_multiuser_exposed"
+                 />
+ 
+         <!-- Manage NFC payment apps -->
+@@ -145,7 +145,7 @@
+                 android:id="@+id/nfc_payment_settings"
+                 android:title="@string/nfc_payment_settings_title"
+                 android:fragment="com.android.settings.nfc.PaymentSettings"
+-                android:icon="@drawable/ic_settings_nfc_payment"
++                android:icon="@drawable/ic_settings_nfc_payment_exposed"
+                 />
+ 
+         <!-- Manufacturer hook -->
+@@ -167,7 +167,7 @@
+                 android:id="@+id/location_settings"
+                 android:title="@string/location_settings_title"
+                 android:fragment="com.android.settings.location.LocationSettings"
+-                android:icon="@drawable/ic_settings_location"
++                android:icon="@drawable/ic_settings_location_exposed"
+                 />
+ 
+         <!-- Security -->
+@@ -175,7 +175,7 @@
+                 android:id="@+id/security_settings"
+                 android:title="@string/security_settings_title"
+                 android:fragment="com.android.settings.SecuritySettings"
+-                android:icon="@drawable/ic_settings_security"
++                android:icon="@drawable/ic_settings_security_exposed"
+                 />
+ 
+         <!-- Account -->
+@@ -183,7 +183,7 @@
+                 android:id="@+id/account_settings"
+                 android:title="@string/account_settings_title"
+                 android:fragment="com.android.settings.accounts.AccountSettings"
+-                android:icon="@drawable/ic_settings_accounts"
++                android:icon="@drawable/ic_settings_accounts_exposed"
+                 />
+ 
+         <!-- Language -->
+@@ -191,7 +191,7 @@
+                 android:id="@+id/language_settings"
+                 android:title="@string/language_settings"
+                 android:fragment="com.android.settings.inputmethod.InputMethodAndLanguageSettings"
+-                android:icon="@drawable/ic_settings_language"
++                android:icon="@drawable/ic_settings_language_exposed"
+                 />
+ 
+         <!-- Backup and reset -->
+@@ -199,7 +199,7 @@
+                 android:id="@+id/privacy_settings"
+                 android:title="@string/privacy_settings"
+                 android:fragment="com.android.settings.PrivacySettings"
+-                android:icon="@drawable/ic_settings_backup"
++                android:icon="@drawable/ic_settings_backup_exposed"
+                 />
+ 
+     </dashboard-category>
+@@ -214,7 +214,7 @@
+                 android:id="@+id/date_time_settings"
+                 android:title="@string/date_and_time_settings_title"
+                 android:fragment="com.android.settings.DateTimeSettings"
+-                android:icon="@drawable/ic_settings_date_time"
++                android:icon="@drawable/ic_settings_date_time_exposed"
+                 />
+ 
+         <!-- Accessibility feedback -->
+@@ -222,7 +222,7 @@
+                 android:id="@+id/accessibility_settings"
+                 android:title="@string/accessibility_settings"
+                 android:fragment="com.android.settings.accessibility.AccessibilitySettings"
+-                android:icon="@drawable/ic_settings_accessibility"
++                android:icon="@drawable/ic_settings_accessibility_exposed"
+                 />
+ 
+         <!-- Print -->
+@@ -230,7 +230,7 @@
+                 android:id="@+id/print_settings"
+                 android:title="@string/print_settings"
+                 android:fragment="com.android.settings.print.PrintSettingsFragment"
+-                android:icon="@drawable/ic_settings_print"
++                android:icon="@drawable/ic_settings_print_exposed"
+                 />
+ 
+         <!-- Development -->
+@@ -238,7 +238,7 @@
+                 android:id="@+id/development_settings"
+                 android:title="@string/development_settings_title"
+                 android:fragment="com.android.settings.DevelopmentSettings"
+-                android:icon="@drawable/ic_settings_development"
++                android:icon="@drawable/ic_settings_development_exposed"
+                 />
+ 
+         <!-- About Device -->
+@@ -246,7 +246,7 @@
+                 android:id="@+id/about_settings"
+                 android:title="@string/about_settings"
+                 android:fragment="com.android.settings.DeviceInfoSettings"
+-                android:icon="@drawable/ic_settings_about"
++                android:icon="@drawable/ic_settings_about_exposed"
+                 />
+ 
+     </dashboard-category>
+diff --git a/src/com/android/settings/fuelgauge/BatteryEntry.java b/src/com/android/settings/fuelgauge/BatteryEntry.java
+index be7c657..1829ebd 100644
+--- a/src/com/android/settings/fuelgauge/BatteryEntry.java
++++ b/src/com/android/settings/fuelgauge/BatteryEntry.java
+@@ -154,11 +154,11 @@ public class BatteryEntry {
+                 break;
+             case SCREEN:
+                 name = context.getResources().getString(R.string.power_screen);
+-                iconId = R.drawable.ic_settings_display;
++                iconId = R.drawable.ic_settings_display_exposed;
+                 break;
+             case FLASHLIGHT:
+                 name = context.getResources().getString(R.string.power_flashlight);
+-                iconId = R.drawable.ic_settings_display;
++                iconId = R.drawable.ic_settings_display_exposed;
+                 break;
+             case APP:
+                 name = sipper.packageWithHighestDrain;
+diff --git a/src/com/android/settings/search/SearchIndexableResources.java b/src/com/android/settings/search/SearchIndexableResources.java
+index 502480d..adf8c6d 100644
+--- a/src/com/android/settings/search/SearchIndexableResources.java
++++ b/src/com/android/settings/search/SearchIndexableResources.java
+@@ -129,14 +129,14 @@ public final class SearchIndexableResources {
+                         Ranking.getRankForClassName(DisplaySettings.class.getName()),
+                         NO_DATA_RES_ID,
+                         DisplaySettings.class.getName(),
+-                        R.drawable.ic_settings_display));
++                        R.drawable.ic_settings_display_exposed));
+ 
+         sResMap.put(WallpaperTypeSettings.class.getName(),
+                 new SearchIndexableResource(
+                         Ranking.getRankForClassName(WallpaperTypeSettings.class.getName()),
+                         NO_DATA_RES_ID,
+                         WallpaperTypeSettings.class.getName(),
+-                        R.drawable.ic_settings_display));
++                        R.drawable.ic_settings_display_exposed));
+ 
+         sResMap.put(NotificationSettings.class.getName(),
+                 new SearchIndexableResource(
+-- 
+1.9.1
+

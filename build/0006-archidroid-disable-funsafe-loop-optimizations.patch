@@ -1,0 +1,26 @@
+From f4ab83d30515564ebb404b5ae32e7503b12dc0fc Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Fri, 11 Sep 2015 22:45:16 -0400
+Subject: [PATCH] archidroid: disable -funsafe-loop-optimizations
+
+---
+ core/archidroid.mk | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/core/archidroid.mk b/core/archidroid.mk
+index 7a5ed73..295d282 100644
+--- a/core/archidroid.mk
++++ b/core/archidroid.mk
+@@ -30,7 +30,8 @@ ARCHIDROID_GCC_CFLAGS_ARM := -O3
+ ARCHIDROID_GCC_CFLAGS_THUMB := -O3
+ 
+ # Additional flags passed to all C targets compiled with GCC
+-ARCHIDROID_GCC_CFLAGS := -O3 -fgcse-las -fgcse-sm -fipa-pta -fivopts -fomit-frame-pointer -frename-registers -fsection-anchors -ftracer -ftree-loop-im -ftree-loop-ivcanon -funsafe-loop-optimizations -funswitch-loops -fweb -Wno-error=array-bounds -Wno-error=clobbered -Wno-error=maybe-uninitialized -Wno-error=strict-overflow
++ARCHIDROID_GCC_CFLAGS := -O3 -fgcse-las -fgcse-sm -fipa-pta -fivopts -fomit-frame-pointer -frename-registers -fsection-anchors -ftracer -ftree-loop-im -ftree-loop-ivcanon -funswitch-loops -fweb -Wno-error=array-bounds -Wno-error=clobbered -Wno-error=maybe-uninitialized -Wno-error=strict-overflow
++# -funsafe-loop-optimizations
+ 
+ ############################
+ ### EXPERIMENTAL SECTION ###
+-- 
+1.9.1
+

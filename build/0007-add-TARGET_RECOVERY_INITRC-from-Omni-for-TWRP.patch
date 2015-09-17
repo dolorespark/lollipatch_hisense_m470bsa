@@ -1,0 +1,29 @@
+From 82aaa0d8c2b3602967cb76c58e7170df0e89e1dd Mon Sep 17 00:00:00 2001
+From: DoloresPark <dolorespark@e-vertise.com>
+Date: Fri, 11 Sep 2015 22:46:18 -0400
+Subject: [PATCH] add TARGET_RECOVERY_INITRC (from Omni for TWRP)
+
+---
+ core/Makefile | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/core/Makefile b/core/Makefile
+index e87ca8a..b99918c 100644
+--- a/core/Makefile
++++ b/core/Makefile
+@@ -744,7 +744,11 @@ ifeq (,$(filter true, $(TARGET_NO_KERNEL) $(TARGET_NO_RECOVERY)))
+ 
+ INSTALLED_RECOVERYIMAGE_TARGET := $(PRODUCT_OUT)/recovery.img
+ 
+-recovery_initrc := $(call include-path-for, recovery)/etc/init.rc
++ifneq ($(TARGET_RECOVERY_INITRC),)
++  recovery_initrc := $(TARGET_RECOVERY_INITRC) # Use target specific init.rc
++else
++  recovery_initrc := $(call include-path-for, recovery)/etc/init.rc
++endif
+ recovery_sepolicy := $(call intermediates-dir-for,ETC,sepolicy.recovery)/sepolicy.recovery
+ recovery_kernel := $(INSTALLED_KERNEL_TARGET) # same as a non-recovery system
+ recovery_ramdisk := $(PRODUCT_OUT)/ramdisk-recovery.img
+-- 
+1.9.1
+
